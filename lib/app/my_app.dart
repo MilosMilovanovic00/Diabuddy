@@ -1,4 +1,4 @@
-import 'package:diabuddy/screens/home_screen.dart';
+import 'package:diabuddy/screens/onboarding/start_onboarding_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Diabuddy',
       theme: applicationTheme,
-      home: const HomeScreen(title: 'Flutter Demo Home Page'),
+      home: const StartOnboardingScreen(),
     );
   }
 }
