@@ -1,4 +1,4 @@
-import 'package:diabuddy/screens/onboarding/start_onboarding_screen.dart';
+import 'package:diabuddy/screens/onboarding/onboarding_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 

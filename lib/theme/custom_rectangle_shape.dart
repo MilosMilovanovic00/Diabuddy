@@ -8,13 +8,17 @@ class CustomRectangleShape extends CustomPainter {
     final height = size.height;
     final width = size.width;
     Paint paint = Paint();
+    paint.color = Colors.white;
+    Path mainBackground = Path();
+    mainBackground.addRect(Rect.fromLTRB(0, 0, width, height));
+    canvas.drawPath(mainBackground, paint);
     Path customRectangle = Path();
     customRectangle.addRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(
-          -height / 10,
-          width * 0.75,
-          width * 8.05,
+          -width * 0.15,
+          height / 12,
+          width * 0.82,
           height * 0.51,
         ),
         const Radius.circular(
@@ -33,6 +37,6 @@ class CustomRectangleShape extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return oldDelegate != this;
+    return false;
   }
 }
