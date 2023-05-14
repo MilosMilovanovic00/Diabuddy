@@ -1,6 +1,8 @@
-import 'package:diabuddy/screens/onboarding/onboarding_screen.dart';
+import 'package:diabuddy/screens/intro/final_intro_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,7 +12,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Diabuddy',
       theme: applicationTheme,
-      home: const StartOnboardingScreen(),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        // Locale('sr'),
+      ],
+      home: const FinalIntroScreen(),
     );
   }
 }
