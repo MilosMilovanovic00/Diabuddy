@@ -1,0 +1,15 @@
+{
+  "firstIntroPageTitle": "Let's start the journey together",
+  "firstIntroPageSubtitle": "Start your journey towards better diabetes management with our app",
+  "secondIntroPageTitle":"Set your therapy",
+  "secondIntroPageSubtitle":"Set your therapy goals and monitor your diabetes with our app",
+  "thirdIntroPageTitle": "Manage your glucose levels",
+  "thirdIntroPageSubtitle": "Empower yourself to manage your glucose levels with ease",
+  "fourthIntroPageTitle": "Set a reminder",
+  "fourthIntroPageSubtitle": "Stay on track with your diabetes management by setting reminders on our app",
+  "fourthIntroPageButtonText": "Get started",
+  "logIn":"Log in",
+  "signUp":"Sign up",
+  "diabuddy":"Diabuddy",
+  "poweredBySugarRush":"Powered By SugarRush"
+}
