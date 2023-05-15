@@ -11,5 +11,14 @@
   "logIn":"Log in",
   "signUp":"Sign up",
   "diabuddy":"Diabuddy",
-  "poweredBySugarRush":"Powered By SugarRush"
+  "poweredBySugarRush":"Powered By SugarRush",
+  "logInTitle":"Login",
+  "email":"Email",
+  "password":"Password",
+  "forgotPassword":"Forgot password?",
+  "dontHaveAnAccount":"Don't have an account?",
+  "youMustEnterEmail":"You must enter email",
+  "emailPatternIsWrong":"Email pattern is wrong",
+  "youMustEnterPassword":"You must enter password",
+  "passwordValidationText":"Password must contain at 8 characters, least one big, one small letter and one number"
 }
