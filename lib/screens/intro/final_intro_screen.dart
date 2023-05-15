@@ -1,3 +1,4 @@
+import 'package:diabuddy/screens/onboarding/login_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,14 @@ class FinalIntroScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       AppButton(
-                        callback: () {},
+                        callback: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        },
                         text: AppLocalizations.of(context)!.logIn,
                       ),
                       const SizedBox(
