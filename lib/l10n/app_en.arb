@@ -20,5 +20,9 @@
   "youMustEnterEmail":"You must enter email",
   "emailPatternIsWrong":"Email pattern is wrong",
   "youMustEnterPassword":"You must enter password",
-  "passwordValidationText":"Password must contain at 8 characters, least one big, one small letter and one number"
+  "passwordValidationText":"Password must contain at 8 characters, least one big, one small letter and one number",
+  "createAccount":"Create account",
+  "fullName":"Full Name",
+  "alreadyHaveAnAccount":"Already have an account?",
+  "repeatPassword":"Repeat password"
 }

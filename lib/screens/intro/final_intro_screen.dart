@@ -1,4 +1,5 @@
 import 'package:diabuddy/screens/onboarding/login_screen.dart';
+import 'package:diabuddy/screens/onboarding/registration_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,14 @@ class FinalIntroScreen extends StatelessWidget {
                         height: 15,
                       ),
                       AppButton(
-                        callback: () {},
+                        callback: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegistrationScreen(),
+                            ),
+                          );
+                        },
                         backgroundColor: Colors.white,
                         textColor: primaryColor,
                         text: AppLocalizations.of(context)!.signUp,

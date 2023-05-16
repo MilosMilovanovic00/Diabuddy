@@ -1,8 +1,10 @@
 import 'package:diabuddy/extensions/string_extenstions.dart';
+import 'package:diabuddy/screens/onboarding/registration_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -131,9 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               AppButton(
                 callback: () {
-                  if (_formKey.currentState!.validate()) {
-                    print('nesto');
-                  }
+                  if (_formKey.currentState!.validate()) {}
                 },
                 text: AppLocalizations.of(context)!.logIn,
               ),
@@ -151,6 +151,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const TextSpan(text: '  '),
                       TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const RegistrationScreen(),
+                              ),
+                            );
+                          },
                         text: AppLocalizations.of(context)!.signUp,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: primaryColor,

@@ -14,11 +14,15 @@
   "poweredBySugarRush":"Kreirao SugarRush",
   "logInTitle":"Prijavi se",
   "email":"Imejl",
-  "password":"Šifra",
+  "password":"Lozinka",
   "forgotPassword":"Zaboravili ste lozinku?",
   "dontHaveAnAccount":"Nemaš nalog?",
   "youMustEnterEmail":"Morate uneti email",
   "emailPatternIsWrong":"Email pattern is wrong",
-  "youMustEnterPassword":"Morate uneti šifru",
-  "passwordValidationText":"Šifra se sastoji od najmanje 8 karaktera,jednog velikog,jednog malog slova i jednog broja"
+  "youMustEnterPassword":"Morate uneti lozinku",
+  "passwordValidationText":"Lozinka se sastoji od najmanje 8 karaktera,jednog velikog,jednog malog slova i jednog broja",
+  "createAccount":"Kreiraj nalog",
+  "fullName":"Puno ime",
+  "alreadyHaveAnAccount":"Već imaš nalog?",
+  "repeatPassword":"Ponovi lozinku"
 }
