@@ -39,6 +39,12 @@ var applicationTheme = ThemeData(
       fontWeight: FontWeight.w600,
       color: textFieldTextColor,
     ),
+    bodySmall: TextStyle(
+      fontSize: 15,
+      fontFamily: 'SourceSansPro',
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    ),
   ),
 );
 

@@ -24,5 +24,12 @@
   "createAccount":"Create account",
   "fullName":"Full Name",
   "alreadyHaveAnAccount":"Already have an account?",
-  "repeatPassword":"Repeat password"
+  "repeatPassword":"Repeat password",
+  "profileOnboardingTitle":"Tell Us About Yourself",
+  "profileOnboardingBodyText":"We'd love to get to know you better! Please provide us with a few details about yourself.",
+  "save":"Save",
+  "weight":"Weight",
+  "dateOfBirth":"Date of birth",
+  "unitsOnboardingTitle":"Tailor Your Measurement Units",
+  "unitsOnboardingBodyText":"Customize your measurement units to align with your personal preferences and tracking methods"
 }

@@ -24,5 +24,13 @@
   "createAccount":"Kreiraj nalog",
   "fullName":"Puno ime",
   "alreadyHaveAnAccount":"Već imaš nalog?",
-  "repeatPassword":"Ponovi lozinku"
+  "repeatPassword":"Ponovi lozinku",
+  "profileOnboardingTitle":"Reci nam nešto o sebi",
+  "profileOnboardingBodyText":"Voleli bismo da te bolje upoznamo! Zamolili bismo te da nam ostaviš nekoliko podataka o sebi.",
+  "save":"Sačuvaj",
+  "weight":"Masa",
+  "dateOfBirth":"Datum rođenja",
+  "unitsOnboardingTitle":"Podesi svoju mernu jedinicu",
+  "unitsOnboardingBodyText":"Podesi svoju mernu jedinicu tako da odgovara tvojoj preferenci i metodi merenja"
+
 }
