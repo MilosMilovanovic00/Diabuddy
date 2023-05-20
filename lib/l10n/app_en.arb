@@ -31,5 +31,12 @@
   "weight":"Weight",
   "dateOfBirth":"Date of birth",
   "unitsOnboardingTitle":"Tailor Your Measurement Units",
-  "unitsOnboardingBodyText":"Customize your measurement units to align with your personal preferences and tracking methods"
+  "unitsOnboardingBodyText":"Customize your measurement units to align with your personal preferences and tracking methods",
+  "glucoseTargetOnboardingScreenTitle":"Achieve Your Glucose Targets",
+  "glucoseTargetOnboardingScreenBodyText":"Set and track your glucose goals throughout the day to stay on top of your diabetes management.",
+  "criticalHigh":"Critical High",
+  "afterMeal":"After meal",
+  "beforeMeal":"Before meal",
+  "low":"Low",
+  "criticalLow":"Critical low"
 }

@@ -92,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                         return value;
                       },
+                      textInputType: TextInputType.emailAddress,
                     ),
                     const SizedBox(
                       height: 28,
@@ -100,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: AppLocalizations.of(context)!.password,
                       isPasswordField: true,
                       controller: passwordController,
+                      textInputAction: TextInputAction.done,
                       validator: (value) {
                         if (value == null) {
                           return '';
@@ -111,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                         return value;
                       },
+                      textInputType: TextInputType.visiblePassword,
                     ),
                   ],
                 ),

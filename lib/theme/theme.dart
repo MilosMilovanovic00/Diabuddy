@@ -58,3 +58,8 @@ final textFieldBorder = OutlineInputBorder(
     width: 2,
   ),
 );
+
+final numberFieldBorder = OutlineInputBorder(
+  borderRadius: borderRadius,
+  borderSide: BorderSide.none,
+);

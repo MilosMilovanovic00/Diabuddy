@@ -1,4 +1,4 @@
-import 'package:diabuddy/screens/onboarding/profile_onboarding_screen.dart';
+import 'package:diabuddy/screens/onboarding/glucose_target_onboarding_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         Locale('en'),
         // Locale('sr'),
       ],
-      home: const ProfileOnboardingScreen(),
+      home: const GlucoseTargetOnboardingScreen(),
     );
   }
 }

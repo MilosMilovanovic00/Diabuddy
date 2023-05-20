@@ -31,6 +31,12 @@
   "weight":"Masa",
   "dateOfBirth":"Datum rođenja",
   "unitsOnboardingTitle":"Podesi svoju mernu jedinicu",
-  "unitsOnboardingBodyText":"Podesi svoju mernu jedinicu tako da odgovara tvojoj preferenci i metodi merenja"
-
+  "unitsOnboardingBodyText":"Podesi svoju mernu jedinicu tako da odgovara tvojoj preferenci i metodi merenja",
+  "glucoseTargetOnboardingScreenTitle":"Postigni željeni nivo glukoze",
+  "glucoseTargetOnboardingScreenBodyText":"Postavi željeni nivo glukoze tokom dana i prati ga kako bi uspešno pratio svoj dijabetes.",
+  "criticalHigh":"Kritično visoko",
+  "afterMeal":"Posle obroka",
+  "beforeMeal":"Pre obroka",
+  "low":"Nisko",
+  "criticalLow":"Kritično nisko"
 }

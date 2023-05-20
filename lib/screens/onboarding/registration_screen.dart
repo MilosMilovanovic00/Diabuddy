@@ -97,6 +97,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           }
                           return value;
                         },
+                        textInputType: TextInputType.text,
                       ),
                       const SizedBox(
                         height: 28,
@@ -114,6 +115,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           }
                           return value;
                         },
+                        textInputType: TextInputType.emailAddress,
                       ),
                       const SizedBox(
                         height: 28,
@@ -133,6 +135,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           }
                           return value;
                         },
+                        textInputType: TextInputType.visiblePassword,
                       ),
                       const SizedBox(
                         height: 28,
@@ -140,6 +143,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       AppTextFieldInput(
                         hintText: AppLocalizations.of(context)!.repeatPassword,
                         isPasswordField: true,
+                        textInputAction: TextInputAction.done,
                         controller: repeatPasswordController,
                         validator: (value) {
                           if (value == null) {
@@ -154,6 +158,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           }
                           return value;
                         },
+                        textInputType: TextInputType.visiblePassword,
                       ),
                     ],
                   ),
