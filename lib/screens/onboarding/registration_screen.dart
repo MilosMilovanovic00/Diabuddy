@@ -107,7 +107,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         controller: emailController,
                         validator: (value) {
                           if (value == null) {
-                            return '';
+                            return 'You must enter email';
                           } else if (value.isEmpty) {
                             return 'You must enter email';
                           } else if (!value.isValidEmail()) {
@@ -126,7 +126,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         controller: passwordController,
                         validator: (value) {
                           if (value == null) {
-                            return '';
+                            return 'You must enter password';
                           } else if (value.isEmpty) {
                             return 'You must enter password';
                           } else if (!value.isValidPassword()) {
@@ -147,7 +147,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         controller: repeatPasswordController,
                         validator: (value) {
                           if (value == null) {
-                            return '';
+                            return 'You must enter password';
                           } else if (value.isEmpty) {
                             return 'You must enter password';
                           } else if (!value.isValidPassword()) {

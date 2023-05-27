@@ -63,3 +63,5 @@ final numberFieldBorder = OutlineInputBorder(
   borderRadius: borderRadius,
   borderSide: BorderSide.none,
 );
+
+final medicationInBorderRadius=BorderRadius.circular(15);

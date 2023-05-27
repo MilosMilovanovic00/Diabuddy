@@ -77,16 +77,14 @@ class _GlucoseTargetOnboardingScreenState
                 height: 20,
               ),
               Text(
-                AppLocalizations.of(context)!
-                    .glucoseTargetOnboardingScreenTitle,
+                AppLocalizations.of(context)!.glucoseTargetOnboardingTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                AppLocalizations.of(context)!
-                    .glucoseTargetOnboardingScreenBodyText,
+                AppLocalizations.of(context)!.glucoseTargetOnboardingBodyText,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(

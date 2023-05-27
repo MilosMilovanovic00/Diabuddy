@@ -38,5 +38,17 @@
   "afterMeal":"Posle obroka",
   "beforeMeal":"Pre obroka",
   "low":"Nisko",
-  "criticalLow":"Kritično nisko"
+  "criticalLow":"Kritično nisko",
+  "therapyOnboardingTitle":"Hajde da unesemo tvoju terapiju",
+  "therapyOnboardingBodyText":"Započni terapiju svog dijabetesa sa alatima i podrškom koji su ti potrebni.",
+  "addMedication":"Dodaj lek",
+  "chooseMedicationType":"Izaberi vrstu leka",
+  "insulin":"Insulin",
+  "pills":"Tablete",
+  "medicationName":"Ime leka",
+  "dailyMedicationIntake":"Broj dnevnih doza leka",
+  "units":"Jedinica",
+  "longLastingInsulin":"Dugodelujuci insulin",
+  "fastLastingInsulin":"Brzodelujuci insulin",
+  "dailyIntake":"Dnevne doze"
 }

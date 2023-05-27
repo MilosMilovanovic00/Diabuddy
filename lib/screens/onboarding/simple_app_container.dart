@@ -7,9 +7,11 @@ class SimpleAppContainer extends StatelessWidget {
     Key? key,
     required this.text,
     required this.widget,
+    this.fontSize,
   }) : super(key: key);
 
   final String text;
+  final double? fontSize;
   final Widget widget;
 
   @override
@@ -23,22 +25,24 @@ class SimpleAppContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 25,
-          horizontal: 25,
+          horizontal: 5,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: 80,
+              width: 130,
               child: Text(
                 text,
                 maxLines: 2,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.displaySmall,
+                style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      fontSize: fontSize ?? 20.0,
+                    ),
               ),
             ),
-            widget
+            widget,
           ],
         ),
       ),
