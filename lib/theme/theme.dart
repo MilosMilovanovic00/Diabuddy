@@ -39,6 +39,12 @@ var applicationTheme = ThemeData(
       fontWeight: FontWeight.w600,
       color: textFieldTextColor,
     ),
+    bodySmall: TextStyle(
+      fontSize: 15,
+      fontFamily: 'SourceSansPro',
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    ),
   ),
 );
 
@@ -52,3 +58,10 @@ final textFieldBorder = OutlineInputBorder(
     width: 2,
   ),
 );
+
+final numberFieldBorder = OutlineInputBorder(
+  borderRadius: borderRadius,
+  borderSide: BorderSide.none,
+);
+
+final medicationInBorderRadius=BorderRadius.circular(15);

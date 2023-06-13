@@ -21,7 +21,7 @@ class SecondIntroPage extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: Image.asset('./assets/png/therapy_intro_2.png'),
+              child: Image.asset('./assets/png/therapy_intro_1.png'),
             ),
           ],
         ),
