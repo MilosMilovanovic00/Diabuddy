@@ -67,7 +67,7 @@ class AppNumberInputField extends StatelessWidget {
                         fontSize: 22,
                         color: Colors.white,
                       ),
-                  textAlign: TextAlign.start,
+                  textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     hintStyle:
                         Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -80,7 +80,7 @@ class AppNumberInputField extends StatelessWidget {
                     border: numberFieldBorder,
                     errorMaxLines: 3,
                     contentPadding: const EdgeInsets.only(
-                      left: 24,
+                      left: 8,
                     ),
                   ),
                 ),

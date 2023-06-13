@@ -90,45 +90,54 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
               const SizedBox(
                 height: 20,
               ),
-              MedicationChoiceContainerController(
-                isInsulinChecked: isInsulinChecked,
-                arePillsChecked: arePillsChecked,
-                setCheckedAttribute: (bool value) {
-                  setState(() {
-                    isInsulinChecked = value;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              buildInsulinDosePicker(context),
-              const SizedBox(
-                height: 20,
-              ),
-              AppTextFieldInput(
-                hintText: AppLocalizations.of(context)!.medicationName,
-                controller: medicationNameController,
-                validator: (value) {
-                  if (value == null || value == '') {
-                    return 'You must enter medication name!';
-                  } else {
-                    return value;
-                  }
-                },
-                textInputType: TextInputType.text,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SimpleAppContainer(
-                text: AppLocalizations.of(context)!.dailyMedicationIntake,
-                fontSize: 18,
-                widget: AppNumberPicker(
-                  minValue: 1,
-                  maxValue: 100,
-                  currentValue: 4,
-                  setCurrentValue: setDailyMedicationIntake,
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: 420,
+                  child: ListView(
+                    children: [
+                      MedicationChoiceContainerController(
+                        isInsulinChecked: isInsulinChecked,
+                        arePillsChecked: arePillsChecked,
+                        setCheckedAttribute: (bool value) {
+                          setState(() {
+                            isInsulinChecked = value;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      buildInsulinDosePicker(context),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AppTextFieldInput(
+                        hintText: AppLocalizations.of(context)!.medicationName,
+                        controller: medicationNameController,
+                        validator: (value) {
+                          if (value == null || value == '') {
+                            return 'You must enter medication name!';
+                          } else {
+                            return value;
+                          }
+                        },
+                        textInputType: TextInputType.text,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SimpleAppContainer(
+                        text: AppLocalizations.of(context)!.dailyMedicationIntake,
+                        fontSize: 18,
+                        widget: AppNumberPicker(
+                          minValue: 1,
+                          maxValue: 100,
+                          currentValue: 4,
+                          setCurrentValue: setDailyMedicationIntake,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const Spacer(),

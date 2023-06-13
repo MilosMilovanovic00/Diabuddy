@@ -44,7 +44,6 @@ class _GlucoseTargetOnboardingScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -71,65 +70,40 @@ class _GlucoseTargetOnboardingScreenState
             vertical: 20,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                AppLocalizations.of(context)!.glucoseTargetOnboardingTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                AppLocalizations.of(context)!.glucoseTargetOnboardingBodyText,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              AppNumberInputField(
-                text: AppLocalizations.of(context)!.criticalHigh,
-                containerColor: highSugarColor,
-                controller: chGlucoseController,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              AppNumberInputField(
-                text: AppLocalizations.of(context)!.afterMeal,
-                containerColor: goodSugarColor,
-                controller: amGlucoseController,
-                containerBorderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(10),
-                ),
-              ),
-              AppNumberInputField(
-                text: AppLocalizations.of(context)!.beforeMeal,
-                containerColor: goodSugarColor,
-                controller: bmGlucoseController,
-                containerBorderRadius: BorderRadius.zero,
-              ),
-              AppNumberInputField(
-                text: AppLocalizations.of(context)!.low,
-                containerColor: goodSugarColor,
-                controller: lGlucoseController,
-                containerBorderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(10),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!
+                            .glucoseTargetOnboardingTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!
+                            .glucoseTargetOnboardingBodyText,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      buildGlucoseInputFields(context),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              AppNumberInputField(
-                text: AppLocalizations.of(context)!.criticalLow,
-                containerColor: lowSugarColor,
-                controller: clGlucoseController,
-                textInputAction: TextInputAction.done,
-              ),
-              const Spacer(),
               AppButton(
                 callback: () {},
                 text: AppLocalizations.of(context)!.save,
@@ -138,6 +112,52 @@ class _GlucoseTargetOnboardingScreenState
           ),
         ),
       ),
+    );
+  }
+
+  Column buildGlucoseInputFields(BuildContext context) {
+    return Column(
+      children: [
+        AppNumberInputField(
+          text: AppLocalizations.of(context)!.criticalHigh,
+          containerColor: highSugarColor,
+          controller: chGlucoseController,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        AppNumberInputField(
+          text: AppLocalizations.of(context)!.afterMeal,
+          containerColor: goodSugarColor,
+          controller: amGlucoseController,
+          containerBorderRadius: const BorderRadius.vertical(
+            top: Radius.circular(10),
+          ),
+        ),
+        AppNumberInputField(
+          text: AppLocalizations.of(context)!.beforeMeal,
+          containerColor: goodSugarColor,
+          controller: bmGlucoseController,
+          containerBorderRadius: BorderRadius.zero,
+        ),
+        AppNumberInputField(
+          text: AppLocalizations.of(context)!.low,
+          containerColor: goodSugarColor,
+          controller: lGlucoseController,
+          containerBorderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(10),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        AppNumberInputField(
+          text: AppLocalizations.of(context)!.criticalLow,
+          containerColor: lowSugarColor,
+          controller: clGlucoseController,
+          textInputAction: TextInputAction.done,
+        ),
+      ],
     );
   }
 }
