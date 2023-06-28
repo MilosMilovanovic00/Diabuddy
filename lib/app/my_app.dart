@@ -1,4 +1,4 @@
-import 'package:diabuddy/screens/intro/intro_screen.dart';
+import 'package:diabuddy/screens/glucose_monitoring/logbook_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,19 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Diabuddy',
-      theme: applicationTheme,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        // Locale('sr'),
-      ],
-      home: const IntroScreen(),
-    );
+        title: 'Diabuddy',
+        theme: applicationTheme,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'),
+          // Locale('sr'),
+        ],
+        home: const LogBookScreen());
   }
 }

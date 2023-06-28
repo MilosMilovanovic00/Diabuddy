@@ -1,4 +1,5 @@
-import 'package:diabuddy/model/dto/Medication.dart';
+import 'package:diabuddy/model/dto/medication_dto.dart';
+import 'package:diabuddy/screens/reusable/coloured_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,14 @@ class MedicationContainer extends StatelessWidget {
     required this.callback,
   }) : super(key: key);
 
-  final Medication medication;
+  final MedicationDto medication;
   final Function callback;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 5.0,
+      padding: const EdgeInsets.only(
+        bottom: 10.0,
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -43,30 +44,11 @@ class MedicationContainer extends StatelessWidget {
                     textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      borderRadius: borderRadius,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          offset: const Offset(0, 3),
-                          blurRadius: 3,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                    child: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: borderRadius,
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
+                  const ColouredIconButton(
+                    backgroundColor: primaryColor,
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -98,7 +80,8 @@ class MedicationContainer extends StatelessWidget {
                       medication.isInsulin
                           ? './assets/svg/syringe_icon.svg'
                           : './assets/svg/pills_icon.svg',
-                      colorFilter: const ColorFilter.mode(Colors.white,BlendMode.srcIn),
+                      colorFilter:
+                          const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                     ),
                   ),
                 ],
