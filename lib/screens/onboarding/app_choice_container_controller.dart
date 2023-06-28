@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 class AppChoiceContainerController extends StatefulWidget {
   const AppChoiceContainerController({
     Key? key,
-    required this.isSIUnitChecked,
-    required this.isNoSIUnitChecked,
+    required this.firstChoice,
+    required this.secondChoice,
+    required this.firstChoiceText,
+    required this.secondChoiceText,
   }) : super(key: key);
 
-  final bool isSIUnitChecked;
-  final bool isNoSIUnitChecked;
+  final bool firstChoice;
+  final bool secondChoice;
+  final String firstChoiceText;
+  final String secondChoiceText;
 
   @override
   State<AppChoiceContainerController> createState() =>
@@ -18,8 +22,19 @@ class AppChoiceContainerController extends StatefulWidget {
 
 class _AppChoiceContainerControllerState
     extends State<AppChoiceContainerController> {
-  late bool isSIUnitChecked;
-  late bool isNoSIUnitChecked;
+  late bool firstChoice;
+  late bool secondChoice;
+  late String firstChoiceText;
+  late String secondChoiceText;
+
+  @override
+  void initState() {
+    super.initState();
+    firstChoice = widget.firstChoice;
+    secondChoice = widget.secondChoice;
+    firstChoiceText = widget.firstChoiceText;
+    secondChoiceText = widget.secondChoiceText;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,40 +42,33 @@ class _AppChoiceContainerControllerState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppChoiceContainer(
-          isSelected: isSIUnitChecked,
-          callback: setSIUnitChecked,
-          text: 'mmol/L',
+          isSelected: firstChoice,
+          callback: setFirstChoiceChecked,
+          text: firstChoiceText,
         ),
         const SizedBox(
           height: 20,
         ),
         AppChoiceContainer(
-          isSelected: isNoSIUnitChecked,
-          callback: setNoSIUnitChecked,
-          text: 'mg/dl',
+          isSelected: secondChoice,
+          callback: setSecondChecked,
+          text: secondChoiceText,
         ),
       ],
     );
   }
 
-  void setSIUnitChecked() {
+  void setFirstChoiceChecked() {
     setState(() {
-      isSIUnitChecked = true;
-      isNoSIUnitChecked = false;
+      firstChoice = true;
+      secondChoice = false;
     });
   }
 
-  void setNoSIUnitChecked() {
+  void setSecondChecked() {
     setState(() {
-      isSIUnitChecked = false;
-      isNoSIUnitChecked = true;
+      firstChoice = false;
+      secondChoice = true;
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    isSIUnitChecked = widget.isSIUnitChecked;
-    isNoSIUnitChecked = widget.isNoSIUnitChecked;
   }
 }

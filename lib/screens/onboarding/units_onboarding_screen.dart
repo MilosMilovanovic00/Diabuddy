@@ -63,8 +63,10 @@ class UnitsOnboardingScreen extends StatelessWidget {
                 height: 20,
               ),
               AppChoiceContainerController(
-                isSIUnitChecked: isSIUnitChecked,
-                isNoSIUnitChecked: isNoSIUnitChecked,
+                firstChoice: isSIUnitChecked,
+                secondChoice: isNoSIUnitChecked,
+                firstChoiceText: 'mg/dl',
+                secondChoiceText: 'mmol/L',
               ),
               const Spacer(),
               AppButton(

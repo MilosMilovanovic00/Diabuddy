@@ -1,4 +1,4 @@
-import 'package:diabuddy/model/dto/Medication.dart';
+import 'package:diabuddy/model/dto/medication_dto.dart';
 import 'package:diabuddy/screens/onboarding/add_medication_screen.dart';
 import 'package:diabuddy/screens/reusable/app_add_button.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
@@ -18,18 +18,18 @@ class TherapyOnboardingScreen extends StatefulWidget {
 class _TherapyOnboardingScreenState extends State<TherapyOnboardingScreen> {
   @override
   Widget build(BuildContext context) {
-    final List<Medication> list = [
-      Medication(
+    final List<MedicationDto> list = [
+      MedicationDto(
           dailyIntake: 4,
           insulinUnits: 6,
           isInsulin: true,
           medicationName: 'NovoRapid'),
-      Medication(
+      MedicationDto(
           dailyIntake: 4,
           insulinUnits: 6,
           isInsulin: true,
           medicationName: 'NovoRapid'),
-      Medication(
+      MedicationDto(
           dailyIntake: 4,
           insulinUnits: 6,
           isInsulin: true,
@@ -96,16 +96,16 @@ class _TherapyOnboardingScreenState extends State<TherapyOnboardingScreen> {
               const SizedBox(
                 height: 20,
               ),
-              SingleChildScrollView(
-                child: SizedBox(
-                  height: 350,
-                  child: ListView(
-                      children: list
-                          .map((medication) => MedicationContainer(
-                                medication: medication,
-                                callback: () {},
-                              ))
-                          .toList()),
+              SizedBox(
+                height: 350,
+                child: ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    return MedicationContainer(
+                      medication: list[index],
+                      callback: () {},
+                    );
+                  },
                 ),
               ),
               const Spacer(),

@@ -1,5 +1,5 @@
-class Medication {
-  Medication({
+class MedicationDto {
+  MedicationDto({
     required this.dailyIntake,
     required this.insulinUnits,
     required this.isInsulin,
