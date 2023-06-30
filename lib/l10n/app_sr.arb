@@ -50,5 +50,12 @@
   "units":"Jedinica",
   "longLastingInsulin":"Dugodelujuci insulin",
   "fastLastingInsulin":"Brzodelujuci insulin",
-  "dailyIntake":"Dnevne doze"
+  "dailyIntake":"Dnevne doze",
+  "edit": "Izmeni",
+  "fasting":"Našte",
+  "breakfast":"Doručak",
+  "lunch":"Ručak",
+  "dinner":"Večera",
+  "snack":"Užina",
+  "dishName":"Ime jela"
 }

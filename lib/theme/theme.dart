@@ -64,4 +64,11 @@ final numberFieldBorder = OutlineInputBorder(
   borderSide: BorderSide.none,
 );
 
-final medicationInBorderRadius=BorderRadius.circular(15);
+final simpleBoxShadow = BoxShadow(
+  color: Colors.grey.shade700,
+  blurRadius: 3,
+  spreadRadius: 1,
+  offset: const Offset(0, 3),
+);
+
+final medicationInBorderRadius = BorderRadius.circular(15);

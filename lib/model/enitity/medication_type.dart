@@ -1,0 +1,4 @@
+enum MedicationType{
+  insulin,
+  pills
+}

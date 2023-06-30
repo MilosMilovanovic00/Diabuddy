@@ -127,7 +127,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         height: 20,
                       ),
                       SimpleAppContainer(
-                        text: AppLocalizations.of(context)!.dailyMedicationIntake,
+                        text:
+                            AppLocalizations.of(context)!.dailyMedicationIntake,
                         fontSize: 18,
                         widget: AppNumberPicker(
                           minValue: 1,

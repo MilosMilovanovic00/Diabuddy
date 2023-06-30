@@ -50,5 +50,12 @@
   "units":"Units",
   "longLastingInsulin":"Long lasting insulin",
   "fastLastingInsulin":"Fast lasting insulin",
-  "dailyIntake":"Daily Intake"
+  "dailyIntake":"Daily Intake",
+  "edit":"Edit",
+  "fasting":"Fasting",
+  "breakfast":"Breakfast",
+  "lunch":"Lunch",
+  "dinner":"Dinner",
+  "snack":"Snack",
+  "dishName":"Dish name"
 }

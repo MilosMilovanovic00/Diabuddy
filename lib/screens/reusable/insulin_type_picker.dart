@@ -23,7 +23,7 @@ class _InsulinTypePickerState extends State<InsulinTypePicker> {
   @override
   void initState() {
     super.initState();
-    insulinTypes=widget.choices;
+    insulinTypes = widget.choices;
     chosenInsulinType = insulinTypes.first;
   }
 
