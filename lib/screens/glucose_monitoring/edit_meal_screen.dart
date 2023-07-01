@@ -1,4 +1,6 @@
+import 'package:diabuddy/model/enitity/Dish.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/meal_choice_picker.dart';
+import 'package:diabuddy/screens/glucose_monitoring/components/selected_meal_container.dart';
 import 'package:diabuddy/screens/reusable/app_add_button.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
@@ -14,6 +16,12 @@ class EditMealScreen extends StatefulWidget {
 }
 
 class _EditMealScreenState extends State<EditMealScreen> {
+  List<Dish> dishes = [
+    Dish(dishName: 'Carbonara', carbohydrateValue: 40, gramsPerMeal: 100),
+    Dish(dishName: 'Bolognese', carbohydrateValue: 50, gramsPerMeal: 100),
+    Dish(dishName: 'Bread', carbohydrateValue: 15, gramsPerMeal: 100),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -63,10 +71,24 @@ class _EditMealScreenState extends State<EditMealScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                AppAddButton(text: "Add a meal", callback: () {
-                  
-                }),
-                const Spacer(),
+                AppAddButton(
+                  text: "Add a meal",
+                  callback: () {},
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: dishes.length,
+                    itemBuilder: (context, index) {
+                      return SelectedMealContainer(
+                        dish: dishes[index],
+                        removeDish: removeDish,
+                      );
+                    },
+                  ),
+                ),
                 AppButton(
                   callback: () {},
                   text: AppLocalizations.of(context)!.save,
@@ -77,5 +99,11 @@ class _EditMealScreenState extends State<EditMealScreen> {
         ),
       ),
     ]);
+  }
+
+  void removeDish(Dish dish) {
+    setState(() {
+      dishes.remove(dish);
+    });
   }
 }

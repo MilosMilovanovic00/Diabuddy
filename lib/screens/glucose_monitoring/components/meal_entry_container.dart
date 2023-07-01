@@ -2,7 +2,6 @@ import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-
 class MealEntryContainer extends StatelessWidget {
   const MealEntryContainer({Key? key}) : super(key: key);
 

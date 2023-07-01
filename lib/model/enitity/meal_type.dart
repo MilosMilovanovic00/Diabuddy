@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum MealType { breakfast, lunch, dinner, snack }
 
-String getMealType(MealType type, BuildContext context){
-  switch(type){
+String getMealType(MealType type, BuildContext context) {
+  switch (type) {
     case MealType.breakfast:
       return AppLocalizations.of(context)!.breakfast;
     case MealType.lunch:

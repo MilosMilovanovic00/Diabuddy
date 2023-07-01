@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum GlucoseTimeType { beforeMeal, afterMeal, fasting }
 
-String getPathToIcon(GlucoseTimeType glucoseLevelType){
-  switch(glucoseLevelType){
+String getPathToIcon(GlucoseTimeType glucoseLevelType) {
+  switch (glucoseLevelType) {
     case GlucoseTimeType.beforeMeal:
       return "assets/svg/before_meal_icon.svg";
     case GlucoseTimeType.afterMeal:
@@ -29,5 +29,3 @@ String getGlucoseLevelTypeTitle(
       return " ";
   }
 }
-
-

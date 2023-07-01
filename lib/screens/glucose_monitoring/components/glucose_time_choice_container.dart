@@ -23,12 +23,9 @@ class GlucoseTimeChoiceContainer extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: selected ? primaryColor.withOpacity(0.5) : Colors.white,
-          borderRadius: borderRadius,
-          boxShadow: selected?[]:[
-            simpleBoxShadow
-          ]
-        ),
+            color: selected ? primaryColor.withOpacity(0.5) : Colors.white,
+            borderRadius: borderRadius,
+            boxShadow: selected ? [] : [simpleBoxShadow]),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20.0,

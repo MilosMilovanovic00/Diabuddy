@@ -1,4 +1,1 @@
-enum MedicationType{
-  insulin,
-  pills
-}
+enum MedicationType { insulin, pills }

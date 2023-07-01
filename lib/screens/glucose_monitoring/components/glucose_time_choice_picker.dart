@@ -11,13 +11,14 @@ class GlucoseTimeChoicePicker extends StatefulWidget {
   final GlucoseTimeType? type;
 
   @override
-  State<GlucoseTimeChoicePicker> createState() => _GlucoseTimeChoicePickerState();
+  State<GlucoseTimeChoicePicker> createState() =>
+      _GlucoseTimeChoicePickerState();
 }
 
 class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
-  late bool beforeMealSelected=false;
-  late bool afterMealSelected=false;
-  late bool fastingSelected=false;
+  late bool beforeMealSelected = false;
+  late bool afterMealSelected = false;
+  late bool fastingSelected = false;
   late GlucoseTimeType? glucoseTimeType;
 
   @override
