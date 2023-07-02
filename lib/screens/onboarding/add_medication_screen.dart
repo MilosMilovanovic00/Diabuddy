@@ -4,7 +4,7 @@ import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
-import 'package:diabuddy/screens/reusable/insulin_type_picker.dart';
+import 'package:diabuddy/screens/reusable/app_dropdown_container.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +127,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         height: 20,
                       ),
                       SimpleAppContainer(
-                        text: AppLocalizations.of(context)!.dailyMedicationIntake,
+                        text:
+                            AppLocalizations.of(context)!.dailyMedicationIntake,
                         fontSize: 18,
                         widget: AppNumberPicker(
                           minValue: 1,
@@ -168,8 +169,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              InsulinTypePicker(
-                setInsulinType: setInsulinType,
+              AppDropdownContainer(
+                setChoice: setInsulinType,
                 choices: [
                   AppLocalizations.of(context)!.fastLastingInsulin,
                   AppLocalizations.of(context)!.longLastingInsulin,
