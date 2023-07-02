@@ -57,5 +57,15 @@
   "lunch":"Lunch",
   "dinner":"Dinner",
   "snack":"Snack",
-  "dishName":"Dish name"
+  "dishName":"Dish name",
+  "activityName":"Activity name",
+  "addYourDish":"Add your dish",
+  "addYourActivity":"Add your activity",
+  "intense":"Intense",
+  "light":"Light",
+  "moderate":"Moderate",
+  "activityIntensity":"Activity intensity",
+  "activityDuration":"Activity duration",
+  "chooseYourMedicationForThisMeal":"Choose your medication for this meal",
+  "add":"Add"
 }

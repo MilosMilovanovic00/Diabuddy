@@ -1,4 +1,4 @@
-import 'package:diabuddy/model/enitity/Dish.dart';
+import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/dish_entry_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';

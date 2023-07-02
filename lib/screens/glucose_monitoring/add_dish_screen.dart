@@ -71,7 +71,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
                   height: 20,
                 ),
                 Text(
-                  'Add your dish',
+                  AppLocalizations.of(context)!.addYourDish,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(

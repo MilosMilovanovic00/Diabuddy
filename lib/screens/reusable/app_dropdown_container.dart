@@ -2,42 +2,42 @@ import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class InsulinTypePicker extends StatefulWidget {
-  const InsulinTypePicker({
+class AppDropdownContainer extends StatefulWidget {
+  const AppDropdownContainer({
     Key? key,
-    required this.setInsulinType,
+    required this.setChoice,
     required this.choices,
   }) : super(key: key);
 
-  final Function(String) setInsulinType;
+  final Function(String) setChoice;
   final List<String> choices;
 
   @override
-  State<InsulinTypePicker> createState() => _InsulinTypePickerState();
+  State<AppDropdownContainer> createState() => _AppDropdownContainerState();
 }
 
-class _InsulinTypePickerState extends State<InsulinTypePicker> {
-  late String chosenInsulinType;
-  late List<String> insulinTypes = [];
+class _AppDropdownContainerState extends State<AppDropdownContainer> {
+  late String defaultChoice;
+  late List<String> possibleChoices = [];
 
   @override
   void initState() {
     super.initState();
-    insulinTypes = widget.choices;
-    chosenInsulinType = insulinTypes.first;
+    possibleChoices = widget.choices;
+    defaultChoice = possibleChoices.first;
   }
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
-      value: chosenInsulinType,
+      value: defaultChoice,
       borderRadius: borderRadius,
       dropdownColor: primaryColor,
       icon: const Icon(
         Icons.arrow_drop_down,
         color: Colors.white,
       ),
-      items: insulinTypes
+      items: possibleChoices
           .map(
             (String item) => DropdownMenuItem(
               value: item,
@@ -55,9 +55,9 @@ class _InsulinTypePickerState extends State<InsulinTypePicker> {
           .toList(),
       onChanged: (value) {
         setState(() {
-          chosenInsulinType = value!;
+          defaultChoice = value!;
         });
-        widget.setInsulinType(value!);
+        widget.setChoice(value!);
       },
     );
   }

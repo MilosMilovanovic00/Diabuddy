@@ -1,4 +1,4 @@
-import 'package:diabuddy/model/enitity/Dish.dart';
+import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/screens/reusable/coloured_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';

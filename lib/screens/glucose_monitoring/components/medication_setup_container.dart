@@ -1,31 +1,27 @@
-import 'package:diabuddy/model/enitity/dish.dart';
+import 'package:diabuddy/model/enitity/medication.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/small_app_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class DishEntryContainer extends StatefulWidget {
-  const DishEntryContainer({
+class MedicationSetupContainer extends StatefulWidget {
+  const MedicationSetupContainer({
     Key? key,
-    required this.dish,
+    required this.medication,
   }) : super(key: key);
 
-  final Dish dish;
+  final Medication medication;
 
   @override
-  State<DishEntryContainer> createState() => _DishEntryContainerState();
+  State<MedicationSetupContainer> createState() =>
+      _MedicationSetupContainerState();
 }
 
-class _DishEntryContainerState extends State<DishEntryContainer> {
+class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
   bool selected = false;
-  late int gramsPerMeal;
-
-  @override
-  void initState() {
-    super.initState();
-    gramsPerMeal = widget.dish.gramsPerMeal;
-  }
+  late int medicationTherapyAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -60,20 +56,26 @@ class _DishEntryContainerState extends State<DishEntryContainer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      widget.dish.dishName,
+                      widget.medication.medicineName,
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             color: selected
                                 ? Colors.white
                                 : primaryColor.withOpacity(0.7),
                           ),
                     ),
-                    Text(
-                      '${widget.dish.carbohydrateValue} UH',
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                            color: selected
+                    SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: SvgPicture.asset(
+                        widget.medication.isInsulin
+                            ? './assets/svg/syringe_icon.svg'
+                            : './assets/svg/pills_icon.svg',
+                        colorFilter: ColorFilter.mode(
+                            selected
                                 ? Colors.white
                                 : primaryColor.withOpacity(0.7),
-                          ),
+                            BlendMode.srcIn),
+                      ),
                     ),
                   ],
                 ),
@@ -113,13 +115,12 @@ class _DishEntryContainerState extends State<DishEntryContainer> {
                     children: [
                       AppNumberPicker(
                         textColor: primaryColor,
-                        currentValue: gramsPerMeal,
                         minValue: 0,
-                        maxValue: 1000,
-                        setCurrentValue: setGramsPerMeal,
+                        maxValue: 40,
+                        setCurrentValue: setMedicationTherapyAmount,
                       ),
                       Text(
-                        'grams',
+                        widget.medication.isInsulin?'units':'pills',
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   color: primaryColor.withOpacity(0.7),
@@ -133,7 +134,7 @@ class _DishEntryContainerState extends State<DishEntryContainer> {
                   children: [
                     SmallAppButton(
                       callback: () {},
-                      text: 'Edit carbs',
+                      text: 'Cancel',
                       textColor: primaryColor,
                       backgroundColor: Colors.white,
                     ),
@@ -148,9 +149,9 @@ class _DishEntryContainerState extends State<DishEntryContainer> {
     );
   }
 
-  void setGramsPerMeal(int value) {
+  void setMedicationTherapyAmount(int value) {
     setState(() {
-      gramsPerMeal = value;
+      medicationTherapyAmount = value;
     });
   }
 }

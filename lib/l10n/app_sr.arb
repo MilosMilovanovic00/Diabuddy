@@ -57,5 +57,15 @@
   "lunch":"Ručak",
   "dinner":"Večera",
   "snack":"Užina",
-  "dishName":"Ime jela"
+  "dishName":"Ime jela",
+  "activityName":"Ime aktivnosti",
+  "addYourDish":"Add your dish",
+  "addYourActivity":"Dodaj aktivnost",
+  "intense":"Intezivno",
+  "light":"Lagano",
+  "moderate":"Umereno",
+  "activityIntensity":"Intenzitet aktivnosti",
+  "activityDuration":"Trajanje aktivnosti",
+  "chooseYourMedicationForThisMeal":"Izaberi lek koji uzimas za ovaj obrok",
+  "add":"Dodaj"
 }

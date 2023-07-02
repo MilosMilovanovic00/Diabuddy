@@ -1,29 +1,36 @@
-import 'package:diabuddy/model/enitity/dish.dart';
-import 'package:diabuddy/screens/glucose_monitoring/components/meal_choice_picker.dart';
-import 'package:diabuddy/screens/glucose_monitoring/components/selected_meal_container.dart';
-import 'package:diabuddy/screens/reusable/app_add_button.dart';
+import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/screens/glucose_monitoring/components/medication_setup_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class EditMealScreen extends StatefulWidget {
-  const EditMealScreen({Key? key}) : super(key: key);
-
-  @override
-  State<EditMealScreen> createState() => _EditMealScreenState();
-}
-
-class _EditMealScreenState extends State<EditMealScreen> {
-  List<Dish> dishes = [
-    Dish(dishName: 'Carbonara', carbohydrateValue: 40, gramsPerMeal: 100),
-    Dish(dishName: 'Bolognese', carbohydrateValue: 50, gramsPerMeal: 100),
-    Dish(dishName: 'Bread', carbohydrateValue: 15, gramsPerMeal: 100),
-  ];
+class MedicationSetupScreen extends StatelessWidget {
+  const MedicationSetupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<Medication> medicine = [
+      Medication(
+        medicineName: 'NovoRapid',
+        dailyMedicationIntake: 3,
+        isInsulin: true,
+        averageInsulinUnits: 10,
+      ),
+      Medication(
+        medicineName: 'Tresiba',
+        dailyMedicationIntake: 1,
+        isInsulin: true,
+        averageInsulinUnits: 24,
+      ),
+      Medication(
+        medicineName: 'Glucagon-like peptide',
+        dailyMedicationIntake: 5,
+        isInsulin: false,
+      ),
+    ];
+
     return Stack(children: [
       Container(
         color: Colors.white,
@@ -61,37 +68,23 @@ class _EditMealScreenState extends State<EditMealScreen> {
                   height: 20,
                 ),
                 Text(
-                  'Edit your meal',
+                  AppLocalizations.of(context)!.chooseYourMedicationForThisMeal,
                   style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const MealChoicePicker(),
-                const SizedBox(
-                  height: 20,
-                ),
-                AppAddButton(
-                  text: "Add a meal",
-                  callback: () {},
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: dishes.length,
+                    itemCount: medicine.length,
                     itemBuilder: (context, index) {
-                      return SelectedMealContainer(
-                        dish: dishes[index],
-                        removeDish: removeDish,
-                      );
+                      return MedicationSetupContainer(medication: medicine[index],);
                     },
                   ),
                 ),
                 AppButton(
                   callback: () {},
-                  text: AppLocalizations.of(context)!.save,
+                  text: AppLocalizations.of(context)!.add,
                 ),
               ],
             ),
@@ -99,11 +92,5 @@ class _EditMealScreenState extends State<EditMealScreen> {
         ),
       ),
     ]);
-  }
-
-  void removeDish(Dish dish) {
-    setState(() {
-      dishes.remove(dish);
-    });
   }
 }

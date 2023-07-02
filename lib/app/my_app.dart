@@ -1,4 +1,4 @@
-import 'package:diabuddy/screens/glucose_monitoring/edit_meal_screen.dart';
+import 'package:diabuddy/screens/glucose_monitoring/medication_setup_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -22,6 +22,6 @@ class MyApp extends StatelessWidget {
           Locale('en'),
           // Locale('sr'),
         ],
-        home: const EditMealScreen());
+        home: const MedicationSetupScreen());
   }
 }
