@@ -67,5 +67,20 @@
   "activityIntensity":"Intenzitet aktivnosti",
   "activityDuration":"Trajanje aktivnosti",
   "chooseYourMedicationForThisMeal":"Izaberi lek koji uzimas za ovaj obrok",
-  "add":"Dodaj"
+  "add":"Dodaj",
+  "today":"Dnevni",
+  "week":"Nedeljni",
+  "month":"Mesečni",
+  "averageBloodGlucose":"Prosečni nivoi glukoze",
+  "todayGlucoseLevels":"Dnevni nivoi glukoze",
+  "weekGlucoseLevels":"Nedeljni nivoi glukoze",
+  "monthGlucoseLevels":"Mesečno nivoi glukoze",
+  "glucoseDiagram":"Dijagram glukoze",
+  "monday":"Ponedeljak",
+  "tuesday":"Utorak",
+  "wednesday":"Sreda",
+  "thursday":"Četvrtak",
+  "friday":"Petak",
+  "saturday":"Subota",
+  "sunday":"Nedelja"
 }

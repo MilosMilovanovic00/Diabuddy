@@ -1,4 +1,4 @@
-import 'package:diabuddy/model/enitity/glucose_type.dart';
+import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/glucose_time_choice_container.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,13 @@
 import 'package:diabuddy/model/dto/glucose_entry_dto.dart';
 import 'package:diabuddy/model/dto/medication_dto.dart';
-import 'package:diabuddy/screens/dashboard/dashboard_diagram_container.dart';
+import 'package:diabuddy/model/enitity/enum/time_period_type.dart';
+import 'package:diabuddy/screens/dashboard/components/diagram_container.dart';
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
 import 'package:diabuddy/screens/reusable/daily_glucose_indicator_container.dart';
 import 'package:diabuddy/screens/reusable/daily_medication_indicator_container.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -114,8 +116,14 @@ class DashboardScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Expanded(
-                  child: DashboardDiagramContainer(),
+                Expanded(
+                  child: DiagramContainer(
+                    backgroundColor: orangeColor.withOpacity(0.8),
+                    diagramTitle: AppLocalizations.of(context)!.glucoseDiagram,
+                    isDiagramScreen: false,
+                    toolTipColor: orangeColor,
+                    timePeriodType: TimePeriodType.today,
+                  ),
                 ),
               ],
             ),
