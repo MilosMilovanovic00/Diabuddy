@@ -67,5 +67,21 @@
   "activityIntensity":"Activity intensity",
   "activityDuration":"Activity duration",
   "chooseYourMedicationForThisMeal":"Choose your medication for this meal",
-  "add":"Add"
+  "add":"Add",
+  "today":"Today",
+  "week":"Week",
+  "month":"Month",
+  "averageBloodGlucose":"Average blood glucose",
+  "glucoseLevels":"Glucose Levels",
+  "todayGlucoseLevels":"Today Glucose Levels",
+  "weekGlucoseLevels":"Week Glucose Levels",
+  "monthGlucoseLevels":"Month Glucose Levels",
+  "glucoseDiagram":"Glucose Diagram",
+  "monday":"Monday",
+  "tuesday":"Tuesday",
+  "wednesday":"Wednesday",
+  "thursday":"Thursday",
+  "friday":"Friday",
+  "saturday":"Saturday",
+  "sunday":"Sunday"
 }

@@ -69,7 +69,9 @@ class MedicationSetupScreen extends StatelessWidget {
                 ),
                 Text(
                   AppLocalizations.of(context)!.chooseYourMedicationForThisMeal,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: 32,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
