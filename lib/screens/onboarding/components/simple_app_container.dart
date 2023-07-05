@@ -25,7 +25,7 @@ class SimpleAppContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 25,
-          horizontal: 5,
+          horizontal: 10,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

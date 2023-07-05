@@ -1,5 +1,5 @@
 import 'package:diabuddy/extensions/string_extenstions.dart';
-import 'package:diabuddy/screens/onboarding/simple_app_container.dart';
+import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';

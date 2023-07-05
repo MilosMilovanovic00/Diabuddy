@@ -70,8 +70,8 @@ class MedicationSetupScreen extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context)!.chooseYourMedicationForThisMeal,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontSize: 32,
-                  ),
+                        fontSize: 32,
+                      ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -80,7 +80,9 @@ class MedicationSetupScreen extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: medicine.length,
                     itemBuilder: (context, index) {
-                      return MedicationSetupContainer(medication: medicine[index],);
+                      return MedicationSetupContainer(
+                        medication: medicine[index],
+                      );
                     },
                   ),
                 ),

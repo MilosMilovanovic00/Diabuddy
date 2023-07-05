@@ -1,21 +1,26 @@
-import 'package:diabuddy/screens/onboarding/components/app_choice_container_controller.dart';
+import 'package:diabuddy/model/enitity/app_notification.dart';
+import 'package:diabuddy/model/enitity/enum/notification_type.dart';
+import 'package:diabuddy/screens/dashboard/components/notification_container.dart';
+import 'package:diabuddy/screens/reusable/app_add_button.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class UnitsOnboardingScreen extends StatelessWidget {
-  const UnitsOnboardingScreen({
-    Key? key,
-    this.isSIUnitChecked = false,
-    this.isNoSIUnitChecked = false,
-  }) : super(key: key);
-
-  final bool isSIUnitChecked;
-  final bool isNoSIUnitChecked;
+class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<AppNotification> notifications = [
+      AppNotification(
+          triggerTime: DateTime.now(), type: NotificationType.activity),
+      AppNotification(
+          triggerTime: DateTime.now(), type: NotificationType.glucose),
+      AppNotification(
+          triggerTime: DateTime.now(), type: NotificationType.insulin),
+    ];
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -49,26 +54,39 @@ class UnitsOnboardingScreen extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                AppLocalizations.of(context)!.unitsOnboardingTitle,
+                AppLocalizations.of(context)!.notificationScreenTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                AppLocalizations.of(context)!.unitsOnboardingBodyText,
+                AppLocalizations.of(context)!.notificationScreenSubtitle,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(
                 height: 20,
               ),
-              AppChoiceContainerController(
-                firstChoice: isSIUnitChecked,
-                secondChoice: isNoSIUnitChecked,
-                firstChoiceText: 'mg/dl',
-                secondChoiceText: 'mmol/L',
+              AppAddButton(
+                text: AppLocalizations.of(context)!.addNotification,
+                callback: () {},
               ),
-              const Spacer(),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: notifications.length,
+                  itemBuilder: (context, index) {
+                    return NotificationContainer(
+                      appNotification: notifications[index],
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               AppButton(
                 callback: () {},
                 text: AppLocalizations.of(context)!.save,

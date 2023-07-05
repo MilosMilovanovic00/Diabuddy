@@ -98,8 +98,6 @@ class AppLineChart extends StatelessWidget {
       space: 16,
       child: text,
     );
-
-
   }
 
   FlTitlesData get chartTitles => FlTitlesData(

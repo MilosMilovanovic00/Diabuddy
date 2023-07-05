@@ -120,7 +120,7 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                         setCurrentValue: setMedicationTherapyAmount,
                       ),
                       Text(
-                        widget.medication.isInsulin?'units':'pills',
+                        widget.medication.isInsulin ? 'units' : 'pills',
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   color: primaryColor.withOpacity(0.7),

@@ -1,4 +1,4 @@
-import 'package:diabuddy/screens/onboarding/simple_app_container.dart';
+import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/onboarding/units_onboarding_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';

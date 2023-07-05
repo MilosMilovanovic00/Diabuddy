@@ -1,5 +1,5 @@
-import 'package:diabuddy/screens/onboarding/medication_choice_container_controller.dart';
-import 'package:diabuddy/screens/onboarding/simple_app_container.dart';
+import 'package:diabuddy/screens/onboarding/components/medication_choice_container_controller.dart';
+import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';

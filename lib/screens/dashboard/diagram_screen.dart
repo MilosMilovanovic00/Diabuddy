@@ -1,6 +1,6 @@
 import 'package:diabuddy/model/enitity/enum/time_period_type.dart';
 import 'package:diabuddy/screens/dashboard/components/diagram_container.dart';
-import 'package:diabuddy/screens/dashboard/time_period_selector.dart';
+import 'package:diabuddy/screens/dashboard/components/time_period_selector.dart';
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
@@ -15,7 +15,7 @@ class DiagramScreen extends StatefulWidget {
 }
 
 class _DiagramScreenState extends State<DiagramScreen> {
-  late TimePeriodType timePeriodType=TimePeriodType.today;
+  late TimePeriodType timePeriodType = TimePeriodType.today;
 
   @override
   Widget build(BuildContext context) {

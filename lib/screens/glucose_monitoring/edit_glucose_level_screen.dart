@@ -1,6 +1,6 @@
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/glucose_time_choice_picker.dart';
-import 'package:diabuddy/screens/onboarding/simple_app_container.dart';
+import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
