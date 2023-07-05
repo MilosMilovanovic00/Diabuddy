@@ -39,7 +39,7 @@ class _AppNumberPickerState extends State<AppNumberPicker> {
   @override
   void initState() {
     super.initState();
-    currentValue = widget.currentValue ?? widget.maxValue~/2;
+    currentValue = widget.currentValue ?? widget.maxValue ~/ 2;
   }
 
   @override

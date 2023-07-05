@@ -1,4 +1,4 @@
-import 'package:diabuddy/screens/onboarding/app_choice_container_controller.dart';
+import 'package:diabuddy/screens/onboarding/components/app_choice_container_controller.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';

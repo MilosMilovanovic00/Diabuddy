@@ -24,7 +24,6 @@ class DiagramContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     late bool isBarChart = timePeriodType != TimePeriodType.today;
     return Container(
       decoration: BoxDecoration(

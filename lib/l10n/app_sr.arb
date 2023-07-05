@@ -82,5 +82,13 @@
   "thursday":"Četvrtak",
   "friday":"Petak",
   "saturday":"Subota",
-  "sunday":"Nedelja"
+  "sunday":"Nedelja",
+  "notificationScreenTitle":"Ostani u toku uz pomoć podsetnika",
+  "notificationScreenSubtitle":"Podesi podsetnike u željenim trenucima kako bi lakše ostao u toku sa svojim zdravljem.",
+  "addNotification":"Dodaj podsetnik",
+  "setTimeForYourNotification":"Podesi vreme za podsetnik",
+  "notificationType":"Vrsta podsetnika",
+  "activityReminder":"Podsetnik za aktivnost",
+  "insulinReminder":"Podsetnik za insulin",
+  "glucoseCheckReminder":"Podsetnik za merenje glukoze"
 }

@@ -83,5 +83,13 @@
   "thursday":"Thursday",
   "friday":"Friday",
   "saturday":"Saturday",
-  "sunday":"Sunday"
+  "sunday":"Sunday",
+  "notificationScreenTitle":"Stay On Track with Notifications",
+  "notificationScreenSubtitle":"Set up notifications that fit your schedule and preferences to help you stay focused on your health",
+  "addNotification":"Add a notification",
+  "setTimeForYourNotification":"Set time for your notification",
+  "notificationType":"Notification type",
+  "activityReminder":"Activity reminder",
+  "insulinReminder":"Insulin reminder",
+  "glucoseCheckReminder":"Glucose check reminder"
 }
