@@ -1,0 +1,77 @@
+import 'dart:async';
+import 'package:bloc/bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/repository/user_repository.dart';
+
+class UserBloc extends Bloc<UserEvent, UserState> {
+  final UserRepository userRepository;
+
+  UserBloc({
+    required this.userRepository,
+  }) : super(InitialUserState()) {
+    on<ProfileUpdateEvent>(_onUpdateProfile);
+    on<AddMedicationEvent>(_onAddMedication);
+    on<GetAllMedications>(_onFetchMedication);
+    on<DeleteMedication>(_onDeleteMedication);
+  }
+
+  FutureOr<void> _onUpdateProfile(
+    ProfileUpdateEvent event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await userRepository.updatePersonalData(
+        weight: event.weight,
+        dateOfBirth: event.dateOfBirth,
+      );
+      emit(UserProfileUpdateSuccessful());
+    } catch (_) {
+      emit(UserProfileUpdateFailed());
+    }
+  }
+
+  FutureOr<void> _onAddMedication(
+    AddMedicationEvent event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      Medication medication = Medication(
+        medicationName: event.medicationName,
+        dailyMedicationIntake: event.dailyMedicationIntake,
+        isInsulin: event.isInsulin,
+        averageInsulinUnits: event.insulinDose,
+      );
+      await userRepository.addMedication(medication: medication);
+      emit(SuccessfulMedicationAddition());
+    } catch (_) {
+      emit(MedicationAdditionFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchMedication(
+    GetAllMedications event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      List<Medication> medicine = await userRepository.fetchMedication();
+      emit(FetchedMedicationData(medicine));
+    } catch (_) {
+      emit(FetchedMedicationDataFailed());
+    }
+  }
+
+  FutureOr<void> _onDeleteMedication(
+    DeleteMedication event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await userRepository.deleteMedication(event.medicationId);
+      List<Medication> medicine = await userRepository.fetchMedication();
+      emit(FetchedMedicationData(medicine));
+    } catch (_) {
+      emit(FetchedMedicationDataFailed());
+    }
+  }
+}

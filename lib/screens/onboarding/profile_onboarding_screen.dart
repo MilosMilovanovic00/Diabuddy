@@ -1,17 +1,19 @@
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/onboarding/units_onboarding_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileOnboardingScreen extends StatefulWidget {
   const ProfileOnboardingScreen({
     Key? key,
-    this.weight,
   }) : super(key: key);
-  final int? weight;
 
   @override
   State<ProfileOnboardingScreen> createState() =>
@@ -24,6 +26,17 @@ class _ProfileOnboardingScreenState extends State<ProfileOnboardingScreen> {
   late int month;
   late int maxDays;
   late int year;
+
+  @override
+  void initState() {
+    super.initState();
+    weight = 50;
+    day = DateTime.now().day;
+    month = DateTime.now().month;
+    year = DateTime.now().year;
+    maxDays = evalMaxDays(month);
+    maxDays = isLeapYear(year) ? maxDays + 1 : maxDays;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,104 +60,113 @@ class _ProfileOnboardingScreenState extends State<ProfileOnboardingScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 30.0,
-            vertical: 20,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
+      body: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {
+          if (state is UserProfileUpdateSuccessful) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const UnitsOnboardingScreen(),
               ),
-              Text(
-                AppLocalizations.of(context)!.profileOnboardingTitle,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                AppLocalizations.of(context)!.profileOnboardingBodyText,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SimpleAppContainer(
-                text: AppLocalizations.of(context)!.weight,
-                widget: AppNumberPicker(
-                  minValue: 0,
-                  maxValue: 100,
-                  setCurrentValue: setWeight,
+            );
+          } else if (state is UserProfileUpdateFailed) {
+            //TODO postavi toast
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30.0,
+              vertical: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SimpleAppContainer(
-                text: AppLocalizations.of(context)!.dateOfBirth,
-                widget: Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Spacer(),
-                      AppNumberPicker(
-                        axis: Axis.vertical,
-                        widgetHeight: 40,
-                        widgetWidth: 40,
-                        selectedTextSize: 20,
-                        unselectedTextSize: 14,
-                        minValue: 1,
-                        maxValue: 31,
-                        currentValue: day,
-                        setCurrentValue: setDay,
-                      ),
-                      const Spacer(),
-                      AppNumberPicker(
-                        axis: Axis.vertical,
-                        widgetHeight: 40,
-                        widgetWidth: 40,
-                        selectedTextSize: 20,
-                        unselectedTextSize: 14,
-                        minValue: 1,
-                        maxValue: 12,
-                        currentValue: month,
-                        setCurrentValue: setMonth,
-                      ),
-                      const Spacer(),
-                      AppNumberPicker(
-                        axis: Axis.vertical,
-                        widgetHeight: 40,
-                        widgetWidth: 70,
-                        selectedTextSize: 20,
-                        unselectedTextSize: 14,
-                        minValue: 1900,
-                        maxValue: year,
-                        currentValue: 2000,
-                        setCurrentValue: setYear,
-                      ),
-                      const Spacer(),
-                    ],
+                Text(
+                  AppLocalizations.of(context)!.profileOnboardingTitle,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.profileOnboardingBodyText,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SimpleAppContainer(
+                  text: AppLocalizations.of(context)!.weight,
+                  widget: AppNumberPicker(
+                    minValue: 0,
+                    maxValue: 100,
+                    setCurrentValue: setWeight,
                   ),
                 ),
-              ),
-              const Spacer(),
-              AppButton(
-                callback: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UnitsOnboardingScreen(),
+                const SizedBox(
+                  height: 20,
+                ),
+                SimpleAppContainer(
+                  text: AppLocalizations.of(context)!.dateOfBirth,
+                  widget: Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Spacer(),
+                        AppNumberPicker(
+                          axis: Axis.vertical,
+                          widgetHeight: 40,
+                          widgetWidth: 40,
+                          selectedTextSize: 20,
+                          unselectedTextSize: 14,
+                          minValue: 1,
+                          maxValue: 31,
+                          currentValue: day,
+                          setCurrentValue: setDay,
+                        ),
+                        const Spacer(),
+                        AppNumberPicker(
+                          axis: Axis.vertical,
+                          widgetHeight: 40,
+                          widgetWidth: 40,
+                          selectedTextSize: 20,
+                          unselectedTextSize: 14,
+                          minValue: 1,
+                          maxValue: 12,
+                          currentValue: month,
+                          setCurrentValue: setMonth,
+                        ),
+                        const Spacer(),
+                        AppNumberPicker(
+                          axis: Axis.vertical,
+                          widgetHeight: 40,
+                          widgetWidth: 70,
+                          selectedTextSize: 20,
+                          unselectedTextSize: 14,
+                          minValue: 1900,
+                          maxValue: year,
+                          currentValue: 2000,
+                          setCurrentValue: setYear,
+                        ),
+                        const Spacer(),
+                      ],
                     ),
-                  );
-                },
-                text: AppLocalizations.of(context)!.save,
-              ),
-            ],
+                  ),
+                ),
+                const Spacer(),
+                AppButton(
+                  callback: () {
+                    updateProfile();
+                  },
+                  text: AppLocalizations.of(context)!.save,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -165,17 +187,6 @@ class _ProfileOnboardingScreenState extends State<ProfileOnboardingScreen> {
 
   void setYear(int value) {
     year = value;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    weight = widget.weight ?? 45;
-    day = DateTime.now().day;
-    month = DateTime.now().month;
-    year = DateTime.now().year;
-    maxDays = evalMaxDays(month);
-    maxDays = isLeapYear(year) ? maxDays + 1 : maxDays;
   }
 
   int evalMaxDays(int month) {
@@ -206,5 +217,17 @@ class _ProfileOnboardingScreenState extends State<ProfileOnboardingScreen> {
     } else {
       return true;
     }
+  }
+
+  void updateProfile() {
+    ProfileUpdateEvent updateEvent = ProfileUpdateEvent(
+      weight: weight,
+      dateOfBirth: DateTime(
+        year,
+        month,
+        day,
+      ),
+    );
+    BlocProvider.of<UserBloc>(context).add(updateEvent);
   }
 }

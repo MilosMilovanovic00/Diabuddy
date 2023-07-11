@@ -91,5 +91,9 @@
   "notificationType":"Notification type",
   "activityReminder":"Activity reminder",
   "insulinReminder":"Insulin reminder",
-  "glucoseCheckReminder":"Glucose check reminder"
+  "glucoseCheckReminder":"Glucose check reminder",
+  "averageInsulinIntake":"Average insulin intake",
+  "notificationsSelectedForMedication":"Notifications for selected medication",
+  "cancel":"Cancel",
+
 }

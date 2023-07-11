@@ -90,5 +90,8 @@
   "notificationType":"Vrsta podsetnika",
   "activityReminder":"Podsetnik za aktivnost",
   "insulinReminder":"Podsetnik za insulin",
-  "glucoseCheckReminder":"Podsetnik za merenje glukoze"
+  "glucoseCheckReminder":"Podsetnik za merenje glukoze",
+  "averageInsulinIntake":"Prosečan unos insulina",
+  "notificationsSelectedForMedication":"Podsetnici za odredjeni lek",
+  "cancel":"Otkaži",
 }

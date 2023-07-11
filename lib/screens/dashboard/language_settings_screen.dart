@@ -1,3 +1,4 @@
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/screens/onboarding/components/app_choice_container_controller.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
@@ -5,15 +6,24 @@ import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LanguageSettingsScreen extends StatelessWidget {
-  const LanguageSettingsScreen(
-      {Key? key,
-      required this.isEnglishChecked,
-      required this.isSerbianChecked})
-      : super(key: key);
+class LanguageSettingsScreen extends StatefulWidget {
+  const LanguageSettingsScreen({
+    Key? key,
+  }) : super(key: key);
 
-  final bool isEnglishChecked;
-  final bool isSerbianChecked;
+  @override
+  State<LanguageSettingsScreen> createState() => _LanguageSettingsScreenState();
+}
+
+class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
+  late bool isEnglish;
+
+  @override
+  void initState() {
+    super.initState();
+    print(UserSimplePreferences.getMeasurementUnit());
+    isEnglish = UserSimplePreferences.getMeasurementUnit() ?? true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +74,10 @@ class LanguageSettingsScreen extends StatelessWidget {
                   height: 20,
                 ),
                 AppChoiceContainerController(
-                  firstChoice: isEnglishChecked,
-                  secondChoice: isSerbianChecked,
+                  isFirstChoice: isEnglish,
                   firstChoiceText: 'English',
                   secondChoiceText: 'Serbian',
+                  setChoice: setEnglishPreferences,
                 ),
                 const Spacer(),
                 AppButton(
@@ -80,5 +90,11 @@ class LanguageSettingsScreen extends StatelessWidget {
         ),
       ),
     ]);
+  }
+
+  void setEnglishPreferences(bool value) {
+    setState(() {
+      isEnglish = value;
+    });
   }
 }

@@ -1,0 +1,48 @@
+import 'package:equatable/equatable.dart';
+
+abstract class UserEvent extends Equatable {}
+
+class ProfileUpdateEvent extends UserEvent {
+  final int weight;
+  final DateTime dateOfBirth;
+
+  ProfileUpdateEvent({
+    required this.weight,
+    required this.dateOfBirth,
+  });
+
+  @override
+  List<Object?> get props => [weight, dateOfBirth];
+}
+
+class AddMedicationEvent extends UserEvent {
+  final String medicationName;
+  final int dailyMedicationIntake;
+  final bool isInsulin;
+  final int? insulinDose;
+
+  AddMedicationEvent({
+    required this.medicationName,
+    required this.dailyMedicationIntake,
+    required this.isInsulin,
+    this.insulinDose,
+  });
+
+  @override
+  List<Object?> get props =>
+      [medicationName, dailyMedicationIntake, isInsulin, insulinDose];
+}
+
+class GetAllMedications extends UserEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class DeleteMedication extends UserEvent {
+  final String medicationId;
+
+  DeleteMedication({required this.medicationId});
+
+  @override
+  List<Object?> get props => [medicationId];
+}

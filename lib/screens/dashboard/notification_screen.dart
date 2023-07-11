@@ -14,11 +14,11 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<AppNotification> notifications = [
       AppNotification(
-          triggerTime: DateTime.now(), type: NotificationType.activity),
+          triggerTime: TimeOfDay.now(), type: NotificationType.activity),
       AppNotification(
-          triggerTime: DateTime.now(), type: NotificationType.glucose),
+          triggerTime: TimeOfDay.now(), type: NotificationType.glucose),
       AppNotification(
-          triggerTime: DateTime.now(), type: NotificationType.insulin),
+          triggerTime: TimeOfDay.now(), type: NotificationType.insulin),
     ];
 
     return Scaffold(

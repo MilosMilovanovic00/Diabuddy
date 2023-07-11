@@ -1,6 +1,11 @@
-import 'package:diabuddy/screens/dashboard/notification_screen.dart';
+import 'package:diabuddy/bloc/auth/auth_bloc.dart';
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/repository/auth_repository.dart';
+import 'package:diabuddy/repository/user_repository.dart';
+import 'package:diabuddy/screens/onboarding/therapy_onboarding_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -9,7 +14,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    AuthRepository authRepository = AuthRepository();
+    UserRepository userRepository = UserRepository();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(authRepository: authRepository),
+        ),
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(
+            userRepository: userRepository,
+          ),
+        ),
+      ],
+      child: MaterialApp(
         title: 'Diabuddy',
         theme: applicationTheme,
         localizationsDelegates: const [
@@ -22,6 +40,8 @@ class MyApp extends StatelessWidget {
           Locale('en'),
           // Locale('sr'),
         ],
-        home: const NotificationScreen());
+        home: const TherapyOnboardingScreen(),
+      ),
+    );
   }
 }

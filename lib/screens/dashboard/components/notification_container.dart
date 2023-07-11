@@ -4,7 +4,6 @@ import 'package:diabuddy/screens/reusable/coloured_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class NotificationContainer extends StatelessWidget {
   const NotificationContainer({
@@ -79,7 +78,7 @@ class NotificationContainer extends StatelessWidget {
     );
   }
 
-  String formatDateTime(DateTime dateTime) {
-    return DateFormat.Hm().format(dateTime);
+  String formatDateTime(TimeOfDay time) {
+    return time.toString();
   }
 }

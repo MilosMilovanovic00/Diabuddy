@@ -109,7 +109,8 @@ class DashboardScreen extends StatelessWidget {
                     itemCount: glucoseEntries.length,
                     itemBuilder: (context, index) {
                       return DailyGlucoseIndicatorContainer(
-                          glucoseEntryDTO: glucoseEntries[index]);
+                        glucoseEntryDTO: glucoseEntries[index],
+                      );
                     },
                   ),
                 ),

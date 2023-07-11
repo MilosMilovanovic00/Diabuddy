@@ -18,11 +18,12 @@ class AppTextFieldInput extends StatelessWidget {
   final TextInputType textInputType;
   final TextInputAction? textInputAction;
   final bool? isPasswordField;
-  final String Function(String?) validator;
+  final String? Function(String?) validator;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       textInputAction: textInputAction ?? TextInputAction.next,
       keyboardType: textInputType,
       validator: validator,
