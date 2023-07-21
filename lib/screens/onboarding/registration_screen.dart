@@ -181,7 +181,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 AppButton(
                   callback: () {
                     if (_formKey.currentState!.validate()) {
-                      register(context);
+                      register();
                     }
                   },
                   text: AppLocalizations.of(context)!.signUp,
@@ -229,7 +229,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  void register(BuildContext context) {
+  void register() {
     final RegistrationEvent registrationEvent = RegistrationEvent(
       fullName: nameController.value.text.trim(),
       email: emailController.value.text.trim(),

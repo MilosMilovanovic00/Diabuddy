@@ -1,10 +1,15 @@
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/dish.dart';
+import 'package:diabuddy/screens/glucose_monitoring/add_dish_screen.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/dish_entry_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddMealScreen extends StatefulWidget {
@@ -16,16 +21,13 @@ class AddMealScreen extends StatefulWidget {
 
 class _AddMealScreenState extends State<AddMealScreen> {
   late TextEditingController dishNameController;
-  List<Dish> dishes = [
-    Dish(name: 'Carbonara', carbohydrateValue: 40, preferredGrams: 100, id: ''),
-    Dish(name: 'Bolognese', carbohydrateValue: 50, preferredGrams: 100, id: ''),
-    Dish(name: 'Bread', carbohydrateValue: 15, preferredGrams: 100, id: ''),
-  ];
-  late List<Dish> dishesFiltered = dishes;
+  late List<Dish> dishes = [];
+  late List<Dish> dishesFiltered = [];
 
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<UserBloc>(context).add(GetDishes());
     dishNameController = TextEditingController();
   }
 
@@ -61,89 +63,107 @@ class _AddMealScreenState extends State<AddMealScreen> {
           ),
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Add your meal',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Search your dish',
-                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                        color: Colors.black,
-                      ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: textFieldBackgroundColor,
-                    errorStyle:
-                        Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.red,
-                              fontSize: 14,
-                            ),
-                    enabledBorder: textFieldBorder,
-                    errorBorder: textFieldBorder,
-                    border: textFieldBorder,
-                    errorMaxLines: 3,
-                    contentPadding: const EdgeInsets.only(
-                      left: 24,
-                    ),
+        body: BlocListener<UserBloc, UserState>(
+          listener: (context, state) => {
+            if (state is FetchedDishes)
+              {
+                dishes = state.dishes,
+                dishesFiltered = state.dishes,
+              }
+            else if (state is FetchedDishesFailed)
+              {}
+          },
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+                vertical: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                  onChanged: (text) {
-                    if (text != '') {
-                      setState(() {
-                        dishesFiltered = dishes
-                            .where((dish) => dish.name
-                                .toLowerCase()
-                                .startsWith(text.toLowerCase()))
-                            .toList();
-                      });
-                    } else if (text == '') {
-                      setState(() {
-                        dishesFiltered = dishes;
-                      });
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: dishesFiltered.length,
-                    itemBuilder: (context, index) {
-                      return DishEntryContainer(
-                        dish: dishesFiltered[index],
-                      );
+                  Text(
+                    AppLocalizations.of(context)!.addYourMeal,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.searchYourDish,
+                    style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          color: Colors.black,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: textFieldBackgroundColor,
+                      errorStyle:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Colors.red,
+                                fontSize: 14,
+                              ),
+                      enabledBorder: textFieldBorder,
+                      errorBorder: textFieldBorder,
+                      border: textFieldBorder,
+                      errorMaxLines: 3,
+                      contentPadding: const EdgeInsets.only(
+                        left: 24,
+                      ),
+                    ),
+                    onChanged: (text) {
+                      if (text != '') {
+                        setState(() {
+                          dishesFiltered = dishes
+                              .where((dish) => dish.name
+                                  .toLowerCase()
+                                  .startsWith(text.toLowerCase()))
+                              .toList();
+                        });
+                      } else if (text == '') {
+                        setState(() {
+                          dishesFiltered = dishes;
+                        });
+                      }
                     },
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.save,
-                ),
-              ],
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: dishesFiltered.length,
+                      itemBuilder: (context, index) {
+                        return DishEntryContainer(
+                          dish: dishesFiltered[index],
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  AppButton(
+                    callback: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AddDishScreen(),
+                        ),
+                      );
+                    },
+                    text: AppLocalizations.of(context)!.addNewDish,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

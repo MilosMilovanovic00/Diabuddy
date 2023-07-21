@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
@@ -116,5 +117,35 @@ class UserRepository {
       print(e.toString());
     }
     return null;
+  }
+
+  Future<void> saveNewDish(Dish dish) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(currentUser!.uid)
+          .collection('meals')
+          .add(
+            dish.toMap(),
+          );
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<List<Dish>> fetchDishes() async {
+    List<Dish> dishes = [];
+    if (currentUser != null) {
+      var data = await _firestore
+          .collection('users')
+          .doc(currentUser!.uid)
+          .collection('meals')
+          .get();
+      if (data.docs.isEmpty) return dishes;
+      for (var element in data.docs) {
+        dishes.add(Dish.fromMap(element.data(), element.id));
+      }
+    }
+    return dishes;
   }
 }

@@ -95,5 +95,10 @@
   "averageInsulinIntake":"Average insulin intake",
   "notificationsSelectedForMedication":"Notifications for selected medication",
   "cancel":"Cancel",
-  "logbook":"Logbook"
+  "logbook":"Logbook",
+  "addNewDish":"Add a new dish",
+  "mealCarbohydrateValuePer100g":"Meal carbohydrate value per 100g",
+  "youMustEnterDishName":"You must enter dish name",
+  "addYourMeal":"Add your meal",
+  "searchYourDish":"Search your dish"
 }

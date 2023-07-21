@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
@@ -19,6 +20,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<GetTodaysGlucoseReadings>(_onFetchGlucoseReadingsToday);
     on<GetGlucoseTargets>(_onFetchGlucoseTargets);
     on<SaveGlucoseTargets>(_onSaveGlucoseTargets);
+    on<SaveNewDish>(_onSaveNewDish);
+    on<GetDishes>(_onFetchDishes);
   }
 
   FutureOr<void> _onUpdateProfile(
@@ -120,6 +123,34 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(GlucoseTargetsUpdated());
     } catch (_) {
       emit(GlucoseTargetsUpdateFailed());
+    }
+  }
+
+  FutureOr<void> _onSaveNewDish(
+    SaveNewDish event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await userRepository.saveNewDish(event.dish);
+      emit(NewDishSaved());
+    } catch (_) {
+      emit(NewDishSavingFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchDishes(
+    GetDishes event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var dishes = await userRepository.fetchDishes();
+      if (dishes == null) {
+        emit(FetchedDishesFailed());
+      } else {
+        emit(FetchedDishes(dishes));
+      }
+    } catch (_) {
+      emit(FetchedDishesFailed());
     }
   }
 }

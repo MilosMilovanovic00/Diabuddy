@@ -1,3 +1,7 @@
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
@@ -5,6 +9,7 @@ import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddDishScreen extends StatefulWidget {
@@ -58,56 +63,69 @@ class _AddDishScreenState extends State<AddDishScreen> {
           ),
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  AppLocalizations.of(context)!.addYourDish,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Form(
-                  key: _formKey,
-                  child: AppTextFieldInput(
-                    hintText: AppLocalizations.of(context)!.dishName,
-                    controller: dishNameController,
-                    validator: (value) {
-                      if (value == null) {
-                        return '';
-                      } else if (value.isEmpty) {
-                        return 'You must enter dish name';
-                      }
-                      return value;
-                    },
-                    textInputType: TextInputType.text,
+        body: BlocListener<UserBloc, UserState>(
+          listener: (BuildContext context, state) {
+            if (state is NewDishSaved) {
+              Navigator.pop(context);
+            } else {
+              //TODO nije se sacuvalo pop up
+            }
+          },
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+                vertical: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: buildCarbohydrateValueOfDishPicker(context)),
-                  ],
-                ),
-                const Spacer(),
-                AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.save,
-                ),
-              ],
+                  Text(
+                    AppLocalizations.of(context)!.addYourDish,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: AppTextFieldInput(
+                      hintText: AppLocalizations.of(context)!.dishName,
+                      controller: dishNameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return AppLocalizations.of(context)!
+                              .youMustEnterDishName;
+                        }
+                        return null;
+                      },
+                      textInputType: TextInputType.text,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildCarbohydrateValueOfDishPicker(context),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  AppButton(
+                    callback: () {
+                      if (_formKey.currentState!.validate()) {
+                        saveNewDish();
+                      }
+                    },
+                    text: AppLocalizations.of(context)!.save,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -132,7 +150,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Meal carbohydrate value per 100g',
+              AppLocalizations.of(context)!.mealCarbohydrateValuePer100g,
               maxLines: 2,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -156,5 +174,14 @@ class _AddDishScreenState extends State<AddDishScreen> {
     setState(() {
       carbohydrateValue = value;
     });
+  }
+
+  void saveNewDish() {
+    Dish dish = Dish(
+      name: dishNameController.text.trim(),
+      carbohydrateValue: carbohydrateValue,
+      preferredGrams: 100,
+    );
+    BlocProvider.of<UserBloc>(context).add(SaveNewDish(dish));
   }
 }

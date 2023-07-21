@@ -94,5 +94,10 @@
   "averageInsulinIntake":"Prosečan unos insulina",
   "notificationsSelectedForMedication":"Podsetnici za odredjeni lek",
   "cancel":"Otkaži",
-  "logbook":"Evidencija"
+  "logbook":"Evidencija",
+  "addNewDish":"Dodaj novo jelo",
+  "mealCarbohydrateValuePer100g":"Broj ugljenih hidrata u 100g jela",
+  "youMustEnterDishName":"Morate uneti ime jela",
+  "addYourMeal":"Dodaj obrok",
+  "searchYourDish":"Pretraži jelo"
 }

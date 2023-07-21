@@ -1,11 +1,11 @@
 class Dish {
-  final String id;
+  final String? id;
   final String name;
   final int carbohydrateValue;
   final int preferredGrams;
 
   Dish({
-    required this.id,
+    this.id,
     required this.name,
     required this.carbohydrateValue,
     required this.preferredGrams,

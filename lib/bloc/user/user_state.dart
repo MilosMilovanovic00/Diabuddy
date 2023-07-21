@@ -1,3 +1,4 @@
+import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
@@ -53,3 +54,15 @@ class FetchedGlucoseTargetsFailed extends UserState {}
 class GlucoseTargetsUpdated extends UserState {}
 
 class GlucoseTargetsUpdateFailed extends UserState {}
+
+class NewDishSaved extends UserState {}
+
+class NewDishSavingFailed extends UserState {}
+
+class FetchedDishes extends UserState {
+  final List<Dish> dishes;
+
+  FetchedDishes(this.dishes);
+}
+
+class FetchedDishesFailed extends UserState {}

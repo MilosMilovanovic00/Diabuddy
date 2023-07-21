@@ -1,3 +1,4 @@
+import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -62,6 +63,21 @@ class SaveGlucoseTargets extends UserEvent {
   final GlucoseTargets glucoseTargets;
 
   SaveGlucoseTargets(this.glucoseTargets);
+
   @override
   List<Object?> get props => [glucoseTargets];
+}
+
+class SaveNewDish extends UserEvent {
+  final Dish dish;
+
+  SaveNewDish(this.dish);
+
+  @override
+  List<Object?> get props => [dish];
+}
+
+class GetDishes extends UserEvent{
+  @override
+  List<Object?> get props => throw UnimplementedError();
 }

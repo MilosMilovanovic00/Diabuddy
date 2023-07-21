@@ -2,7 +2,7 @@ import 'package:diabuddy/bloc/auth/auth_bloc.dart';
 import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/repository/auth_repository.dart';
 import 'package:diabuddy/repository/user_repository.dart';
-import 'package:diabuddy/screens/onboarding/glucose_target_onboarding_screen.dart';
+import 'package:diabuddy/screens/glucose_monitoring/add_meal_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           Locale('en'),
           // Locale('sr'),
         ],
-        home: const GlucoseTargetOnboardingScreen(),
+        home: const AddMealScreen(),
       ),
     );
   }

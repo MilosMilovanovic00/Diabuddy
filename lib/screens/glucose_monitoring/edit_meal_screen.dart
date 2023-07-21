@@ -22,6 +22,14 @@ class _EditMealScreenState extends State<EditMealScreen> {
     Dish(name: 'Bread', carbohydrateValue: 15, preferredGrams: 100, id: ''),
   ];
 
+
+  @override
+  void initState() {
+    super.initState();
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
