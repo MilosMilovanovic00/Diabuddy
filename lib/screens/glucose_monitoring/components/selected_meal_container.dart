@@ -33,11 +33,11 @@ class SelectedMealContainer extends StatelessWidget {
             RichText(
               text: TextSpan(children: [
                 TextSpan(
-                  text: '${dish.dishName}\n\n',
+                  text: '${dish.name}\n\n',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 TextSpan(
-                  text: '${dish.gramsPerMeal} g',
+                  text: '${dish.preferredGrams} g',
                   style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: 14,
                       ),

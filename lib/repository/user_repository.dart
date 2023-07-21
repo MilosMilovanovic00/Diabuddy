@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/model/enitity/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserRepository {
@@ -28,7 +30,7 @@ class UserRepository {
       if (currentUser != null) {
         await _firestore
             .collection('users')
-            .doc("PACWVFLoSkhN3sBjMqWEhWOqMUx1")
+            .doc(currentUser!.uid)
             .collection('medicine')
             .add(
               medication.toMap(),
@@ -49,7 +51,7 @@ class UserRepository {
           .get();
       if (data.docs.isEmpty) return medicine;
       for (var element in data.docs) {
-        medicine.add(Medication.fromMap(element.data(),element.id));
+        medicine.add(Medication.fromMap(element.data(), element.id));
       }
     }
     return medicine;
@@ -68,5 +70,51 @@ class UserRepository {
     } on FirebaseAuthException catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<void> saveGlucoseTargets(
+    GlucoseTargets glucoseTargets,
+  ) async {
+    try {
+      if (currentUser != null) {
+        await _firestore.collection('users').doc(currentUser!.uid).update({
+          'glucoseTargets': glucoseTargets.toMap(),
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<List<GlucoseReading>> fetchTodaysGlucoseReadings() async {
+    List<GlucoseReading> readings = [];
+    if (currentUser != null) {
+      var data = await _firestore
+          .collection('users')
+          .doc(currentUser!.uid)
+          .collection('glucose_readings')
+          .where("entryTime", isEqualTo: DateTime.now())
+          .get();
+      if (data.docs.isEmpty) return readings;
+      for (var element in data.docs) {
+        readings.add(GlucoseReading.fromMap(element.data(), element.id));
+      }
+    }
+    return readings;
+  }
+
+  Future<GlucoseTargets?> fetchGlucoseTargets() async {
+    try {
+      if (currentUser != null) {
+        var data =
+            await _firestore.collection('users').doc(currentUser!.uid).get();
+        GlucoseTargets glucoseTargets =
+            GlucoseTargets.fromMap(data.get('glucoseTargets'));
+        return glucoseTargets;
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    }
+    return null;
   }
 }

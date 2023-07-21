@@ -12,8 +12,8 @@ class GlucoseTimeChoiceContainer extends StatelessWidget {
   }) : super(key: key);
 
   final bool selected;
-  final Function(GlucoseTimeType) mealSelector;
-  final GlucoseTimeType type;
+  final Function(GlucoseTiming) mealSelector;
+  final GlucoseTiming type;
 
   @override
   Widget build(BuildContext context) {

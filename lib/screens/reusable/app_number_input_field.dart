@@ -1,7 +1,9 @@
+import 'package:diabuddy/extensions/double_extensions.dart';
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class AppNumberInputField extends StatelessWidget {
+class AppNumberInputField extends StatefulWidget {
   const AppNumberInputField({
     Key? key,
     required this.text,
@@ -9,20 +11,44 @@ class AppNumberInputField extends StatelessWidget {
     required this.controller,
     this.containerBorderRadius,
     this.textInputAction,
+    required this.initialValue,
+    required this.validator,
   }) : super(key: key);
 
   final String text;
+  final String initialValue;
   final Color containerColor;
   final TextEditingController controller;
   final BorderRadius? containerBorderRadius;
   final TextInputAction? textInputAction;
+  final String? Function(String?) validator;
+
+  @override
+  State<AppNumberInputField> createState() => _AppNumberInputFieldState();
+}
+
+class _AppNumberInputFieldState extends State<AppNumberInputField> {
+  late bool isStandardUnit;
+
+  @override
+  void initState() {
+    super.initState();
+    isStandardUnit = UserSimplePreferences.getMeasurementUnit();
+    double value = double.parse(widget.controller.text);
+    widget.controller.text = value
+        .convertIfStandardUnit(
+          isStandardUnit,
+          value,
+        )
+        .toString();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: containerColor,
-        borderRadius: containerBorderRadius ?? borderRadius,
+        color: widget.containerColor,
+        borderRadius: widget.containerBorderRadius ?? borderRadius,
         shape: BoxShape.rectangle,
       ),
       child: Padding(
@@ -35,7 +61,7 @@ class AppNumberInputField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              text,
+              widget.text,
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
                     fontSize: 22,
                   ),
@@ -55,14 +81,16 @@ class AppNumberInputField extends StatelessWidget {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: containerColor,
+                  color: widget.containerColor,
                   borderRadius: borderRadius,
                 ),
                 child: TextFormField(
+                  validator: widget.validator,
                   autofocus: true,
-                  textInputAction: textInputAction ?? TextInputAction.next,
+                  textInputAction:
+                      widget.textInputAction ?? TextInputAction.next,
                   keyboardType: TextInputType.number,
-                  controller: controller,
+                  controller: widget.controller,
                   style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: 22,
                         color: Colors.white,

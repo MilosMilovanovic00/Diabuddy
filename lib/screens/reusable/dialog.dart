@@ -25,8 +25,7 @@ void showCustomDialog(BuildContext context) => showDialog(
                 widget: Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                    ],
+                    children: [],
                   ),
                 ),
               ),

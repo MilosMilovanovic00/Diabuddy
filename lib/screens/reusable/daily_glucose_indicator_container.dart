@@ -42,7 +42,7 @@ class DailyGlucoseIndicatorContainer extends StatelessWidget {
                           ),
                     ),
                     TextSpan(
-                      text: 'Meal: ${glucoseEntryDTO.mealIntake} UH\n',
+                      text: 'Meal: ${glucoseEntryDTO.carbonContent} UH\n',
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             fontSize: 16,
                           ),

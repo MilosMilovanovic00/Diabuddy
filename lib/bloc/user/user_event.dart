@@ -1,3 +1,4 @@
+import 'package:diabuddy/model/enitity/user_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class UserEvent extends Equatable {}
@@ -45,4 +46,22 @@ class DeleteMedication extends UserEvent {
 
   @override
   List<Object?> get props => [medicationId];
+}
+
+class GetTodaysGlucoseReadings extends UserEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetGlucoseTargets extends UserEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class SaveGlucoseTargets extends UserEvent {
+  final GlucoseTargets glucoseTargets;
+
+  SaveGlucoseTargets(this.glucoseTargets);
+  @override
+  List<Object?> get props => [glucoseTargets];
 }

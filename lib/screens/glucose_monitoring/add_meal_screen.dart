@@ -17,9 +17,9 @@ class AddMealScreen extends StatefulWidget {
 class _AddMealScreenState extends State<AddMealScreen> {
   late TextEditingController dishNameController;
   List<Dish> dishes = [
-    Dish(dishName: 'Carbonara', carbohydrateValue: 40, gramsPerMeal: 100),
-    Dish(dishName: 'Bolognese', carbohydrateValue: 50, gramsPerMeal: 100),
-    Dish(dishName: 'Bread', carbohydrateValue: 15, gramsPerMeal: 100),
+    Dish(name: 'Carbonara', carbohydrateValue: 40, preferredGrams: 100, id: ''),
+    Dish(name: 'Bolognese', carbohydrateValue: 50, preferredGrams: 100, id: ''),
+    Dish(name: 'Bread', carbohydrateValue: 15, preferredGrams: 100, id: ''),
   ];
   late List<Dish> dishesFiltered = dishes;
 
@@ -111,7 +111,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                     if (text != '') {
                       setState(() {
                         dishesFiltered = dishes
-                            .where((dish) => dish.dishName
+                            .where((dish) => dish.name
                                 .toLowerCase()
                                 .startsWith(text.toLowerCase()))
                             .toList();

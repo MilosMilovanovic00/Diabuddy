@@ -2,6 +2,7 @@ import 'package:diabuddy/screens/glucose_monitoring/components/glucose_entry_con
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogBookScreen extends StatelessWidget {
   const LogBookScreen({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class LogBookScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<double> nums = [7.2, 4.7, 8.1, 1.6, 3.9, 9.3, 2.8, 5.4, 6.8, 5.2];
+
     return Stack(children: [
       Container(
         color: Colors.white,
@@ -21,7 +23,7 @@ class LogBookScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
-                'Logbook',
+                AppLocalizations.of(context)!.logbook,
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: 40,

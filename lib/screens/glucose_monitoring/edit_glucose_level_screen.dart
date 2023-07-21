@@ -16,7 +16,7 @@ class EditGlucoseLevelScreen extends StatefulWidget {
   }) : super(key: key);
 
   final double? glucoseLevel;
-  final GlucoseTimeType? glucoseLevelType;
+  final GlucoseTiming? glucoseLevelType;
 
   @override
   State<EditGlucoseLevelScreen> createState() => _EditGlucoseLevelScreenState();
@@ -25,7 +25,7 @@ class EditGlucoseLevelScreen extends StatefulWidget {
 class _EditGlucoseLevelScreenState extends State<EditGlucoseLevelScreen> {
   late int glucoseLevelFirstDigit;
   late int glucoseLevelSecondDigit;
-  late GlucoseTimeType? glucoseType;
+  late GlucoseTiming? glucoseType;
 
   @override
   void initState() {

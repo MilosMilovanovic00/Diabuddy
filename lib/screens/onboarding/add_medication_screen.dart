@@ -68,13 +68,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       body: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
           if (state is SuccessfulMedicationAddition) {
-            Navigator.pushReplacement(
+            Navigator.pop(
               context,
               MaterialPageRoute(
-                builder: (context) => TherapyOnboardingScreen(),
+                builder: (context) => const TherapyOnboardingScreen(),
               ),
             );
-          } else {
+          } else if (state is MedicationAdditionFailed) {
             print('nesto nije dobro');
             //TODO something went wrong
           }

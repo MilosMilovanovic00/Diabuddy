@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
 import 'package:diabuddy/repository/user_repository.dart';
 
@@ -15,6 +16,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<AddMedicationEvent>(_onAddMedication);
     on<GetAllMedications>(_onFetchMedication);
     on<DeleteMedication>(_onDeleteMedication);
+    on<GetTodaysGlucoseReadings>(_onFetchGlucoseReadingsToday);
+    on<GetGlucoseTargets>(_onFetchGlucoseTargets);
+    on<SaveGlucoseTargets>(_onSaveGlucoseTargets);
   }
 
   FutureOr<void> _onUpdateProfile(
@@ -72,6 +76,50 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(FetchedMedicationData(medicine));
     } catch (_) {
       emit(FetchedMedicationDataFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchGlucoseReadingsToday(
+    GetTodaysGlucoseReadings event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      List<GlucoseReading> readings =
+          await userRepository.fetchTodaysGlucoseReadings();
+      if (readings.isEmpty) {
+        emit(FetchedTodayGlucoseReadingsFailed());
+      }
+      emit(FetchedTodayGlucoseReadingsSuccess(readings));
+    } catch (_) {
+      emit(FetchedTodayGlucoseReadingsFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchGlucoseTargets(
+    GetGlucoseTargets event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var glucoseTargets = await userRepository.fetchGlucoseTargets();
+      if (glucoseTargets == null) {
+        emit(FetchedGlucoseTargetsFailed());
+      } else {
+        emit(FetchedGlucoseTargets(glucoseTargets));
+      }
+    } catch (_) {
+      emit(FetchedGlucoseTargetsFailed());
+    }
+  }
+
+  FutureOr<void> _onSaveGlucoseTargets(
+    SaveGlucoseTargets event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await userRepository.saveGlucoseTargets(event.glucoseTargets);
+      emit(GlucoseTargetsUpdated());
+    } catch (_) {
+      emit(GlucoseTargetsUpdateFailed());
     }
   }
 }

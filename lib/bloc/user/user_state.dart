@@ -1,4 +1,6 @@
+import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/model/enitity/user_model.dart';
 
 abstract class UserState {}
 
@@ -28,3 +30,26 @@ class FetchedMedicationData extends UserState {
 
 class FetchedMedicationDataFailed extends UserState {}
 
+class SuccessfullySavedGlucoseTargets extends UserState {}
+
+class FailedSavingGlucoseTargets extends UserState {}
+
+class FetchedTodayGlucoseReadingsSuccess extends UserState {
+  final List<GlucoseReading> readings;
+
+  FetchedTodayGlucoseReadingsSuccess(this.readings);
+}
+
+class FetchedTodayGlucoseReadingsFailed extends UserState {}
+
+class FetchedGlucoseTargets extends UserState {
+  final GlucoseTargets glucoseTargets;
+
+  FetchedGlucoseTargets(this.glucoseTargets);
+}
+
+class FetchedGlucoseTargetsFailed extends UserState {}
+
+class GlucoseTargetsUpdated extends UserState {}
+
+class GlucoseTargetsUpdateFailed extends UserState {}

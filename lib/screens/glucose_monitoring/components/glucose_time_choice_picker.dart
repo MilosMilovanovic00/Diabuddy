@@ -8,7 +8,7 @@ class GlucoseTimeChoicePicker extends StatefulWidget {
     this.type,
   }) : super(key: key);
 
-  final GlucoseTimeType? type;
+  final GlucoseTiming? type;
 
   @override
   State<GlucoseTimeChoicePicker> createState() =>
@@ -19,7 +19,7 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
   late bool beforeMealSelected = false;
   late bool afterMealSelected = false;
   late bool fastingSelected = false;
-  late GlucoseTimeType? glucoseTimeType;
+  late GlucoseTiming? glucoseTimeType;
 
   @override
   void initState() {
@@ -27,13 +27,13 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
     glucoseTimeType = widget.type;
     if (glucoseTimeType != null) {
       switch (glucoseTimeType!) {
-        case GlucoseTimeType.beforeMeal:
+        case GlucoseTiming.beforeMeal:
           beforeMealSelected = true;
           break;
-        case GlucoseTimeType.afterMeal:
+        case GlucoseTiming.afterMeal:
           afterMealSelected = true;
           break;
-        case GlucoseTimeType.fasting:
+        case GlucoseTiming.fasting:
           fastingSelected = true;
           break;
       }
@@ -47,7 +47,7 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
         GlucoseTimeChoiceContainer(
           selected: beforeMealSelected,
           mealSelector: setGlucoseTimeType,
-          type: GlucoseTimeType.beforeMeal,
+          type: GlucoseTiming.beforeMeal,
         ),
         const SizedBox(
           height: 15,
@@ -55,7 +55,7 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
         GlucoseTimeChoiceContainer(
           selected: afterMealSelected,
           mealSelector: setGlucoseTimeType,
-          type: GlucoseTimeType.afterMeal,
+          type: GlucoseTiming.afterMeal,
         ),
         const SizedBox(
           height: 15,
@@ -63,32 +63,32 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
         GlucoseTimeChoiceContainer(
           selected: fastingSelected,
           mealSelector: setGlucoseTimeType,
-          type: GlucoseTimeType.fasting,
+          type: GlucoseTiming.fasting,
         ),
       ],
     );
   }
 
-  void setGlucoseTimeType(GlucoseTimeType type) {
+  void setGlucoseTimeType(GlucoseTiming type) {
     setState(() {
       glucoseTimeType = type;
     });
     switch (glucoseTimeType!) {
-      case GlucoseTimeType.beforeMeal:
+      case GlucoseTiming.beforeMeal:
         setState(() {
           beforeMealSelected = true;
           afterMealSelected = false;
           fastingSelected = false;
         });
         break;
-      case GlucoseTimeType.afterMeal:
+      case GlucoseTiming.afterMeal:
         setState(() {
           beforeMealSelected = false;
           afterMealSelected = true;
           fastingSelected = false;
         });
         break;
-      case GlucoseTimeType.fasting:
+      case GlucoseTiming.fasting:
         setState(() {
           beforeMealSelected = false;
           afterMealSelected = false;

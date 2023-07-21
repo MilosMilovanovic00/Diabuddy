@@ -1,1 +1,1 @@
-enum ActivityType { light, intense, moderate }
+enum ActivityIntensity { light, intense, moderate }

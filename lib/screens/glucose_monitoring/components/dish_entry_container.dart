@@ -24,7 +24,7 @@ class _DishEntryContainerState extends State<DishEntryContainer> {
   @override
   void initState() {
     super.initState();
-    gramsPerMeal = widget.dish.gramsPerMeal;
+    gramsPerMeal = widget.dish.preferredGrams;
   }
 
   @override
@@ -60,7 +60,7 @@ class _DishEntryContainerState extends State<DishEntryContainer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      widget.dish.dishName,
+                      widget.dish.name,
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             color: selected
                                 ? Colors.white

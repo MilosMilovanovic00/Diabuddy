@@ -6,12 +6,12 @@ class GlucoseEntryDTO {
     required this.medicationName,
     required this.entryTime,
     required this.glucoseValue,
-    required this.mealIntake,
+    required this.carbonContent,
   });
 
   final DateTime entryTime;
   final double glucoseValue;
-  final int mealIntake;
+  final int carbonContent;
   final String medicationName;
 
   Color evalColor() {

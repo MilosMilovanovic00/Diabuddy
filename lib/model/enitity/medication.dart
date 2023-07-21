@@ -24,13 +24,13 @@ class Medication extends Equatable {
         averageInsulinUnits
       ];
 
-  factory Medication.fromMap(map,id) {
+  factory Medication.fromMap(map, id) {
     return Medication(
       medicationId: id,
       medicationName: map['medicationName'],
       dailyMedicationIntake: map['dailyMedicationIntake'],
       isInsulin: map['isInsulin'],
-      averageInsulinUnits: map['averageInsulinUnits'] ,
+      averageInsulinUnits: map['averageInsulinUnits'],
     );
   }
 
@@ -39,7 +39,7 @@ class Medication extends Equatable {
       'medicationName': medicationName,
       'isInsulin': isInsulin,
       'dailyMedicationIntake': dailyMedicationIntake,
-      'averageInsulinUnits': averageInsulinUnits ,
+      'averageInsulinUnits': averageInsulinUnits,
     };
   }
 }

@@ -112,9 +112,15 @@ class _TherapyOnboardingScreenState extends State<TherapyOnboardingScreen> {
               const Spacer(),
               AppButton(
                 callback: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> const GlucoseTargetOnboardingScreen()),);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const GlucoseTargetOnboardingScreen(),
+                    ),
+                  );
                 },
-                text: AppLocalizations.of(context)!.next,
+                text: AppLocalizations.of(context)!.save,
               ),
             ],
           ),

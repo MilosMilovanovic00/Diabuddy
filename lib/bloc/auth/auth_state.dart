@@ -1,6 +1,6 @@
 abstract class AuthState {}
 
-abstract class FailedAuthState extends AuthState{
+abstract class FailedAuthState extends AuthState {
   final Exception? exception;
 
   FailedAuthState({this.exception});

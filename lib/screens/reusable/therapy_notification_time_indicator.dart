@@ -37,7 +37,7 @@ class TherapyNotificationTimeIndicator extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                appNotification.triggerTime.toString().substring(10,15),
+                appNotification.triggerTime.toString().substring(10, 15),
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               const SizedBox(
@@ -46,6 +46,7 @@ class TherapyNotificationTimeIndicator extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   removeNotification(appNotification);
+                  Navigator.pop(context);
                 },
                 child: const Icon(
                   Icons.close,
