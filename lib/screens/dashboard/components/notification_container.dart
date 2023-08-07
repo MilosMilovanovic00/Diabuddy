@@ -39,7 +39,7 @@ class NotificationContainer extends StatelessWidget {
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
                     TextSpan(
-                      text: '\n${formatDateTime(appNotification.triggerTime)}',
+                      text: '\n${appNotification.triggerTime}',
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
                   ],
@@ -76,9 +76,5 @@ class NotificationContainer extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String formatDateTime(TimeOfDay time) {
-    return time.toString();
   }
 }

@@ -12,7 +12,7 @@ class SelectedMealContainer extends StatelessWidget {
   }) : super(key: key);
 
   final Dish dish;
-  final Function(Dish) removeDish;
+  final Function(String) removeDish;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class SelectedMealContainer extends StatelessWidget {
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 TextSpan(
-                  text: '${dish.preferredGrams} g',
+                  text: '${dish.grams} g',
                   style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: 14,
                       ),
@@ -47,16 +47,14 @@ class SelectedMealContainer extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    removeDish(dish);
+                ColouredIconButton(
+                  callback: () {
+                    removeDish(dish.id!);
                   },
-                  child: const ColouredIconButton(
-                    backgroundColor: primaryColor,
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                    ),
+                  backgroundColor: primaryColor,
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(

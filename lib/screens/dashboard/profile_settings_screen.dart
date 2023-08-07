@@ -1,4 +1,6 @@
-import 'package:diabuddy/extensions/string_extenstions.dart';
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
@@ -6,6 +8,7 @@ import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileSettingsScreen extends StatefulWidget {
@@ -19,7 +22,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late TextEditingController nameController;
-  late TextEditingController emailController;
   late int weight;
 
   @override
@@ -27,12 +29,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     super.initState();
     weight = 45;
     nameController = TextEditingController();
-    emailController = TextEditingController();
+    BlocProvider.of<UserBloc>(context).add(GetUserProfileData());
   }
 
   @override
   void dispose() {
-    emailController.dispose();
     nameController.dispose();
     super.dispose();
   }
@@ -63,88 +64,80 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           ),
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
+        body: BlocConsumer<UserBloc, UserState>(
+          listener: (context, state) {
+            if (state is UserProfileUpdateSuccessful) {
+              Navigator.pop(context);
+            } else {
+              //TODO pop up error tj ono malo dole
+            }
+          },
+          builder: (BuildContext context, state) {
+            if (state is FetchedUserData) {
+              nameController.text = state.user.fullName ?? "";
+              weight = state.user.weight ?? 45;
+            }
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 20,
                 ),
-                Text(
-                  'Profile Update',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        AppTextFieldInput(
-                          hintText: AppLocalizations.of(context)!.fullName,
-                          controller: nameController,
-                          validator: (value) {
-                            if (value == null) {
-                              return '';
-                            } else if (value.isEmpty) {
-                              return 'You must full name';
-                            }
-                            return value;
-                          },
-                          textInputType: TextInputType.text,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        AppTextFieldInput(
-                          hintText: AppLocalizations.of(context)!.email,
-                          controller: emailController,
-                          validator: (value) {
-                            if (value == null) {
-                              return 'You must enter email';
-                            } else if (value.isEmpty) {
-                              return 'You must enter email';
-                            } else if (!value.isValidEmail()) {
-                              return 'Email pattern is wrong';
-                            }
-                            return value;
-                          },
-                          textInputType: TextInputType.emailAddress,
-                        ),
-                      ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
+                    Text(
+                      AppLocalizations.of(context)!.profileUpdate,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          AppTextFieldInput(
+                            hintText: AppLocalizations.of(context)!.fullName,
+                            controller: nameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'You must full name';
+                              }
+                              return null;
+                            },
+                            textInputType: TextInputType.text,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SimpleAppContainer(
+                      text: AppLocalizations.of(context)!.weight,
+                      widget: AppNumberPicker(
+                        minValue: 0,
+                        maxValue: 100,
+                        currentValue: weight,
+                        setCurrentValue: setWeight,
+                      ),
+                    ),
+                    const Spacer(),
+                    AppButton(
+                      callback: () {
+                        updateProfile();
+                      },
+                      text: AppLocalizations.of(context)!.save,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SimpleAppContainer(
-                  text: AppLocalizations.of(context)!.weight,
-                  widget: AppNumberPicker(
-                    minValue: 0,
-                    maxValue: 100,
-                    currentValue: weight,
-                    setCurrentValue: setWeight,
-                  ),
-                ),
-                const Spacer(),
-                AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.save,
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     ]);
@@ -152,5 +145,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   void setWeight(int value) {
     weight = value;
+  }
+
+  void updateProfile() {
+    BlocProvider.of<UserBloc>(context).add(UpdateUserData(
+      weight,
+      nameController.text.trim(),
+    ));
   }
 }

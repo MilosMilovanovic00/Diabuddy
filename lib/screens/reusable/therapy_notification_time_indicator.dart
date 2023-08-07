@@ -1,7 +1,6 @@
 import 'package:diabuddy/model/enitity/app_notification.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TherapyNotificationTimeIndicator extends StatelessWidget {
   const TherapyNotificationTimeIndicator({
@@ -58,9 +57,5 @@ class TherapyNotificationTimeIndicator extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String formatDateTime(DateTime dateTime) {
-    return DateFormat.Hm().format(dateTime);
   }
 }

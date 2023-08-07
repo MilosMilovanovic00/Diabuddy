@@ -1,8 +1,6 @@
 import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
-import 'package:diabuddy/model/dto/glucose_entry_dto.dart';
-import 'package:diabuddy/model/dto/medication_dto.dart';
 import 'package:diabuddy/model/enitity/enum/time_period_type.dart';
 import 'package:diabuddy/screens/dashboard/components/diagram_container.dart';
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
@@ -22,14 +20,16 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  late List<MedicationDto> medications = [];
-  late List<GlucoseEntryDTO> glucoseEntries = [];
-
   @override
   void initState() {
     super.initState();
+    DateTime start = DateTime.now();
+    start = DateTime(start.year, start.month, start.day);
+    DateTime end = start.add(const Duration(days: 1));
+    end = DateTime(end.year, end.month, end.day);
     BlocProvider.of<UserBloc>(context).add(GetAllMedications());
-    BlocProvider.of<UserBloc>(context).add(GetTodaysGlucoseReadings());
+    BlocProvider.of<UserBloc>(context)
+        .add(GetGlucoseReadingsForPeriod(start, end));
   }
 
   @override
@@ -41,6 +41,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
       Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                onPressed: () {
+                  //logout
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
           title: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -91,7 +106,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              "No registered medication",
+                              "No registered medication intake",
                               style: Theme.of(context).textTheme.displaySmall,
                             ),
                           ),
@@ -105,13 +120,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 SizedBox(
                   height: 160,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: glucoseEntries.length,
-                    itemBuilder: (context, index) {
-                      return DailyGlucoseIndicatorContainer(
-                        glucoseEntryDTO: glucoseEntries[index],
-                      );
+                  child: BlocBuilder<UserBloc, UserState>(
+                    buildWhen: (previous, current) =>
+                        current is FetchedTodayGlucoseReadingsSuccess,
+                    builder: (context, state) {
+                      if (state is! FetchedTodayGlucoseReadingsSuccess) {
+                        return Container();
+                      } else {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.readings.length,
+                          itemBuilder: (context, index) {
+                            return DailyGlucoseIndicatorContainer(
+                              glucoseReading: state.readings[index],
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
@@ -119,12 +144,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   height: 20,
                 ),
                 Expanded(
-                  child: DiagramContainer(
-                    backgroundColor: orangeColor.withOpacity(0.8),
-                    diagramTitle: AppLocalizations.of(context)!.glucoseDiagram,
-                    isDiagramScreen: false,
-                    toolTipColor: orangeColor,
-                    timePeriodType: TimePeriodType.today,
+                  child: BlocBuilder<UserBloc, UserState>(
+                    buildWhen: (previous, current) =>
+                        current is FetchedTodayGlucoseReadingsSuccess,
+                    builder: (context, state) {
+                      if (state is FetchedTodayGlucoseReadingsSuccess) {
+                        return DiagramContainer(
+                          backgroundColor: orangeColor.withOpacity(0.8),
+                          diagramTitle:
+                              AppLocalizations.of(context)!.glucoseDiagram,
+                          isDiagramScreen: false,
+                          toolTipColor: orangeColor,
+                          timePeriodType: TimePeriodType.today,
+                          readings: state.readings,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
                   ),
                 ),
               ],

@@ -1,4 +1,3 @@
-import 'package:diabuddy/extensions/double_extensions.dart';
 import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -33,14 +32,7 @@ class _AppNumberInputFieldState extends State<AppNumberInputField> {
   @override
   void initState() {
     super.initState();
-    isStandardUnit = UserSimplePreferences.getMeasurementUnit();
-    double value = double.parse(widget.controller.text);
-    widget.controller.text = value
-        .convertIfStandardUnit(
-          isStandardUnit,
-          value,
-        )
-        .toString();
+    isStandardUnit = UserSimplePreferences.isStandardMeasurementUnit();
   }
 
   @override

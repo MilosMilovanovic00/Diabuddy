@@ -1,20 +1,26 @@
-import 'package:diabuddy/model/dto/glucose_entry_dto.dart';
+import 'package:diabuddy/extensions/datetime_extensinons.dart';
+import 'package:diabuddy/extensions/double_extensions.dart';
+import 'package:diabuddy/model/enitity/glucose_reading.dart';
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/screens/reusable/coloured_icon_button.dart';
-import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DailyGlucoseIndicatorContainer extends StatelessWidget {
   const DailyGlucoseIndicatorContainer({
     Key? key,
-    required this.glucoseEntryDTO,
+    required this.glucoseReading,
   }) : super(key: key);
 
-  final GlucoseEntryDTO glucoseEntryDTO;
+  final GlucoseReading glucoseReading;
 
   @override
   Widget build(BuildContext context) {
+    final bool isStandardUnit =
+        UserSimplePreferences.isStandardMeasurementUnit();
+    final Color backColor =
+        glucoseReading.glucoseValue.getColorByGlucoseLevel();
     return Container(
       width: 180,
       height: 150,
@@ -22,7 +28,7 @@ class DailyGlucoseIndicatorContainer extends StatelessWidget {
         right: 10,
       ),
       decoration: BoxDecoration(
-        color: goodSugarColor,
+        color: backColor,
         borderRadius: borderRadius,
       ),
       child: Padding(
@@ -31,48 +37,10 @@ class DailyGlucoseIndicatorContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Glucose\n',
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                            fontSize: 22,
-                          ),
-                    ),
-                    TextSpan(
-                      text: 'Meal: ${glucoseEntryDTO.carbonContent} UH\n',
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                            fontSize: 16,
-                          ),
-                    ),
-                    TextSpan(
-                      text: '${glucoseEntryDTO.medicationName}\n',
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                            fontSize: 16,
-                          ),
-                    ),
-                    TextSpan(
-                      text: '${formatDateTime(glucoseEntryDTO.entryTime)}\n',
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                            fontSize: 16,
-                          ),
-                    ),
-                    //TODO postavi koji konkretno mera treba da bude i konvertuj vrednost
-                    TextSpan(
-                      text: '${glucoseEntryDTO.glucoseValue} mmol/L',
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                            fontSize: 18,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const ColouredIconButton(
-              backgroundColor: goodSugarColor,
-              icon: Icon(
+            buildText(context, isStandardUnit),
+            ColouredIconButton(
+              backgroundColor: backColor,
+              icon: const Icon(
                 Icons.water_drop,
                 color: Colors.white,
               ),
@@ -83,7 +51,40 @@ class DailyGlucoseIndicatorContainer extends StatelessWidget {
     );
   }
 
-  String formatDateTime(DateTime dateTime) {
-    return DateFormat.Hm().format(dateTime);
+  Expanded buildText(BuildContext context, bool isStandardUnit) {
+    return Expanded(
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: AppLocalizations.of(context)!.glucose,
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontSize: 22,
+                  ),
+            ),
+            TextSpan(
+              text:
+                  '\n${AppLocalizations.of(context)!.mealWithCarbonHydrateValue(glucoseReading.glucoseValue)}',
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontSize: 16,
+                  ),
+            ),
+            TextSpan(
+              text: '\n${glucoseReading.entryTime.getFormattedTime()}\n',
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontSize: 16,
+                  ),
+            ),
+            TextSpan(
+              text:
+                  '${glucoseReading.glucoseValue.convertByStandardUnit()} ${isStandardUnit ? 'mmol/L' : 'mg/dl'}',
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontSize: 18,
+                  ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

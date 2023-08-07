@@ -2,14 +2,14 @@ import 'package:diabuddy/model/enitity/enum/activity_type.dart';
 import 'package:equatable/equatable.dart';
 
 class Activity extends Equatable {
-  final String? name;
-  final ActivityIntensity? intensity;
-  final int? duration;
+  final String name;
+  final ActivityIntensity intensity;
+  final int duration;
 
   const Activity({
-    this.name,
-    this.intensity,
-    this.duration,
+    required this.name,
+    required this.intensity,
+    required this.duration,
   });
 
   @override
@@ -30,7 +30,7 @@ class Activity extends Equatable {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'intensity': intensity!.index,
+      'intensity': intensity.index,
       'duration': duration,
     };
   }

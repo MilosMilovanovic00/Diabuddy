@@ -13,7 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddDishScreen extends StatefulWidget {
-  const AddDishScreen({Key? key}) : super(key: key);
+  const AddDishScreen({Key? key, this.dish}) : super(key: key);
+
+  final Dish? dish;
 
   @override
   State<AddDishScreen> createState() => _AddDishScreenState();
@@ -23,12 +25,16 @@ class _AddDishScreenState extends State<AddDishScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TextEditingController dishNameController;
 
-  int carbohydrateValue = 50;
+  late bool isEditScreen;
+  late int carbohydrateValue;
 
   @override
   void initState() {
     super.initState();
     dishNameController = TextEditingController();
+    isEditScreen = widget.dish != null;
+    dishNameController.text = widget.dish?.name ?? "";
+    carbohydrateValue = widget.dish?.carbohydrateValue ?? 50;
   }
 
   @override
@@ -65,10 +71,11 @@ class _AddDishScreenState extends State<AddDishScreen> {
         backgroundColor: primaryColor.withOpacity(0.10),
         body: BlocListener<UserBloc, UserState>(
           listener: (BuildContext context, state) {
-            if (state is NewDishSaved) {
-              Navigator.pop(context);
-            } else {
+            if (state is! NewDishSaved || state is! DishUpdated) {
               //TODO nije se sacuvalo pop up
+            } else {
+              BlocProvider.of<UserBloc>(context).add(GetDishes());
+              Navigator.pop(context);
             }
           },
           child: SafeArea(
@@ -84,7 +91,9 @@ class _AddDishScreenState extends State<AddDishScreen> {
                     height: 20,
                   ),
                   Text(
-                    AppLocalizations.of(context)!.addYourDish,
+                    isEditScreen
+                        ? AppLocalizations.of(context)!.editYourDish
+                        : AppLocalizations.of(context)!.addYourDish,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(
@@ -118,6 +127,9 @@ class _AddDishScreenState extends State<AddDishScreen> {
                   const Spacer(),
                   AppButton(
                     callback: () {
+                      if (isEditScreen) {
+                        editDish();
+                      }
                       if (_formKey.currentState!.validate()) {
                         saveNewDish();
                       }
@@ -180,8 +192,18 @@ class _AddDishScreenState extends State<AddDishScreen> {
     Dish dish = Dish(
       name: dishNameController.text.trim(),
       carbohydrateValue: carbohydrateValue,
-      preferredGrams: 100,
+      grams: 100,
     );
     BlocProvider.of<UserBloc>(context).add(SaveNewDish(dish));
+  }
+
+  void editDish() {
+    Dish dish = Dish(
+      id: widget.dish!.id,
+      name: dishNameController.text.trim(),
+      carbohydrateValue: carbohydrateValue,
+      grams: widget.dish!.grams,
+    );
+    BlocProvider.of<UserBloc>(context).add(EditDish(dish));
   }
 }

@@ -21,8 +21,7 @@ class _UnitsOnboardingScreenState extends State<UnitsOnboardingScreen> {
   @override
   void initState() {
     super.initState();
-    print(UserSimplePreferences.getMeasurementUnit());
-    isStandardUnit = UserSimplePreferences.getMeasurementUnit() ?? true;
+    isStandardUnit = UserSimplePreferences.isStandardMeasurementUnit() ?? true;
   }
 
   @override
@@ -82,8 +81,8 @@ class _UnitsOnboardingScreenState extends State<UnitsOnboardingScreen> {
               const Spacer(),
               AppButton(
                 callback: () {
-                  print(isStandardUnit);
                   UserSimplePreferences.setMeasurementUnit(isStandardUnit);
+                  //TODO ovo mora da se izmeni da ide pop up ili sledeca
                   Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -5,23 +5,39 @@ import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/repository/dish_repository.dart';
+import 'package:diabuddy/repository/glucose_repository.dart';
 import 'package:diabuddy/repository/user_repository.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
+  final GlucoseRepository glucoseRepository;
+  final DishRepository dishRepository;
 
   UserBloc({
+    required this.glucoseRepository,
+    required this.dishRepository,
     required this.userRepository,
   }) : super(InitialUserState()) {
     on<ProfileUpdateEvent>(_onUpdateProfile);
     on<AddMedicationEvent>(_onAddMedication);
     on<GetAllMedications>(_onFetchMedication);
     on<DeleteMedication>(_onDeleteMedication);
-    on<GetTodaysGlucoseReadings>(_onFetchGlucoseReadingsToday);
+    on<GetGlucoseReadingsForPeriod>(_onFetchGlucoseReadingsToday);
     on<GetGlucoseTargets>(_onFetchGlucoseTargets);
     on<SaveGlucoseTargets>(_onSaveGlucoseTargets);
     on<SaveNewDish>(_onSaveNewDish);
     on<GetDishes>(_onFetchDishes);
+    on<EditDish>(_onDishUpdate);
+    on<GetAllGlucoseReadings>(_onFetchAllGlucoseReadings);
+    on<GetGlucoseReadingById>(_onFetchGlucoseReading);
+    on<UpdateGlucoseReading>(_onUpdateGlucoseReading);
+    on<UpdateGlucoseReadingActivity>(_onUpdateGlucoseReadingActivity);
+    on<GetGlucoseReadingDishes>(_onFetchGlucoseReadingMeal);
+    on<DeleteDish>(_onDeleteGlucoseReadingDish);
+    on<AddDishToGlucoseReading>(_onAddDishToGlucoseReading);
+    on<GetUserProfileData>(_onFetchUserData);
+    on<UpdateUserData>(_onUpdatePersonalUserData);
   }
 
   FutureOr<void> _onUpdateProfile(
@@ -29,7 +45,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     Emitter<UserState> emit,
   ) async {
     try {
-      await userRepository.updatePersonalData(
+      await userRepository.updateAccountData(
         weight: event.weight,
         dateOfBirth: event.dateOfBirth,
       );
@@ -83,15 +99,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   FutureOr<void> _onFetchGlucoseReadingsToday(
-    GetTodaysGlucoseReadings event,
+    GetGlucoseReadingsForPeriod event,
     Emitter<UserState> emit,
   ) async {
     try {
-      List<GlucoseReading> readings =
-          await userRepository.fetchTodaysGlucoseReadings();
-      if (readings.isEmpty) {
-        emit(FetchedTodayGlucoseReadingsFailed());
-      }
+      List<GlucoseReading> readings = await glucoseRepository
+          .fetchGlucoseReadingsByPeriod(start: event.start, end: event.end);
       emit(FetchedTodayGlucoseReadingsSuccess(readings));
     } catch (_) {
       emit(FetchedTodayGlucoseReadingsFailed());
@@ -131,7 +144,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     Emitter<UserState> emit,
   ) async {
     try {
-      await userRepository.saveNewDish(event.dish);
+      await dishRepository.saveNewDish(event.dish);
       emit(NewDishSaved());
     } catch (_) {
       emit(NewDishSavingFailed());
@@ -143,14 +156,164 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     Emitter<UserState> emit,
   ) async {
     try {
-      var dishes = await userRepository.fetchDishes();
-      if (dishes == null) {
-        emit(FetchedDishesFailed());
-      } else {
-        emit(FetchedDishes(dishes));
-      }
+      var dishes = await dishRepository.fetchDishes();
+      emit(FetchedDishes(dishes));
     } catch (_) {
       emit(FetchedDishesFailed());
+    }
+  }
+
+  FutureOr<void> _onDishUpdate(
+    EditDish event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await dishRepository.updateDish(event.dish);
+    } catch (_) {
+      emit(DishUpdatedFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchAllGlucoseReadings(
+    GetAllGlucoseReadings event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var glucoseReadings = await glucoseRepository.fetchAllGlucoseReadings();
+      emit(FetchedAllGlucoseReadings(glucoseReadings));
+    } catch (_) {
+      emit(FetchedAllGlucoseReadingsFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchGlucoseReading(
+    GetGlucoseReadingById event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var glucoseReading = await glucoseRepository
+          .fetchGlucoseReadingById(event.glucoseReadingId);
+      if (glucoseReading == null) {
+        emit(FetchedAllGlucoseReadingsFailed());
+      }
+      var therapyForGlucoseReading = await glucoseRepository
+          .fetchTherapyForGlucoseReading(event.glucoseReadingId);
+      var dishesForGlucoseReading = await dishRepository
+          .fetchGlucoseReadingDishes(glucoseReadingId: event.glucoseReadingId);
+      emit(FetchedGlucoseReading(
+          glucoseReading!, therapyForGlucoseReading, dishesForGlucoseReading));
+    } catch (_) {
+      emit(FetchedAllGlucoseReadingsFailed());
+    }
+  }
+
+  FutureOr<void> _onUpdateGlucoseReading(
+    UpdateGlucoseReading event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await glucoseRepository.updateGlucoseReading(
+        glucoseReadingId: event.glucoseReadingId,
+        glucoseTiming: event.glucoseTiming,
+        glucoseLevel: event.glucoseLevel,
+        mealType: event.mealType,
+      );
+      emit(SuccessfullyUpdatedGlucoseReading());
+    } catch (_) {
+      emit(UpdateGlucoseReadingFailed());
+    }
+  }
+
+  FutureOr<void> _onUpdateGlucoseReadingActivity(
+    UpdateGlucoseReadingActivity event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await glucoseRepository.updateGlucoseReadingActivity(
+        glucoseReadingId: event.glucoseReadingId,
+        activity: event.activity,
+      );
+      emit(SuccessfullyUpdatedGlucoseReadingActivity());
+    } catch (_) {
+      emit(UpdateGlucoseReadingActivityFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchGlucoseReadingMeal(
+    GetGlucoseReadingDishes event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var dishes = await dishRepository.fetchGlucoseReadingDishes(
+        glucoseReadingId: event.glucoseReadingId,
+      );
+      emit(FetchedGlucoseReadingDishes(dishes));
+    } catch (_) {
+      emit(FetchedGlucoseReadingDishesFailed());
+    }
+  }
+
+  FutureOr<void> _onDeleteGlucoseReadingDish(
+    DeleteDish event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await dishRepository.deleteDishWithId(
+        glucoseReadingId: event.glucoseReadingId,
+        dishId: event.dishId,
+      );
+      var dishes = await dishRepository.fetchGlucoseReadingDishes(
+        glucoseReadingId: event.glucoseReadingId,
+      );
+      emit(FetchedGlucoseReadingDishes(dishes));
+    } catch (_) {
+      emit(DeletingDishFailed());
+    }
+  }
+
+  FutureOr<void> _onAddDishToGlucoseReading(
+    AddDishToGlucoseReading event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await dishRepository.addDishToGlucoseReading(
+        glucoseReadingId: event.glucoseReadingId,
+        dish: event.dish,
+      );
+      emit(AddedDishToGlucoseReading());
+    } catch (_) {
+      emit(AddingDishToGlucoseReadingFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchUserData(
+    GetUserProfileData event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var user = await userRepository.fetchUserData();
+      if (user == null) {
+        emit(FetchedUserDataFailed());
+      } else {
+        emit(FetchedUserData(user));
+      }
+    } catch (_) {
+      emit(FetchedUserDataFailed());
+    }
+  }
+
+  FutureOr<void> _onUpdatePersonalUserData(
+    UpdateUserData event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await userRepository.updatePersonalUserData(
+        weight: event.weight,
+        fullName: event.fullName,
+      );
+      emit(UserProfileUpdateSuccessful());
+    } catch (_) {
+      emit(UserProfileUpdateFailed());
     }
   }
 }

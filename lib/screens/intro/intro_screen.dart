@@ -18,9 +18,15 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  final PageController pageController = PageController(initialPage: 0);
+  late PageController pageController;
 
   bool isLastPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 0);
+  }
 
   @override
   void dispose() {
@@ -53,6 +59,12 @@ class _IntroScreenState extends State<IntroScreen> {
                   {
                     setState(() {
                       isLastPage = true;
+                    })
+                  }
+                else
+                  {
+                    setState(() {
+                      isLastPage = false;
                     })
                   }
               },

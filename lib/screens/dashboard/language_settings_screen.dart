@@ -21,8 +21,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
   @override
   void initState() {
     super.initState();
-    print(UserSimplePreferences.getMeasurementUnit());
-    isEnglish = UserSimplePreferences.getMeasurementUnit() ?? true;
+    isEnglish = UserSimplePreferences.isStandardMeasurementUnit() ?? true;
   }
 
   @override

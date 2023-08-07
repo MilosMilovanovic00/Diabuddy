@@ -1,7 +1,13 @@
+import 'package:diabuddy/screens/dashboard/language_settings_screen.dart';
+import 'package:diabuddy/screens/dashboard/profile_settings_screen.dart';
+import 'package:diabuddy/screens/onboarding/glucose_target_onboarding_screen.dart';
+import 'package:diabuddy/screens/onboarding/therapy_onboarding_screen.dart';
+import 'package:diabuddy/screens/onboarding/units_onboarding_screen.dart';
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
 import 'package:diabuddy/screens/reusable/settings_container.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -20,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
-                'Hi, Milos',
+                AppLocalizations.of(context)!.hiWithName("Milos"),
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: 40,
@@ -44,36 +50,72 @@ class SettingsScreen extends StatelessWidget {
                   height: 50,
                 ),
                 SettingsContainer(
-                  text: 'Measurements',
-                  callback: () {},
+                  text: AppLocalizations.of(context)!.measurements,
+                  callback: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UnitsOnboardingScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 SettingsContainer(
-                  text: 'Target glucose range',
-                  callback: () {},
+                  text: AppLocalizations.of(context)!.targetGlucoseRange,
+                  callback: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const GlucoseTargetOnboardingScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 SettingsContainer(
-                  text: 'Medication',
-                  callback: () {},
+                  text: AppLocalizations.of(context)!.medication,
+                  callback: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TherapyOnboardingScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 SettingsContainer(
-                  text: 'Profile settings',
-                  callback: () {},
+                  text: AppLocalizations.of(context)!.profileSettings,
+                  callback: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileSettingsScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 SettingsContainer(
-                  text: 'Language',
-                  callback: () {},
+                  text: AppLocalizations.of(context)!.language,
+                  callback: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LanguageSettingsScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 20,

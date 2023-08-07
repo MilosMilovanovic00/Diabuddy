@@ -6,11 +6,12 @@ import 'package:equatable/equatable.dart';
 class GlucoseReading extends Equatable {
   final String? id;
   final DateTime entryTime;
-  final double glucoseValue;
   final GlucoseTiming glucoseTiming;
-  final Activity? activity;
+  final double glucoseValue;
   final MealType? mealType;
-  // final List<String>? dishes;
+  final Activity? activity;
+  final bool medicationTaken;
+  final bool mealTaken;
 
   const GlucoseReading({
     this.id,
@@ -19,6 +20,8 @@ class GlucoseReading extends Equatable {
     required this.glucoseTiming,
     this.mealType,
     this.activity,
+    required this.medicationTaken,
+    required this.mealTaken,
   });
 
   @override
@@ -26,25 +29,35 @@ class GlucoseReading extends Equatable {
         entryTime,
         glucoseValue,
         glucoseTiming,
+        mealType,
         activity,
+        medicationTaken,
+        mealTaken,
       ];
 
   factory GlucoseReading.fromMap(map, String id) {
     return GlucoseReading(
       id: id,
-      entryTime: map['entryTime'],
-      glucoseValue: map['glucoseValue'],
+      entryTime: map['entryTime'].toDate(),
       glucoseTiming: GlucoseTiming.values[map['glucoseTiming']],
+      glucoseValue: map['glucoseValue'],
+      mealType:
+          map['mealType'] != null ? MealType.values[map['mealType']] : null,
       activity: Activity.fromMap(map['activity']),
+      medicationTaken: map['medicationTaken'],
+      mealTaken: map['mealType'] != null,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'entryTime': entryTime,
+      'glucoseTiming': glucoseTiming,
       'glucoseValue': glucoseValue,
-      'glucoseTiming': glucoseTiming.index,
+      'mealType': mealType?.index,
       'activity': activity?.toMap(),
+      'medicationTaken': medicationTaken,
+      'mealTaken': mealType != null,
     };
   }
 }

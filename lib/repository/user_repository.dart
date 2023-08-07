@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diabuddy/model/enitity/dish.dart';
-import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,7 +8,7 @@ class UserRepository {
 
   User? get currentUser => FirebaseAuth.instance.currentUser;
 
-  Future<void> updatePersonalData({
+  Future<void> updateAccountData({
     required int weight,
     required DateTime dateOfBirth,
   }) async {
@@ -21,7 +19,7 @@ class UserRepository {
           'dateOfBirth': dateOfBirth,
         });
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       print(e.toString());
     }
   }
@@ -37,7 +35,7 @@ class UserRepository {
               medication.toMap(),
             );
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       print(e.toString());
     }
   }
@@ -68,7 +66,7 @@ class UserRepository {
             .doc(medicationId)
             .delete();
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       print(e.toString());
     }
   }
@@ -82,26 +80,9 @@ class UserRepository {
           'glucoseTargets': glucoseTargets.toMap(),
         });
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       print(e.toString());
     }
-  }
-
-  Future<List<GlucoseReading>> fetchTodaysGlucoseReadings() async {
-    List<GlucoseReading> readings = [];
-    if (currentUser != null) {
-      var data = await _firestore
-          .collection('users')
-          .doc(currentUser!.uid)
-          .collection('glucose_readings')
-          .where("entryTime", isEqualTo: DateTime.now())
-          .get();
-      if (data.docs.isEmpty) return readings;
-      for (var element in data.docs) {
-        readings.add(GlucoseReading.fromMap(element.data(), element.id));
-      }
-    }
-    return readings;
   }
 
   Future<GlucoseTargets?> fetchGlucoseTargets() async {
@@ -113,39 +94,39 @@ class UserRepository {
             GlucoseTargets.fromMap(data.get('glucoseTargets'));
         return glucoseTargets;
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       print(e.toString());
     }
     return null;
   }
 
-  Future<void> saveNewDish(Dish dish) async {
+  Future<UserModel?> fetchUserData() async {
     try {
-      await _firestore
-          .collection('users')
-          .doc(currentUser!.uid)
-          .collection('meals')
-          .add(
-            dish.toMap(),
-          );
-    } on FirebaseAuthException catch (e) {
+      if (currentUser != null) {
+        var data =
+            await _firestore.collection('users').doc(currentUser!.uid).get();
+        UserModel user = UserModel.fromMap(data);
+        return user;
+      }
+    } on FirebaseException catch (e) {
       print(e.toString());
     }
+    return null;
   }
 
-  Future<List<Dish>> fetchDishes() async {
-    List<Dish> dishes = [];
-    if (currentUser != null) {
-      var data = await _firestore
-          .collection('users')
-          .doc(currentUser!.uid)
-          .collection('meals')
-          .get();
-      if (data.docs.isEmpty) return dishes;
-      for (var element in data.docs) {
-        dishes.add(Dish.fromMap(element.data(), element.id));
+  Future<void> updatePersonalUserData({
+    required int weight,
+    required String fullName,
+  }) async {
+    try {
+      if (currentUser != null) {
+        await _firestore.collection('users').doc(currentUser!.uid).update({
+          "weight": weight,
+          "fullName": fullName,
+        });
       }
+    } on FirebaseException catch (e) {
+      print(e.toString());
     }
-    return dishes;
   }
 }

@@ -6,9 +6,11 @@ class GlucoseTimeChoicePicker extends StatefulWidget {
   const GlucoseTimeChoicePicker({
     Key? key,
     this.type,
+    required this.setGlucoseTiming,
   }) : super(key: key);
 
   final GlucoseTiming? type;
+  final Function setGlucoseTiming;
 
   @override
   State<GlucoseTimeChoicePicker> createState() =>
@@ -47,7 +49,7 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
         GlucoseTimeChoiceContainer(
           selected: beforeMealSelected,
           mealSelector: setGlucoseTimeType,
-          type: GlucoseTiming.beforeMeal,
+          glucoseTiming: GlucoseTiming.beforeMeal,
         ),
         const SizedBox(
           height: 15,
@@ -55,7 +57,7 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
         GlucoseTimeChoiceContainer(
           selected: afterMealSelected,
           mealSelector: setGlucoseTimeType,
-          type: GlucoseTiming.afterMeal,
+          glucoseTiming: GlucoseTiming.afterMeal,
         ),
         const SizedBox(
           height: 15,
@@ -63,7 +65,7 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
         GlucoseTimeChoiceContainer(
           selected: fastingSelected,
           mealSelector: setGlucoseTimeType,
-          type: GlucoseTiming.fasting,
+          glucoseTiming: GlucoseTiming.fasting,
         ),
       ],
     );
@@ -96,5 +98,6 @@ class _GlucoseTimeChoicePickerState extends State<GlucoseTimeChoicePicker> {
         });
         break;
     }
+    widget.setGlucoseTiming(type);
   }
 }

@@ -1,36 +1,28 @@
-import 'package:diabuddy/model/enitity/medication.dart';
-import 'package:diabuddy/screens/glucose_monitoring/components/medication_setup_container.dart';
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/screens/glucose_monitoring/medication_setup_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class MedicationSetupScreen extends StatelessWidget {
-  const MedicationSetupScreen({Key? key}) : super(key: key);
+class EditMedicationScreen extends StatefulWidget {
+  const EditMedicationScreen({
+    super.key,
+    required this.glucoseReadingId,
+  });
+
+  final String glucoseReadingId;
 
   @override
-  Widget build(BuildContext context) {
-    List<Medication> medicine = [
-      const Medication(
-        medicationName: 'NovoRapid',
-        dailyMedicationIntake: 3,
-        isInsulin: true,
-        averageInsulinUnits: 10,
-      ),
-      const Medication(
-        medicationName: 'Tresiba',
-        dailyMedicationIntake: 1,
-        isInsulin: true,
-        averageInsulinUnits: 24,
-      ),
-      const Medication(
-        medicationName: 'Glucagon-like peptide',
-        dailyMedicationIntake: 5,
-        isInsulin: false,
-      ),
-    ];
+  State<EditMedicationScreen> createState() => _EditMedicationScreenState();
+}
 
+class _EditMedicationScreenState extends State<EditMedicationScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Stack(children: [
       Container(
         color: Colors.white,
@@ -48,6 +40,8 @@ class MedicationSetupScreen extends StatelessWidget {
             ),
             child: AppIconButton(
               callback: () {
+                BlocProvider.of<UserBloc>(context)
+                    .add(GetGlucoseReadingById(widget.glucoseReadingId));
                 Navigator.pop(context);
               },
               icon: Icons.arrow_back_ios_new,
@@ -68,27 +62,30 @@ class MedicationSetupScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.chooseYourMedicationForThisMeal,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontSize: 32,
-                      ),
+                  // 'Edit your meal',
+                  AppLocalizations.of(context)!.editYourMedication,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 32),
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: medicine.length,
-                    itemBuilder: (context, index) {
-                      return MedicationSetupContainer(
-                        medication: medicine[index],
-                      );
-                    },
-                  ),
-                ),
+                const Spacer(),
                 AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.add,
+                  callback: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MedicationSetupScreen(),
+                      ),
+                    );
+                  },
+                  text: AppLocalizations.of(context)!.addMedication,
                 ),
               ],
             ),

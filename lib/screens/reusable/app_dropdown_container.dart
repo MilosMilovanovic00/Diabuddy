@@ -1,3 +1,4 @@
+import 'package:diabuddy/model/enitity/enum/activity_type.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -7,30 +8,32 @@ class AppDropdownContainer extends StatefulWidget {
     Key? key,
     required this.setChoice,
     required this.choices,
+    required this.choice,
   }) : super(key: key);
 
-  final Function(String) setChoice;
-  final List<String> choices;
+  final Function(dynamic) setChoice;
+  final List<dynamic> choices;
+  final dynamic choice;
 
   @override
   State<AppDropdownContainer> createState() => _AppDropdownContainerState();
 }
 
 class _AppDropdownContainerState extends State<AppDropdownContainer> {
-  late String defaultChoice;
-  late List<String> possibleChoices = [];
+  late dynamic choice;
+  late List<dynamic> possibleChoices = [];
 
   @override
   void initState() {
     super.initState();
     possibleChoices = widget.choices;
-    defaultChoice = possibleChoices.first;
+    choice = widget.choice;
   }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton(
-      value: defaultChoice,
+    return DropdownButton<dynamic>(
+      value: choice,
       borderRadius: borderRadius,
       dropdownColor: primaryColor,
       icon: const Icon(
@@ -39,12 +42,12 @@ class _AppDropdownContainerState extends State<AppDropdownContainer> {
       ),
       items: possibleChoices
           .map(
-            (String item) => DropdownMenuItem(
+            (dynamic item) => DropdownMenuItem(
               value: item,
               child: Padding(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: Text(
-                  item,
+                  getStringForActivityIntensity(item, context),
                   style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: 18,
                       ),
@@ -53,9 +56,9 @@ class _AppDropdownContainerState extends State<AppDropdownContainer> {
             ),
           )
           .toList(),
-      onChanged: (value) {
+      onChanged: (dynamic value) {
         setState(() {
-          defaultChoice = value!;
+          choice = value!;
         });
         widget.setChoice(value!);
       },

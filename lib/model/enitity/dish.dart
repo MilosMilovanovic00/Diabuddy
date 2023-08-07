@@ -2,13 +2,13 @@ class Dish {
   final String? id;
   final String name;
   final int carbohydrateValue;
-  final int preferredGrams;
+  final int grams;
 
   Dish({
     this.id,
     required this.name,
     required this.carbohydrateValue,
-    required this.preferredGrams,
+    required this.grams,
   });
 
   factory Dish.fromMap(map, id) {
@@ -16,7 +16,7 @@ class Dish {
       id: id,
       name: map['name'],
       carbohydrateValue: map['carbohydrateValue'],
-      preferredGrams: map['preferredGrams'],
+      grams: map['grams'],
     );
   }
 
@@ -24,7 +24,7 @@ class Dish {
     return {
       'name': name,
       'carbohydrateValue': carbohydrateValue,
-      'preferredGrams': preferredGrams,
+      'grams': grams,
     };
   }
 }

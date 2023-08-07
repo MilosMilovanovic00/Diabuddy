@@ -3,7 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum MealType { breakfast, lunch, dinner, snack }
 
-String getMealType(MealType type, BuildContext context) {
+String getMealType(MealType? type, BuildContext context) {
+  if (type == null) {
+    return '';
+  }
   switch (type) {
     case MealType.breakfast:
       return AppLocalizations.of(context)!.breakfast;
