@@ -41,7 +41,7 @@
   "criticalLow":"Critical low",
   "therapyOnboardingTitle":"Let's Begin Your Therapy Setup",
   "therapyOnboardingBodyText":"Start your diabetes therapy journey with the tools and support you need.",
-  "addMedication":"Add medication",
+  "addMedication":"Add a medication",
   "chooseMedicationType":"Choose medication type",
   "insulin":"Insulin",
   "pills":"Pills",
@@ -91,5 +91,53 @@
   "notificationType":"Notification type",
   "activityReminder":"Activity reminder",
   "insulinReminder":"Insulin reminder",
-  "glucoseCheckReminder":"Glucose check reminder"
+  "glucoseCheckReminder":"Glucose check reminder",
+  "averageInsulinIntake":"Average insulin intake",
+  "notificationsSelectedForMedication":"Notifications for selected medication",
+  "cancel":"Cancel",
+  "logbook":"Logbook",
+  "addNewDish":"Add a new dish",
+  "mealCarbohydrateValuePer100g":"Meal carbohydrate value per 100g",
+  "youMustEnterDishName":"You must enter dish name",
+  "addYourMeal":"Add your meal",
+  "searchYourDish":"Search your dish",
+  "editYourDish":"Edit your dish",
+  "glucoseReadingDetails":"Glucose Reading Details",
+  "glucoseLevel":"Glucose level",
+  "medication":"Medication",
+  "meal":"Meal",
+  "editGlucoseReadingDetails":"Edit Glucose Reading Details",
+  "editGlucoseLevel":"Edit glucose level",
+  "editYourActivity":"Edit your activity",
+  "editYourMeal":"Edit your meal",
+  "addMeal":"Add a meal",
+  "grams":"grams",
+  "editYourMedication":"Edit your medication",
+  "language":"Language",
+  "profileSettings":"Profile settings",
+  "glucose":"Glucose",
+  "mealWithCarbonHydrateValue": "Meal {value} UH",
+  "@mealWithCarbonHydrateValue": {
+    "description": "Indicator for carbohydrate amount in meal",
+    "placeholders": {
+      "value": {
+        "type": "double",
+        "example": "4.3"
+      }
+    }
+  },
+  "measurements":"Measurements",
+  "targetGlucoseRange":"Target glucose range",
+  "hiWithName": "Hi {name}",
+  "@hiWithName": {
+      "description": "Custom title for each user with name",
+      "placeholders": {
+        "name": {
+          "type": "String",
+          "example": "Milos"
+        }
+      }
+    },
+  "profileUpdate":"Profile Update",
+  "diagrams":"Diagrams"
 }

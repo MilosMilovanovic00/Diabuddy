@@ -1,14 +1,24 @@
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/dish.dart';
+import 'package:diabuddy/screens/glucose_monitoring/add_dish_screen.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/dish_entry_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddMealScreen extends StatefulWidget {
-  const AddMealScreen({Key? key}) : super(key: key);
+  const AddMealScreen({
+    Key? key,
+    required this.glucoseReadingId,
+  }) : super(key: key);
+
+  final String glucoseReadingId;
 
   @override
   State<AddMealScreen> createState() => _AddMealScreenState();
@@ -16,16 +26,12 @@ class AddMealScreen extends StatefulWidget {
 
 class _AddMealScreenState extends State<AddMealScreen> {
   late TextEditingController dishNameController;
-  List<Dish> dishes = [
-    Dish(dishName: 'Carbonara', carbohydrateValue: 40, gramsPerMeal: 100),
-    Dish(dishName: 'Bolognese', carbohydrateValue: 50, gramsPerMeal: 100),
-    Dish(dishName: 'Bread', carbohydrateValue: 15, gramsPerMeal: 100),
-  ];
-  late List<Dish> dishesFiltered = dishes;
+  late List<Dish> dishesFiltered = [];
 
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<UserBloc>(context).add(GetDishes());
     dishNameController = TextEditingController();
   }
 
@@ -54,6 +60,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
             ),
             child: AppIconButton(
               callback: () {
+                BlocProvider.of<UserBloc>(context)
+                    .add(GetGlucoseReadingById(widget.glucoseReadingId));
                 Navigator.pop(context);
               },
               icon: Icons.arrow_back_ios_new,
@@ -61,93 +69,129 @@ class _AddMealScreenState extends State<AddMealScreen> {
           ),
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Add your meal',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Search your dish',
-                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                        color: Colors.black,
+        body: BlocConsumer<UserBloc, UserState>(
+          listener: (context, state) {
+            if (state is AddedDishToGlucoseReading) {
+              BlocProvider.of<UserBloc>(context)
+                  .add(GetGlucoseReadingDishes(widget.glucoseReadingId));
+              Navigator.pop(context);
+            } else {}
+            //FAIlED TO ADD DISH
+            //TODO popup
+          },
+          builder: (context, state) {
+            if (state is! FetchedDishes) {
+              return Container();
+            } else {
+              if (dishesFiltered.isEmpty) {
+                dishesFiltered = state.dishes;
+              }
+              return SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0,
+                    vertical: 20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
                       ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: textFieldBackgroundColor,
-                    errorStyle:
-                        Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Colors.red,
-                              fontSize: 14,
+                      Text(
+                        AppLocalizations.of(context)!.addYourMeal,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.searchYourDish,
+                        style:
+                            Theme.of(context).textTheme.displaySmall!.copyWith(
+                                  color: Colors.black,
+                                ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: textFieldBackgroundColor,
+                          errorStyle:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.red,
+                                    fontSize: 14,
+                                  ),
+                          enabledBorder: textFieldBorder,
+                          errorBorder: textFieldBorder,
+                          border: textFieldBorder,
+                          errorMaxLines: 3,
+                          contentPadding: const EdgeInsets.only(
+                            left: 24,
+                          ),
+                        ),
+                        onChanged: (text) {
+                          if (text != '') {
+                            setState(() {
+                              dishesFiltered = state.dishes
+                                  .where((dish) => dish.name
+                                      .toLowerCase()
+                                      .startsWith(text.toLowerCase()))
+                                  .toList();
+                            });
+                          } else if (text == '') {
+                            setState(() {
+                              dishesFiltered = state.dishes;
+                            });
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: dishesFiltered.length,
+                          itemBuilder: (context, index) {
+                            return DishEntryContainer(
+                              dish: dishesFiltered[index],
+                              addDishToGlucoseReading: addMealToGlucoseReading,
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AppButton(
+                        callback: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AddDishScreen(),
                             ),
-                    enabledBorder: textFieldBorder,
-                    errorBorder: textFieldBorder,
-                    border: textFieldBorder,
-                    errorMaxLines: 3,
-                    contentPadding: const EdgeInsets.only(
-                      left: 24,
-                    ),
-                  ),
-                  onChanged: (text) {
-                    if (text != '') {
-                      setState(() {
-                        dishesFiltered = dishes
-                            .where((dish) => dish.dishName
-                                .toLowerCase()
-                                .startsWith(text.toLowerCase()))
-                            .toList();
-                      });
-                    } else if (text == '') {
-                      setState(() {
-                        dishesFiltered = dishes;
-                      });
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: dishesFiltered.length,
-                    itemBuilder: (context, index) {
-                      return DishEntryContainer(
-                        dish: dishesFiltered[index],
-                      );
-                    },
+                          );
+                        },
+                        text: AppLocalizations.of(context)!.addNewDish,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.save,
-                ),
-              ],
-            ),
-          ),
+              );
+            }
+          },
         ),
       ),
     ]);
+  }
+
+  void addMealToGlucoseReading(Dish dish) {
+    BlocProvider.of<UserBloc>(context).add(AddDishToGlucoseReading(
+      dish,
+      widget.glucoseReadingId,
+    ));
   }
 }

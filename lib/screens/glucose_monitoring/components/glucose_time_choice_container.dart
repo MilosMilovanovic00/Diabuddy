@@ -2,24 +2,25 @@ import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GlucoseTimeChoiceContainer extends StatelessWidget {
   const GlucoseTimeChoiceContainer({
     Key? key,
     required this.selected,
     required this.mealSelector,
-    required this.type,
+    required this.glucoseTiming,
   }) : super(key: key);
 
   final bool selected;
-  final Function(GlucoseTimeType) mealSelector;
-  final GlucoseTimeType type;
+  final Function(GlucoseTiming) mealSelector;
+  final GlucoseTiming glucoseTiming;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        mealSelector(type);
+        mealSelector(glucoseTiming);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -36,19 +37,18 @@ class GlucoseTimeChoiceContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                getGlucoseLevelTypeTitle(type, context),
+                getGlucoseTimingTitle(glucoseTiming, context),
                 style: Theme.of(context).textTheme.displaySmall!.copyWith(
                       color: !selected
                           ? primaryColor.withOpacity(0.7)
                           : Colors.white,
                     ),
               ),
-              // Ovo treba da se zameni sa ikonicama svg
-              Icon(
-                Icons.home,
-                color: !selected ? primaryColor : Colors.white,
-                size: 30,
-              )
+              SvgPicture.asset(
+                getGlucoseTimingPathToIcon(glucoseTiming),
+                colorFilter: ColorFilter.mode(
+                    !selected ? primaryColor : Colors.white, BlendMode.srcIn),
+              ),
             ],
           ),
         ),

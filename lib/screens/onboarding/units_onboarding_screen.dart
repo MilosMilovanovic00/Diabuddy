@@ -1,18 +1,28 @@
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/screens/onboarding/components/app_choice_container_controller.dart';
+import 'package:diabuddy/screens/onboarding/therapy_onboarding_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class UnitsOnboardingScreen extends StatelessWidget {
+class UnitsOnboardingScreen extends StatefulWidget {
   const UnitsOnboardingScreen({
     Key? key,
-    this.isSIUnitChecked = false,
-    this.isNoSIUnitChecked = false,
   }) : super(key: key);
 
-  final bool isSIUnitChecked;
-  final bool isNoSIUnitChecked;
+  @override
+  State<UnitsOnboardingScreen> createState() => _UnitsOnboardingScreenState();
+}
+
+class _UnitsOnboardingScreenState extends State<UnitsOnboardingScreen> {
+  late bool isStandardUnit;
+
+  @override
+  void initState() {
+    super.initState();
+    isStandardUnit = UserSimplePreferences.isStandardMeasurementUnit() ?? true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +73,23 @@ class UnitsOnboardingScreen extends StatelessWidget {
                 height: 20,
               ),
               AppChoiceContainerController(
-                firstChoice: isSIUnitChecked,
-                secondChoice: isNoSIUnitChecked,
-                firstChoiceText: 'mg/dl',
-                secondChoiceText: 'mmol/L',
+                isFirstChoice: isStandardUnit,
+                firstChoiceText: 'mmol/L',
+                secondChoiceText: 'mg/dl',
+                setChoice: setStandardUnit,
               ),
               const Spacer(),
               AppButton(
-                callback: () {},
+                callback: () {
+                  UserSimplePreferences.setMeasurementUnit(isStandardUnit);
+                  //TODO ovo mora da se izmeni da ide pop up ili sledeca
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TherapyOnboardingScreen(),
+                    ),
+                  );
+                },
                 text: AppLocalizations.of(context)!.save,
               ),
             ],
@@ -78,5 +97,11 @@ class UnitsOnboardingScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void setStandardUnit(bool value) {
+    setState(() {
+      isStandardUnit = value;
+    });
   }
 }

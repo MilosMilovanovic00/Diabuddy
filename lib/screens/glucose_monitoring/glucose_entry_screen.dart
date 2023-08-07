@@ -1,14 +1,45 @@
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/extensions/double_extensions.dart';
+import 'package:diabuddy/model/enitity/dish.dart';
+import 'package:diabuddy/model/enitity/enum/activity_type.dart';
+import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
+import 'package:diabuddy/model/enitity/enum/meal_type.dart';
+import 'package:diabuddy/model/enitity/glucose_reading.dart';
+import 'package:diabuddy/model/enitity/therapy.dart';
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/meal_entry_container.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/medication_entry_container.dart';
+import 'package:diabuddy/screens/glucose_monitoring/edit_glucose_entry_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class GlucoseEntryScreen extends StatelessWidget {
-  const GlucoseEntryScreen({Key? key}) : super(key: key);
+class GlucoseEntryScreen extends StatefulWidget {
+  const GlucoseEntryScreen({
+    Key? key,
+    required this.glucoseReadingId,
+  }) : super(key: key);
+
+  final String glucoseReadingId;
+
+  @override
+  State<GlucoseEntryScreen> createState() => _GlucoseEntryScreenState();
+}
+
+class _GlucoseEntryScreenState extends State<GlucoseEntryScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<UserBloc>(context)
+        .add(GetGlucoseReadingById(widget.glucoseReadingId));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +60,7 @@ class GlucoseEntryScreen extends StatelessWidget {
             ),
             child: AppIconButton(
               callback: () {
+                BlocProvider.of<UserBloc>(context).add(GetAllGlucoseReadings());
                 Navigator.pop(context);
               },
               icon: Icons.arrow_back_ios_new,
@@ -36,47 +68,77 @@ class GlucoseEntryScreen extends StatelessWidget {
           ),
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 20,
+        body: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+          if (state is! FetchedGlucoseReading) {
+            return Container();
+          }
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+                vertical: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.glucoseReadingDetails,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(fontSize: 30),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  buildBodyOfScreen(
+                    context,
+                    state.glucoseReading,
+                    state.dishes,
+                    state.therapy,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  AppButton(
+                    callback: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditGlucoseEntryScreen(
+                            glucoseReadingId: widget.glucoseReadingId,
+                          ),
+                        ),
+                      );
+                    },
+                    text: AppLocalizations.of(context)!.edit,
+                  ),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Entry Details',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                buildBodyOfScreen(context),
-                const SizedBox(
-                  height: 10,
-                ),
-                AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.edit,
-                ),
-              ],
-            ),
-          ),
-        ),
+          );
+        }),
       ),
     ]);
   }
 
-  Expanded buildBodyOfScreen(BuildContext context) {
+  Expanded buildBodyOfScreen(
+    BuildContext context,
+    GlucoseReading glucoseReading,
+    List<Dish> dishes,
+    List<Therapy> therapy,
+  ) {
+    final bool isStandardUnit =
+        UserSimplePreferences.isStandardMeasurementUnit();
+
     return Expanded(
       child: ListView(
         children: [
           Container(
-            height: 60,
+            height: 70,
             decoration: BoxDecoration(
               color: goodSugarColor,
               borderRadius: borderRadius,
@@ -87,11 +149,17 @@ class GlucoseEntryScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Glucose level',
+                    AppLocalizations.of(context)!.glucoseLevel,
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
+                  SvgPicture.asset(
+                    getGlucoseTimingPathToIcon(glucoseReading.glucoseTiming),
+                    colorFilter:
+                        const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  ),
                   Text(
-                    '5.6 mmol/L',
+                    '${glucoseReading.glucoseValue.convertByStandardUnit()} '
+                    '${isStandardUnit ? 'mmol/L' : 'mg/dl'}',
                     style: Theme.of(context).textTheme.displaySmall,
                   )
                 ],
@@ -101,48 +169,50 @@ class GlucoseEntryScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          buildMealContainer(context),
+          buildMealContainer(context, dishes, glucoseReading.mealType),
           const SizedBox(
             height: 10,
           ),
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              gradient: containerColorGradient,
-              borderRadius: borderRadius,
-            ),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Climbing ',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                  TextSpan(
-                    text: '- 240 min \n',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                  TextSpan(
-                    text: '\tModerate',
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall!
-                        .copyWith(fontSize: 16),
-                  ),
-                ],
+          Visibility(
+            visible: glucoseReading.activity != null,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: containerColorGradient,
+                borderRadius: borderRadius,
+              ),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text:
+                          '${glucoseReading.activity?.name} - ${glucoseReading.activity?.duration} min\n',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
+                    TextSpan(
+                      text:
+                          '\t${getStringForActivityIntensity(glucoseReading.activity?.intensity, context)}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .displaySmall!
+                          .copyWith(fontSize: 16),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          buildMedicationContainer(context),
+          buildMedicationContainer(context, therapy),
         ],
       ),
     );
   }
 
-  Container buildMedicationContainer(BuildContext context) {
+  Container buildMedicationContainer(
+      BuildContext context, List<Therapy> therapy) {
     return Container(
       height: 250,
       decoration: BoxDecoration(
@@ -161,7 +231,7 @@ class GlucoseEntryScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Medication',
+                  AppLocalizations.of(context)!.medication,
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
               ],
@@ -171,14 +241,13 @@ class GlucoseEntryScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: SizedBox(
                   height: 190,
-                  child: ListView(
-                    children: const [
-                      MedicationEntryContainer(
-                        isInsulin: true,
-                        medicationDailyTherapy: 4,
-                        medicationName: 'Novorapid',
-                      ),
-                    ],
+                  child: ListView.builder(
+                    itemCount: therapy.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return MedicationEntryContainer(
+                        therapy: therapy[index],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -189,7 +258,11 @@ class GlucoseEntryScreen extends StatelessWidget {
     );
   }
 
-  Container buildMealContainer(BuildContext context) {
+  Container buildMealContainer(
+    BuildContext context,
+    List<Dish> dishes,
+    MealType? mealType,
+  ) {
     return Container(
       height: 250,
       decoration: BoxDecoration(
@@ -208,11 +281,11 @@ class GlucoseEntryScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Meal - Lunch',
+                  '${AppLocalizations.of(context)!.meal} - ${getMealType(mealType, context)}',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 Text(
-                  '122 UH',
+                  '${calculateTotalUH(dishes)} UH',
                   style: Theme.of(context).textTheme.displaySmall,
                 )
               ],
@@ -222,11 +295,13 @@ class GlucoseEntryScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: SizedBox(
                   height: 190,
-                  child: ListView(
-                    children: const [
-                      MealEntryContainer(),
-                      MealEntryContainer(),
-                    ],
+                  child: ListView.builder(
+                    itemCount: dishes.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return MealEntryContainer(
+                        dish: dishes[index],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -235,5 +310,13 @@ class GlucoseEntryScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int calculateTotalUH(List<Dish> dishes) {
+    int value = 0;
+    for (var element in dishes) {
+      value = value + element.carbohydrateValue;
+    }
+    return value;
   }
 }

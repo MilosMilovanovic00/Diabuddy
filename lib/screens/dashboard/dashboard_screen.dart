@@ -1,57 +1,39 @@
-import 'package:diabuddy/model/dto/glucose_entry_dto.dart';
-import 'package:diabuddy/model/dto/medication_dto.dart';
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/enum/time_period_type.dart';
 import 'package:diabuddy/screens/dashboard/components/diagram_container.dart';
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
 import 'package:diabuddy/screens/reusable/daily_glucose_indicator_container.dart';
 import 'package:diabuddy/screens/reusable/daily_medication_indicator_container.dart';
 import 'package:diabuddy/theme/colours.dart';
+import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final List<MedicationDto> medications = [
-      MedicationDto(
-          dailyIntake: 4,
-          insulinUnits: 6,
-          isInsulin: true,
-          medicationName: 'Novolin R FlexPen ReliOn'),
-      MedicationDto(
-          dailyIntake: 4,
-          insulinUnits: 6,
-          isInsulin: true,
-          medicationName: 'NovoRapid'),
-      MedicationDto(
-          dailyIntake: 4,
-          insulinUnits: 6,
-          isInsulin: true,
-          medicationName: 'NovoRapid'),
-    ];
-    final List<GlucoseEntryDTO> glucoseEntries = [
-      GlucoseEntryDTO(
-        medicationName: 'Novolin R FlexPen ReliOn',
-        entryTime: DateTime.now(),
-        glucoseValue: 5.6,
-        mealIntake: 45,
-      ),
-      GlucoseEntryDTO(
-        medicationName: 'NovoRapid',
-        entryTime: DateTime.now(),
-        glucoseValue: 2.5,
-        mealIntake: 45,
-      ),
-      GlucoseEntryDTO(
-        medicationName: 'Tresiba',
-        entryTime: DateTime.now(),
-        glucoseValue: 15.6,
-        mealIntake: 45,
-      ),
-    ];
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
 
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  void initState() {
+    super.initState();
+    DateTime start = DateTime.now();
+    start = DateTime(start.year, start.month, start.day);
+    DateTime end = start.add(const Duration(days: 1));
+    end = DateTime(end.year, end.month, end.day);
+    BlocProvider.of<UserBloc>(context).add(GetAllMedications());
+    BlocProvider.of<UserBloc>(context)
+        .add(GetGlucoseReadingsForPeriod(start, end));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(children: [
       Container(
         color: Colors.white,
@@ -59,6 +41,21 @@ class DashboardScreen extends StatelessWidget {
       Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: IconButton(
+                onPressed: () {
+                  //logout
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
           title: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -89,13 +86,32 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 120,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: medications.length,
-                    itemBuilder: (context, index) {
-                      return DailyMedicationIndicatorContainer(
-                        medication: medications[index],
-                      );
+                  child: BlocBuilder<UserBloc, UserState>(
+                    builder: (context, state) {
+                      if (state is FetchedMedicationData) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.medicine.length,
+                          itemBuilder: (context, index) {
+                            return DailyMedicationIndicatorContainer(
+                              medication: state.medicine[index],
+                            );
+                          },
+                        );
+                      } else {
+                        return Container(
+                          decoration: BoxDecoration(
+                            gradient: containerColorGradient,
+                            borderRadius: borderRadius,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "No registered medication intake",
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ),
@@ -104,12 +120,23 @@ class DashboardScreen extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 160,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: glucoseEntries.length,
-                    itemBuilder: (context, index) {
-                      return DailyGlucoseIndicatorContainer(
-                          glucoseEntryDTO: glucoseEntries[index]);
+                  child: BlocBuilder<UserBloc, UserState>(
+                    buildWhen: (previous, current) =>
+                        current is FetchedTodayGlucoseReadingsSuccess,
+                    builder: (context, state) {
+                      if (state is! FetchedTodayGlucoseReadingsSuccess) {
+                        return Container();
+                      } else {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.readings.length,
+                          itemBuilder: (context, index) {
+                            return DailyGlucoseIndicatorContainer(
+                              glucoseReading: state.readings[index],
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ),
@@ -117,12 +144,24 @@ class DashboardScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Expanded(
-                  child: DiagramContainer(
-                    backgroundColor: orangeColor.withOpacity(0.8),
-                    diagramTitle: AppLocalizations.of(context)!.glucoseDiagram,
-                    isDiagramScreen: false,
-                    toolTipColor: orangeColor,
-                    timePeriodType: TimePeriodType.today,
+                  child: BlocBuilder<UserBloc, UserState>(
+                    buildWhen: (previous, current) =>
+                        current is FetchedTodayGlucoseReadingsSuccess,
+                    builder: (context, state) {
+                      if (state is FetchedTodayGlucoseReadingsSuccess) {
+                        return DiagramContainer(
+                          backgroundColor: orangeColor.withOpacity(0.8),
+                          diagramTitle:
+                              AppLocalizations.of(context)!.glucoseDiagram,
+                          isDiagramScreen: false,
+                          toolTipColor: orangeColor,
+                          timePeriodType: TimePeriodType.today,
+                          readings: state.readings,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
                   ),
                 ),
               ],

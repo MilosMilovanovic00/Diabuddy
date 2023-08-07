@@ -1,8 +1,15 @@
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/extensions/double_extensions.dart';
+import 'package:diabuddy/model/enitity/user_model.dart';
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_input_field.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GlucoseTargetOnboardingScreen extends StatefulWidget {
@@ -15,6 +22,7 @@ class GlucoseTargetOnboardingScreen extends StatefulWidget {
 
 class _GlucoseTargetOnboardingScreenState
     extends State<GlucoseTargetOnboardingScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TextEditingController chGlucoseController;
   late TextEditingController amGlucoseController;
   late TextEditingController bmGlucoseController;
@@ -24,11 +32,17 @@ class _GlucoseTargetOnboardingScreenState
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<UserBloc>(context).add(GetGlucoseTargets());
     chGlucoseController = TextEditingController();
-    amGlucoseController = TextEditingController();
     bmGlucoseController = TextEditingController();
+    amGlucoseController = TextEditingController();
     lGlucoseController = TextEditingController();
     clGlucoseController = TextEditingController();
+    chGlucoseController.text = "15.4";
+    amGlucoseController.text = "8.8";
+    bmGlucoseController.text = "5.5";
+    lGlucoseController.text = "3.9";
+    clGlucoseController.text = "2.8";
   }
 
   @override
@@ -63,101 +77,193 @@ class _GlucoseTargetOnboardingScreenState
           ),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 30.0,
-            vertical: 20,
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!
-                            .glucoseTargetOnboardingTitle,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!
-                            .glucoseTargetOnboardingBodyText,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      buildGlucoseInputFields(context),
-                    ],
+      body: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {
+          if (state is GlucoseTargetsUpdated) {
+            // Navigator.pop(context);
+            print('radi');
+            //mora da skinem sve sa stacka i da stavim na dashboard
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30.0,
+              vertical: 20,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!
+                              .glucoseTargetOnboardingTitle,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!
+                              .glucoseTargetOnboardingBodyText,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        buildGlucoseInputFields(context),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              AppButton(
-                callback: () {},
-                text: AppLocalizations.of(context)!.save,
-              ),
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                AppButton(
+                  callback: () {
+                    saveGlucoseTargets();
+                  },
+                  text: AppLocalizations.of(context)!.save,
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Column buildGlucoseInputFields(BuildContext context) {
-    return Column(
-      children: [
-        AppNumberInputField(
-          text: AppLocalizations.of(context)!.criticalHigh,
-          containerColor: highSugarColor,
-          controller: chGlucoseController,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        AppNumberInputField(
-          text: AppLocalizations.of(context)!.afterMeal,
-          containerColor: goodSugarColor,
-          controller: amGlucoseController,
-          containerBorderRadius: const BorderRadius.vertical(
-            top: Radius.circular(10),
-          ),
-        ),
-        AppNumberInputField(
-          text: AppLocalizations.of(context)!.beforeMeal,
-          containerColor: goodSugarColor,
-          controller: bmGlucoseController,
-          containerBorderRadius: BorderRadius.zero,
-        ),
-        AppNumberInputField(
-          text: AppLocalizations.of(context)!.low,
-          containerColor: goodSugarColor,
-          controller: lGlucoseController,
-          containerBorderRadius: const BorderRadius.vertical(
-            bottom: Radius.circular(10),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        AppNumberInputField(
-          text: AppLocalizations.of(context)!.criticalLow,
-          containerColor: lowSugarColor,
-          controller: clGlucoseController,
-          textInputAction: TextInputAction.done,
-        ),
-      ],
+  Form buildGlucoseInputFields(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: BlocBuilder<UserBloc, UserState>(
+        builder: (BuildContext context, state) {
+          if (state is FetchedGlucoseTargets) {
+            chGlucoseController.text = state.glucoseTargets.criticalHigh
+                .convertByStandardUnit()
+                .toString();
+            amGlucoseController.text = state.glucoseTargets.afterMeal
+                .convertByStandardUnit()
+                .toString();
+            bmGlucoseController.text = state.glucoseTargets.beforeMeal
+                .convertByStandardUnit()
+                .toString();
+            lGlucoseController.text =
+                state.glucoseTargets.low.convertByStandardUnit().toString();
+            clGlucoseController.text = state.glucoseTargets.criticalLow
+                .convertByStandardUnit()
+                .toString();
+            return Column(
+              children: [
+                AppNumberInputField(
+                  text: AppLocalizations.of(context)!.criticalHigh,
+                  containerColor: highSugarColor,
+                  controller: chGlucoseController,
+                  initialValue: chGlucoseController.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "You must fill this field";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                AppNumberInputField(
+                  text: AppLocalizations.of(context)!.afterMeal,
+                  containerColor: goodSugarColor,
+                  controller: amGlucoseController,
+                  containerBorderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(10),
+                  ),
+                  initialValue: amGlucoseController.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "You must fill this field";
+                    }
+                    return null;
+                  },
+                ),
+                AppNumberInputField(
+                  text: AppLocalizations.of(context)!.beforeMeal,
+                  containerColor: goodSugarColor,
+                  controller: bmGlucoseController,
+                  containerBorderRadius: BorderRadius.zero,
+                  initialValue: bmGlucoseController.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "You must fill this field";
+                    }
+                    return null;
+                  },
+                ),
+                AppNumberInputField(
+                  text: AppLocalizations.of(context)!.low,
+                  containerColor: goodSugarColor,
+                  controller: lGlucoseController,
+                  containerBorderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(10),
+                  ),
+                  initialValue: lGlucoseController.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "You must fill this field";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                AppNumberInputField(
+                  text: AppLocalizations.of(context)!.criticalLow,
+                  containerColor: lowSugarColor,
+                  controller: clGlucoseController,
+                  textInputAction: TextInputAction.done,
+                  initialValue: clGlucoseController.text,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "You must fill this field";
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        },
+      ),
     );
+  }
+
+  Future<void> saveGlucoseTargets() async {
+    GlucoseTargets glucoseTargets = GlucoseTargets(
+      afterMeal: double.parse(amGlucoseController.text.trim())
+          .transformToStandardUnit(),
+      beforeMeal: double.parse(bmGlucoseController.text.trim())
+          .transformToStandardUnit(),
+      criticalHigh: double.parse(chGlucoseController.text.trim())
+          .transformToStandardUnit(),
+      criticalLow: double.parse(clGlucoseController.text.trim())
+          .transformToStandardUnit(),
+      low: double.parse(lGlucoseController.text.trim())
+          .transformToStandardUnit(),
+    );
+    UserSimplePreferences.setHighGlucoseValue(
+        double.parse(chGlucoseController.text.trim())
+            .transformToStandardUnit());
+    UserSimplePreferences.setLowGlucoseValue(
+        double.parse(lGlucoseController.text.trim()).transformToStandardUnit());
+    BlocProvider.of<UserBloc>(context).add(SaveGlucoseTargets(glucoseTargets));
   }
 }

@@ -1,9 +1,15 @@
+import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class MealEntryContainer extends StatelessWidget {
-  const MealEntryContainer({Key? key}) : super(key: key);
+  const MealEntryContainer({
+    Key? key,
+    required this.dish,
+  }) : super(key: key);
+
+  final Dish dish;
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +42,13 @@ class MealEntryContainer extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Bread \n\t',
+                      text: '${dish.name} \n\t',
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             fontSize: 22,
                           ),
                     ),
                     TextSpan(
-                      text: '120 g',
+                      text: '${dish.grams} g',
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             fontSize: 14,
                           ),
@@ -51,7 +57,7 @@ class MealEntryContainer extends StatelessWidget {
                 ),
               ),
               Text(
-                '55 UH',
+                '${dish.carbohydrateValue} UH',
                 style: Theme.of(context)
                     .textTheme
                     .displaySmall!

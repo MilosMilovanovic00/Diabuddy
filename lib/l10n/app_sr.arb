@@ -90,5 +90,53 @@
   "notificationType":"Vrsta podsetnika",
   "activityReminder":"Podsetnik za aktivnost",
   "insulinReminder":"Podsetnik za insulin",
-  "glucoseCheckReminder":"Podsetnik za merenje glukoze"
+  "glucoseCheckReminder":"Podsetnik za merenje glukoze",
+  "averageInsulinIntake":"Prosečan unos insulina",
+  "notificationsSelectedForMedication":"Podsetnici za odredjeni lek",
+  "cancel":"Otkaži",
+  "logbook":"Evidencija",
+  "addNewDish":"Dodaj novo jelo",
+  "mealCarbohydrateValuePer100g":"Broj ugljenih hidrata u 100g jela",
+  "youMustEnterDishName":"Morate uneti ime jela",
+  "addYourMeal":"Dodaj obrok",
+  "searchYourDish":"Pretraži jelo",
+  "editYourDish":"Izmeni jelo",
+  "glucoseReadingDetails":"Detalji merenja glukoze",
+  "glucoseLevel":"Nivo glukoze",
+  "medication":"Terapija",
+  "meal":"Jelo",
+  "editGlucoseReadingDetails":"Izmeni detalje merenja glukoze",
+  "editGlucoseLevel":"Izmeni nivo secera",
+  "editYourActivity":"Izmeni aktivnost",
+  "editYourMeal":"Izmeni obrok",
+  "addMeal":"Dodaj jelo",
+  "grams":"grama",
+  "editYourMedication":"Izmeni terapiju",
+  "language":"Jezik",
+  "profileSettings":"Podešavanja naloga",
+  "glucose":"Glukoza",
+  "mealWithCarbonHydrateValue": "Jelo {value} UH",
+  "@mealWithCarbonHydrateValue": {
+    "description": "Indicator for carbohydrate amount in meal",
+    "placeholders": {
+      "value": {
+        "type": "double",
+        "example": "4.3"
+      }
+    }
+  },
+  "measurements":"Merna jedinica",
+  "targetGlucoseRange":"Ciljani opseg glukoze",
+  "hiWithName": "Ćao {name}",
+  "@hiWithName": {
+      "description": "Custom title for each user with name",
+      "placeholders": {
+        "name": {
+          "type": "String",
+          "example": "Milos"
+        }
+      }
+    },
+  "profileUpdate":"Izmeni profil",
+  "diagrams":"Dijagrami"
 }

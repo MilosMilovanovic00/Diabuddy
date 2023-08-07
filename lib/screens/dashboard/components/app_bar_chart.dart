@@ -1,3 +1,5 @@
+import 'package:diabuddy/extensions/int_extenstions.dart';
+import 'package:diabuddy/model/enitity/bar_chart_column_values.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -7,11 +9,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AppBarChart extends StatefulWidget {
   AppBarChart({
     super.key,
+    required this.forMonth,
+    required this.data,
   });
 
   final Color barBackgroundColor = primaryColor.withOpacity(0.3);
   final Color barColor = primaryColor.withOpacity(0.5);
   final Color touchedBarColor = primaryColor;
+  final bool forMonth;
+  final Map<int, BarChartColumnValues> data;
 
   @override
   State<StatefulWidget> createState() => AppBarChartState();
@@ -38,34 +44,10 @@ class AppBarChartState extends State<AppBarChart> {
               tooltipHorizontalAlignment: FLHorizontalAlignment.center,
               tooltipMargin: 10,
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                String weekDay;
-                switch (group.x) {
-                  case 0:
-                    weekDay = AppLocalizations.of(context)!.monday;
-                    break;
-                  case 1:
-                    weekDay = AppLocalizations.of(context)!.tuesday;
-                    break;
-                  case 2:
-                    weekDay = AppLocalizations.of(context)!.wednesday;
-                    break;
-                  case 3:
-                    weekDay = AppLocalizations.of(context)!.thursday;
-                    break;
-                  case 4:
-                    weekDay = AppLocalizations.of(context)!.friday;
-                    break;
-                  case 5:
-                    weekDay = AppLocalizations.of(context)!.saturday;
-                    break;
-                  case 6:
-                    weekDay = AppLocalizations.of(context)!.sunday;
-                    break;
-                  default:
-                    throw Error();
-                }
                 return BarTooltipItem(
-                  '$weekDay\n',
+                  widget.forMonth
+                      ? '${group.x}. day\n'
+                      : '${getDayNameByDayOfWeek(group, context)}\n',
                   const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -73,8 +55,9 @@ class AppBarChartState extends State<AppBarChart> {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                        text: '${rod.fromY} - ${rod.toY}',
-                        style: Theme.of(context).textTheme.displaySmall),
+                      text: '${rod.fromY} - ${rod.toY - 0.01}',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
                   ],
                 );
               },
@@ -128,7 +111,7 @@ class AppBarChartState extends State<AppBarChart> {
               top: const BorderSide(color: Colors.transparent),
             ),
           ),
-          barGroups: showingGroups(),
+          barGroups: showingGroupsForData(),
           gridData: FlGridData(
             show: true,
             drawHorizontalLine: true,
@@ -138,13 +121,42 @@ class AppBarChartState extends State<AppBarChart> {
               dashArray: [5, 5], // Adjust the dash array as desired
             ),
             horizontalInterval: 4, //koliko ce biti interval izmedju linija
-            // getDrawingHorizontalLine: ,
           ),
         )
             // mainBarData(),
             ),
       ),
     );
+  }
+
+  String getDayNameByDayOfWeek(BarChartGroupData group, BuildContext context) {
+    String weekDay;
+    switch (group.x) {
+      case 0:
+        weekDay = AppLocalizations.of(context)!.monday;
+        break;
+      case 1:
+        weekDay = AppLocalizations.of(context)!.tuesday;
+        break;
+      case 2:
+        weekDay = AppLocalizations.of(context)!.wednesday;
+        break;
+      case 3:
+        weekDay = AppLocalizations.of(context)!.thursday;
+        break;
+      case 4:
+        weekDay = AppLocalizations.of(context)!.friday;
+        break;
+      case 5:
+        weekDay = AppLocalizations.of(context)!.saturday;
+        break;
+      case 6:
+        weekDay = AppLocalizations.of(context)!.sunday;
+        break;
+      default:
+        throw Error();
+    }
+    return weekDay;
   }
 
   BarChartGroupData makeGroupData(
@@ -162,7 +174,7 @@ class AppBarChartState extends State<AppBarChart> {
         BarChartRodData(
           fromY: fromY,
           borderRadius: borderRadius,
-          toY: toY,
+          toY: toY + 0.01,
           color: isTouched ? widget.touchedBarColor : barColor,
           width: width,
           borderSide: isTouched
@@ -176,35 +188,13 @@ class AppBarChartState extends State<AppBarChart> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(11, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(0, 5, 12, isTouched: i == touchedIndex);
-          case 1:
-            return makeGroupData(1, 6.5, 8, isTouched: i == touchedIndex);
-          case 2:
-            return makeGroupData(2, 5, 10, isTouched: i == touchedIndex);
-          case 3:
-            return makeGroupData(3, 2.5, 7.5, isTouched: i == touchedIndex);
-          case 4:
-            return makeGroupData(4, 4, 9, isTouched: i == touchedIndex);
-          case 5:
-            return makeGroupData(5, 4.4, 11.5, isTouched: i == touchedIndex);
-          case 6:
-            return makeGroupData(6, 4, 6.5, isTouched: i == touchedIndex);
-          case 7:
-            return makeGroupData(6, 4, 6.5, isTouched: i == touchedIndex);
-          case 8:
-            return makeGroupData(6, 4, 6.5, isTouched: i == touchedIndex);
-          case 9:
-            return makeGroupData(6, 4, 6.5, isTouched: i == touchedIndex);
-          case 10:
-            return makeGroupData(0, 5, 12, isTouched: i == touchedIndex);
-
-          default:
-            return throw Error();
-        }
-      });
+  List<BarChartGroupData> showingGroupsForData() => widget.data.entries
+      .map((entry) => makeGroupData(
+            entry.key,
+            entry.value.min,
+            entry.value.max,
+          ))
+      .toList();
 
   Widget getBottomTitles(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -242,7 +232,12 @@ class AppBarChartState extends State<AppBarChart> {
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 16,
-      child: text,
+      child: widget.forMonth
+          ? Text(
+              value.toInt().toString(),
+              style: style,
+            )
+          : text,
     );
   }
 
@@ -258,16 +253,16 @@ class AppBarChartState extends State<AppBarChart> {
         text = const Text('0', style: style);
         break;
       case 4:
-        text = const Text('4', style: style);
+        text = Text('${4.convertByStandardUnit()}', style: style);
         break;
       case 8:
-        text = const Text('8', style: style);
+        text = Text('${8.convertByStandardUnit()}', style: style);
         break;
       case 12:
-        text = const Text('12', style: style);
+        text = Text('${12.convertByStandardUnit()}', style: style);
         break;
       case 16:
-        text = const Text('16', style: style);
+        text = Text('${16.convertByStandardUnit()}', style: style);
         break;
       default:
         text = const Text('', style: style);

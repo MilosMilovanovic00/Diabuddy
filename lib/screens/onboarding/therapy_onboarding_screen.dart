@@ -1,10 +1,15 @@
-import 'package:diabuddy/model/dto/medication_dto.dart';
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/model/enitity/medication.dart';
 import 'package:diabuddy/screens/onboarding/add_medication_screen.dart';
+import 'package:diabuddy/screens/onboarding/glucose_target_onboarding_screen.dart';
 import 'package:diabuddy/screens/reusable/app_add_button.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/medication_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TherapyOnboardingScreen extends StatefulWidget {
@@ -16,25 +21,16 @@ class TherapyOnboardingScreen extends StatefulWidget {
 }
 
 class _TherapyOnboardingScreenState extends State<TherapyOnboardingScreen> {
+  late List<Medication> medicine = [];
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<UserBloc>(context).add(GetAllMedications());
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<MedicationDto> list = [
-      MedicationDto(
-          dailyIntake: 4,
-          insulinUnits: 6,
-          isInsulin: true,
-          medicationName: 'NovoRapid'),
-      MedicationDto(
-          dailyIntake: 4,
-          insulinUnits: 6,
-          isInsulin: true,
-          medicationName: 'NovoRapid'),
-      MedicationDto(
-          dailyIntake: 4,
-          insulinUnits: 6,
-          isInsulin: true,
-          medicationName: 'NovoRapid'),
-    ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -96,21 +92,34 @@ class _TherapyOnboardingScreenState extends State<TherapyOnboardingScreen> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                height: 350,
-                child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, index) {
-                    return MedicationContainer(
-                      medication: list[index],
-                      callback: () {},
-                    );
-                  },
-                ),
-              ),
+              BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+                if (state is! FetchedMedicationData) {
+                  return Container();
+                } else {
+                  return SizedBox(
+                    height: 330,
+                    child: ListView.builder(
+                      itemCount: state.medicine.length,
+                      itemBuilder: (context, index) {
+                        return MedicationContainer(
+                          medication: state.medicine[index],
+                        );
+                      },
+                    ),
+                  );
+                }
+              }),
               const Spacer(),
               AppButton(
-                callback: () {},
+                callback: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const GlucoseTargetOnboardingScreen(),
+                    ),
+                  );
+                },
                 text: AppLocalizations.of(context)!.save,
               ),
             ],

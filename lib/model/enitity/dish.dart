@@ -1,11 +1,30 @@
 class Dish {
-  final String dishName;
+  final String? id;
+  final String name;
   final int carbohydrateValue;
-  final int gramsPerMeal;
+  final int grams;
 
   Dish({
-    required this.dishName,
+    this.id,
+    required this.name,
     required this.carbohydrateValue,
-    required this.gramsPerMeal,
+    required this.grams,
   });
+
+  factory Dish.fromMap(map, id) {
+    return Dish(
+      id: id,
+      name: map['name'],
+      carbohydrateValue: map['carbohydrateValue'],
+      grams: map['grams'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'carbohydrateValue': carbohydrateValue,
+      'grams': grams,
+    };
+  }
 }

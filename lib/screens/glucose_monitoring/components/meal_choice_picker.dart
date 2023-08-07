@@ -6,9 +6,11 @@ class MealChoicePicker extends StatefulWidget {
   const MealChoicePicker({
     Key? key,
     this.mealType,
+    required this.setMealType,
   }) : super(key: key);
 
   final MealType? mealType;
+  final Function setMealType;
 
   @override
   State<MealChoicePicker> createState() => _MealChoicePickerState();
@@ -32,7 +34,7 @@ class _MealChoicePickerState extends State<MealChoicePicker> {
           breakfastSelected = true;
           break;
         case MealType.lunch:
-          lunchSelected = false;
+          lunchSelected = true;
           break;
         case MealType.dinner:
           dinnerSelected = true;
@@ -119,5 +121,6 @@ class _MealChoicePickerState extends State<MealChoicePicker> {
         lunchSelected = breakfastSelected = dinnerSelected = false;
         break;
     }
+    widget.setMealType(mealType);
   }
 }

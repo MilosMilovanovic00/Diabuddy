@@ -1,19 +1,17 @@
+import 'package:diabuddy/model/enitity/therapy.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MedicationEntryContainer extends StatelessWidget {
   const MedicationEntryContainer({
     Key? key,
-    required this.isInsulin,
-    required this.medicationDailyTherapy,
-    required this.medicationName,
+    required this.therapy,
   }) : super(key: key);
 
-  final bool isInsulin;
-  final int medicationDailyTherapy;
-  final String medicationName;
+  final Therapy therapy;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class MedicationEntryContainer extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Novorapid',
+                  therapy.name,
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
               ),
@@ -55,7 +53,7 @@ class MedicationEntryContainer extends StatelessWidget {
                     width: 30,
                     height: 30,
                     child: SvgPicture.asset(
-                      isInsulin
+                      therapy.isInsulin
                           ? './assets/svg/syringe_icon.svg'
                           : './assets/svg/pills_icon.svg',
                       colorFilter:
@@ -63,7 +61,7 @@ class MedicationEntryContainer extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '$medicationDailyTherapy ${isInsulin ? "U" : "pills"}',
+                    '${therapy.dose} ${therapy.isInsulin ? AppLocalizations.of(context)!.units[0] : AppLocalizations.of(context)!.pills}',
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ],

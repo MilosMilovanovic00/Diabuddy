@@ -56,7 +56,7 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      widget.medication.medicineName,
+                      widget.medication.medicationName!,
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             color: selected
                                 ? Colors.white
@@ -67,7 +67,7 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                       width: 30,
                       height: 30,
                       child: SvgPicture.asset(
-                        widget.medication.isInsulin
+                        widget.medication.isInsulin!
                             ? './assets/svg/syringe_icon.svg'
                             : './assets/svg/pills_icon.svg',
                         colorFilter: ColorFilter.mode(
@@ -120,7 +120,7 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                         setCurrentValue: setMedicationTherapyAmount,
                       ),
                       Text(
-                        widget.medication.isInsulin ? 'units' : 'pills',
+                        widget.medication.isInsulin! ? 'units' : 'pills',
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   color: primaryColor.withOpacity(0.7),

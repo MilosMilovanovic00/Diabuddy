@@ -28,17 +28,14 @@ class AddNotificationScreen extends StatefulWidget {
 class _AddNotificationScreenState extends State<AddNotificationScreen> {
   late int minute;
   late int hour;
-  late String notificationChoice;
+  late NotificationType notificationChoice;
 
   @override
   void initState() {
     super.initState();
     minute = widget.minute ?? 0;
     hour = widget.hour ?? 12;
-    if (widget.notificationType != null) {
-      notificationChoice =
-          getNotificationType(context, widget.notificationType!);
-    }
+    notificationChoice = widget.notificationType ?? NotificationType.activity;
   }
 
   @override
@@ -138,11 +135,8 @@ class _AddNotificationScreenState extends State<AddNotificationScreen> {
                         alignment: Alignment.bottomCenter,
                         child: AppDropdownContainer(
                           setChoice: setChoice,
-                          choices: [
-                            AppLocalizations.of(context)!.activityReminder,
-                            AppLocalizations.of(context)!.insulinReminder,
-                            AppLocalizations.of(context)!.glucoseCheckReminder
-                          ],
+                          choices: getAllNotificationTypes(),
+                          choice: null,
                         ),
                       ),
                     ],
@@ -172,7 +166,7 @@ class _AddNotificationScreenState extends State<AddNotificationScreen> {
     setState(() {});
   }
 
-  void setChoice(String type) {
+  void setChoice(dynamic type) {
     setState(() {});
   }
 }

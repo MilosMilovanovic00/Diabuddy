@@ -1,3 +1,4 @@
+import 'package:diabuddy/extensions/int_extenstions.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,14 @@ class AppLineChart extends StatelessWidget {
     required this.toolTipColor,
     required this.maxY,
     required this.maxX,
+    required this.data,
   }) : super(key: key);
 
   final double horizontalInterval;
   final Color toolTipColor;
   final double maxY;
   final double maxX;
+  final Map<double, double> data;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +45,7 @@ class AppLineChart extends StatelessWidget {
                 color: Colors.white.withOpacity(0.4), strokeWidth: 2,
                 dashArray: [5, 5], // Adjust the dash array as desired
               ),
-              horizontalInterval:
-                  horizontalInterval, //koliko ce biti interval izmedju linija
+              horizontalInterval: horizontalInterval,
               // getDrawingHorizontalLine: ,
             ),
             titlesData: chartTitles,
@@ -63,7 +65,7 @@ class AppLineChart extends StatelessWidget {
         getTitlesWidget: getLeftTitles,
         showTitles: true,
         interval: 2,
-        reservedSize: 45,
+        reservedSize: 48,
       );
 
   Widget getLeftTitles(double value, TitleMeta meta) {
@@ -78,16 +80,16 @@ class AppLineChart extends StatelessWidget {
         text = const Text('0', style: style);
         break;
       case 4:
-        text = const Text('4', style: style);
+        text = Text('${4.convertByStandardUnit()}', style: style);
         break;
       case 8:
-        text = const Text('8', style: style);
+        text = Text('${8.convertByStandardUnit()}', style: style);
         break;
       case 12:
-        text = const Text('12', style: style);
+        text = Text('${12.convertByStandardUnit()}', style: style);
         break;
       case 16:
-        text = const Text('16', style: style);
+        text = Text('${16.convertByStandardUnit()}', style: style);
         break;
       default:
         text = const Text('', style: style);
@@ -133,16 +135,19 @@ class AppLineChart extends StatelessWidget {
         fontFamily: 'SourceSansPro',
         color: Colors.white);
     switch (value.toInt()) {
-      case 0:
+      case 2:
+        text = const Text('3:00', style: style);
+        break;
+      case 7:
         text = const Text('7:00', style: style);
         break;
-      case 5:
+      case 12:
         text = const Text('12:00', style: style);
         break;
-      case 11:
-        text = const Text('18:00', style: style);
+      case 17:
+        text = const Text('17:00', style: style);
         break;
-      case 16:
+      case 22:
         text = const Text('22:00', style: style);
         break;
       default:
@@ -178,14 +183,8 @@ class AppLineChart extends StatelessWidget {
           show: true,
         ),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 3.8),
-          FlSpot(3, 10.9),
-          FlSpot(3.1, 8.9),
-          FlSpot(4, 1.9),
-          FlSpot(6, 5),
-          FlSpot(10, 3.3),
-          FlSpot(13, 4.5),
-        ],
+        spots: data.entries
+            .map((entry) => FlSpot(entry.key, entry.value))
+            .toList(),
       );
 }

@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 class AppChoiceContainerController extends StatefulWidget {
   const AppChoiceContainerController({
     Key? key,
-    required this.firstChoice,
-    required this.secondChoice,
+    required this.isFirstChoice,
     required this.firstChoiceText,
     required this.secondChoiceText,
+    required this.setChoice,
   }) : super(key: key);
 
-  final bool firstChoice;
-  final bool secondChoice;
+  final bool isFirstChoice;
   final String firstChoiceText;
   final String secondChoiceText;
+  final Function(bool) setChoice;
 
   @override
   State<AppChoiceContainerController> createState() =>
@@ -22,16 +22,16 @@ class AppChoiceContainerController extends StatefulWidget {
 
 class _AppChoiceContainerControllerState
     extends State<AppChoiceContainerController> {
-  late bool firstChoice;
-  late bool secondChoice;
+  late bool isFirstChoice;
+  late bool isSecondChoice;
   late String firstChoiceText;
   late String secondChoiceText;
 
   @override
   void initState() {
     super.initState();
-    firstChoice = widget.firstChoice;
-    secondChoice = widget.secondChoice;
+    isFirstChoice = widget.isFirstChoice;
+    isSecondChoice = !widget.isFirstChoice;
     firstChoiceText = widget.firstChoiceText;
     secondChoiceText = widget.secondChoiceText;
   }
@@ -42,33 +42,27 @@ class _AppChoiceContainerControllerState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppChoiceContainer(
-          isSelected: firstChoice,
-          callback: setFirstChoiceChecked,
+          isSelected: isFirstChoice,
+          callback: changeChoices,
           text: firstChoiceText,
         ),
         const SizedBox(
           height: 20,
         ),
         AppChoiceContainer(
-          isSelected: secondChoice,
-          callback: setSecondChecked,
+          isSelected: isSecondChoice,
+          callback: changeChoices,
           text: secondChoiceText,
         ),
       ],
     );
   }
 
-  void setFirstChoiceChecked() {
+  void changeChoices() {
     setState(() {
-      firstChoice = true;
-      secondChoice = false;
+      isFirstChoice = !isFirstChoice;
+      isSecondChoice = !isSecondChoice;
     });
-  }
-
-  void setSecondChecked() {
-    setState(() {
-      firstChoice = false;
-      secondChoice = true;
-    });
+    widget.setChoice(isFirstChoice);
   }
 }

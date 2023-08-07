@@ -12,20 +12,20 @@ class MedicationSetupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Medication> medicine = [
-      Medication(
-        medicineName: 'NovoRapid',
+      const Medication(
+        medicationName: 'NovoRapid',
         dailyMedicationIntake: 3,
         isInsulin: true,
         averageInsulinUnits: 10,
       ),
-      Medication(
-        medicineName: 'Tresiba',
+      const Medication(
+        medicationName: 'Tresiba',
         dailyMedicationIntake: 1,
         isInsulin: true,
         averageInsulinUnits: 24,
       ),
-      Medication(
-        medicineName: 'Glucagon-like peptide',
+      const Medication(
+        medicationName: 'Glucagon-like peptide',
         dailyMedicationIntake: 5,
         isInsulin: false,
       ),

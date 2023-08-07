@@ -1,26 +1,38 @@
-import 'package:diabuddy/model/enitity/dish.dart';
-import 'package:diabuddy/screens/glucose_monitoring/components/meal_choice_picker.dart';
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/model/enitity/enum/meal_type.dart';
+import 'package:diabuddy/screens/glucose_monitoring/add_meal_screen.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/selected_meal_container.dart';
-import 'package:diabuddy/screens/reusable/app_add_button.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditMealScreen extends StatefulWidget {
-  const EditMealScreen({Key? key}) : super(key: key);
+  const EditMealScreen({
+    Key? key,
+    required this.glucoseReadingId,
+  }) : super(key: key);
+
+  final String glucoseReadingId;
 
   @override
   State<EditMealScreen> createState() => _EditMealScreenState();
 }
 
 class _EditMealScreenState extends State<EditMealScreen> {
-  List<Dish> dishes = [
-    Dish(dishName: 'Carbonara', carbohydrateValue: 40, gramsPerMeal: 100),
-    Dish(dishName: 'Bolognese', carbohydrateValue: 50, gramsPerMeal: 100),
-    Dish(dishName: 'Bread', carbohydrateValue: 15, gramsPerMeal: 100),
-  ];
+  late MealType? mealType;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<UserBloc>(context).add(
+      GetGlucoseReadingDishes(widget.glucoseReadingId),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +53,8 @@ class _EditMealScreenState extends State<EditMealScreen> {
             ),
             child: AppIconButton(
               callback: () {
+                BlocProvider.of<UserBloc>(context)
+                    .add(GetGlucoseReadingById(widget.glucoseReadingId));
                 Navigator.pop(context);
               },
               icon: Icons.arrow_back_ios_new,
@@ -48,62 +62,78 @@ class _EditMealScreenState extends State<EditMealScreen> {
           ),
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Edit your meal',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const MealChoicePicker(),
-                const SizedBox(
-                  height: 20,
-                ),
-                AppAddButton(
-                  text: "Add a meal",
-                  callback: () {},
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: dishes.length,
-                    itemBuilder: (context, index) {
-                      return SelectedMealContainer(
-                        dish: dishes[index],
-                        removeDish: removeDish,
-                      );
-                    },
+        body: BlocConsumer<UserBloc, UserState>(
+          listener: (context, state) {
+            if (state is DeletingDishFailed) {
+              //TODO pop up
+            }
+          },
+          builder: (context, state) {
+            if (state is! FetchedGlucoseReadingDishes) {
+              return Container();
+            } else {
+              return SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0,
+                    vertical: 20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        // 'Edit your meal',
+                        AppLocalizations.of(context)!.editYourMeal,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: state.dishes.length,
+                          itemBuilder: (context, index) {
+                            return SelectedMealContainer(
+                              dish: state.dishes[index],
+                              removeDish: removeDish,
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      AppButton(
+                        callback: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddMealScreen(
+                                glucoseReadingId: widget.glucoseReadingId,
+                              ),
+                            ),
+                          );
+                        },
+                        text: AppLocalizations.of(context)!.addMeal,
+                      ),
+                    ],
                   ),
                 ),
-                AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.save,
-                ),
-              ],
-            ),
-          ),
+              );
+            }
+          },
         ),
       ),
     ]);
   }
 
-  void removeDish(Dish dish) {
-    setState(() {
-      dishes.remove(dish);
-    });
+  void removeDish(String dishId) {
+    BlocProvider.of<UserBloc>(context).add(DeleteDish(
+      widget.glucoseReadingId,
+      dishId,
+    ));
   }
 }

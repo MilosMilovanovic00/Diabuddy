@@ -13,3 +13,11 @@ String getNotificationType(BuildContext context, NotificationType type) {
       return AppLocalizations.of(context)!.glucoseCheckReminder;
   }
 }
+
+List<NotificationType> getAllNotificationTypes() {
+  return List.of([
+    NotificationType.activity,
+    NotificationType.insulin,
+    NotificationType.glucose,
+  ]);
+}

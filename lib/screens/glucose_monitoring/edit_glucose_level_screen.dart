@@ -1,11 +1,17 @@
+import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
+import 'package:diabuddy/model/enitity/enum/meal_type.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/glucose_time_choice_picker.dart';
+import 'package:diabuddy/screens/glucose_monitoring/components/meal_choice_picker.dart';
 import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditGlucoseLevelScreen extends StatefulWidget {
@@ -13,10 +19,14 @@ class EditGlucoseLevelScreen extends StatefulWidget {
     Key? key,
     this.glucoseLevel,
     this.glucoseLevelType,
+    required this.glucoseReadingId,
+    this.mealType,
   }) : super(key: key);
 
+  final String glucoseReadingId;
   final double? glucoseLevel;
-  final GlucoseTimeType? glucoseLevelType;
+  final GlucoseTiming? glucoseLevelType;
+  final MealType? mealType;
 
   @override
   State<EditGlucoseLevelScreen> createState() => _EditGlucoseLevelScreenState();
@@ -25,19 +35,19 @@ class EditGlucoseLevelScreen extends StatefulWidget {
 class _EditGlucoseLevelScreenState extends State<EditGlucoseLevelScreen> {
   late int glucoseLevelFirstDigit;
   late int glucoseLevelSecondDigit;
-  late GlucoseTimeType? glucoseType;
+  late GlucoseTiming glucoseTiming;
+  late MealType? mealType;
 
   @override
   void initState() {
     super.initState();
-    glucoseLevelFirstDigit = widget.glucoseLevel?.toInt() ?? 5;
-    if (widget.glucoseLevel != null) {
-      glucoseLevelSecondDigit =
-          ((widget.glucoseLevel! - glucoseLevelFirstDigit) * 10).toInt();
-    } else {
-      glucoseLevelSecondDigit = 0;
-    }
-    glucoseType = widget.glucoseLevelType;
+    String value = widget.glucoseLevel.toString();
+    glucoseLevelFirstDigit =
+        widget.glucoseLevel != null ? int.parse(value.split('.')[0]) : 5;
+    glucoseLevelSecondDigit =
+        widget.glucoseLevel != null ? int.parse(value.split('.')[1]) : 0;
+    glucoseTiming = widget.glucoseLevelType ?? GlucoseTiming.fasting;
+    mealType = widget.mealType;
   }
 
   @override
@@ -59,6 +69,8 @@ class _EditGlucoseLevelScreenState extends State<EditGlucoseLevelScreen> {
             ),
             child: AppIconButton(
               callback: () {
+                BlocProvider.of<UserBloc>(context)
+                    .add(GetGlucoseReadingById(widget.glucoseReadingId));
                 Navigator.pop(context);
               },
               icon: Icons.arrow_back_ios_new,
@@ -66,82 +78,125 @@ class _EditGlucoseLevelScreenState extends State<EditGlucoseLevelScreen> {
           ),
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Edit glucose level',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                SimpleAppContainer(
-                  text: 'Glucose level',
-                  widget: Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Spacer(),
-                        AppNumberPicker(
-                          axis: Axis.vertical,
-                          widgetHeight: 40,
-                          widgetWidth: 40,
-                          selectedTextSize: 20,
-                          unselectedTextSize: 14,
-                          minValue: 1,
-                          maxValue: 30,
-                          currentValue: glucoseLevelFirstDigit,
-                          setCurrentValue: setFirstDigit,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            '.',
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        ),
-                        AppNumberPicker(
-                          axis: Axis.vertical,
-                          widgetHeight: 40,
-                          widgetWidth: 40,
-                          selectedTextSize: 20,
-                          unselectedTextSize: 14,
-                          minValue: 0,
-                          maxValue: 9,
-                          currentValue: glucoseLevelSecondDigit,
-                          setCurrentValue: setSecondDigit,
-                        ),
-                        const Spacer(),
-                      ],
-                    ),
+        body: BlocListener<UserBloc, UserState>(
+          listener: (BuildContext context, state) {
+            if (state is SuccessfullyUpdatedGlucoseReading) {
+              BlocProvider.of<UserBloc>(context)
+                  .add(GetGlucoseReadingById(widget.glucoseReadingId));
+              Navigator.pop(context);
+            } else {
+              //TODO pop up nije dobro
+            }
+          },
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30.0,
+                vertical: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                GlucoseTimeChoicePicker(),
-                const Spacer(),
-                AppButton(
-                  callback: () {},
-                  text: AppLocalizations.of(context)!.save,
-                ),
-              ],
+                  Text(
+                    AppLocalizations.of(context)!.editGlucoseLevel,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  buildBody(context),
+                  const Spacer(),
+                  AppButton(
+                    callback: () {
+                      updateGlucoseReading();
+                    },
+                    text: AppLocalizations.of(context)!.save,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     ]);
+  }
+
+  SizedBox buildBody(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.55,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SimpleAppContainer(
+                text: AppLocalizations.of(context)!.glucoseLevel,
+                widget: Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Spacer(),
+                      AppNumberPicker(
+                        axis: Axis.vertical,
+                        widgetHeight: 40,
+                        widgetWidth: 40,
+                        selectedTextSize: 20,
+                        unselectedTextSize: 14,
+                        minValue: 1,
+                        maxValue: 30,
+                        currentValue: glucoseLevelFirstDigit,
+                        setCurrentValue: setFirstDigit,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          '.',
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                      ),
+                      AppNumberPicker(
+                        axis: Axis.vertical,
+                        widgetHeight: 40,
+                        widgetWidth: 40,
+                        selectedTextSize: 20,
+                        unselectedTextSize: 14,
+                        minValue: 0,
+                        maxValue: 9,
+                        currentValue: glucoseLevelSecondDigit,
+                        setCurrentValue: setSecondDigit,
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              GlucoseTimeChoicePicker(
+                type: glucoseTiming,
+                setGlucoseTiming: setGlucoseTiming,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              MealChoicePicker(
+                mealType: mealType,
+                setMealType: setMealType,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void setFirstDigit(int value) {
@@ -154,5 +209,27 @@ class _EditGlucoseLevelScreenState extends State<EditGlucoseLevelScreen> {
     setState(() {
       glucoseLevelSecondDigit = value;
     });
+  }
+
+  void setGlucoseTiming(GlucoseTiming value) {
+    setState(() {
+      glucoseTiming = value;
+    });
+  }
+
+  void setMealType(MealType? value) {
+    setState(() {
+      mealType = value;
+    });
+  }
+
+  void updateGlucoseReading() {
+    UpdateGlucoseReading event = UpdateGlucoseReading(
+      double.parse('$glucoseLevelFirstDigit.$glucoseLevelSecondDigit'),
+      glucoseTiming,
+      widget.glucoseReadingId,
+      mealType,
+    );
+    BlocProvider.of<UserBloc>(context).add(event);
   }
 }
