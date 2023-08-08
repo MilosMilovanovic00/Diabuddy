@@ -105,13 +105,14 @@ class UserRepository {
       if (currentUser != null) {
         var data =
             await _firestore.collection('users').doc(currentUser!.uid).get();
-        UserModel user = UserModel.fromMap(data);
+        UserModel user = UserModel.fromMap(data.data(),currentUser!.uid);
         return user;
+      } else {
+        return null;
       }
     } on FirebaseException catch (e) {
       print(e.toString());
     }
-    return null;
   }
 
   Future<void> updatePersonalUserData({

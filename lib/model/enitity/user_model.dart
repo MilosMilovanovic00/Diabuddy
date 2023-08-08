@@ -22,12 +22,12 @@ class UserModel extends Equatable {
       [uid, fullName, email, dateOfBirth, weight, glucoseTargets];
 
   // ovo nam treba da konvertujemo sa firebase u aplikaciju
-  factory UserModel.fromMap(map) {
+  factory UserModel.fromMap(map, String uid) {
     return UserModel(
-      uid: map['uid'],
+      uid: uid,
       fullName: map['fullName'],
       email: map['email'],
-      dateOfBirth: map['dateOfBirth'],
+      dateOfBirth: map['dateOfBirth'].toDate(),
       weight: map['weight'],
       glucoseTargets: GlucoseTargets.fromMap(map['glucoseTargets']),
     );

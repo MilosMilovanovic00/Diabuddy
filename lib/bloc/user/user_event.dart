@@ -187,3 +187,8 @@ class UpdateUserData extends UserEvent {
   @override
   List<Object?> get props => [weight, fullName];
 }
+
+class CheckIfUserExists extends UserEvent {
+  @override
+  List<Object?> get props => [];
+}
