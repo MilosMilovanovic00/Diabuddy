@@ -1,10 +1,12 @@
 import 'package:diabuddy/bloc/auth/auth_bloc.dart';
 import 'package:diabuddy/bloc/user/user_bloc.dart';
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/repository/auth_repository.dart';
 import 'package:diabuddy/repository/dish_repository.dart';
 import 'package:diabuddy/repository/glucose_repository.dart';
 import 'package:diabuddy/repository/user_repository.dart';
-import 'package:diabuddy/screens/glucose_monitoring/logbook_screen.dart';
+import 'package:diabuddy/screens/intro/final_intro_screen.dart';
+import 'package:diabuddy/screens/intro/intro_screen.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
     UserRepository userRepository = UserRepository();
     GlucoseRepository glucoseRepository = GlucoseRepository();
     DishRepository dishRepository = DishRepository();
+    final bool skipOnboarding =
+        UserSimplePreferences.getOnboardingScreenSkip() ?? false;
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
@@ -46,7 +50,7 @@ class MyApp extends StatelessWidget {
           Locale('en'),
           // Locale('sr'),
         ],
-        home: const LogBookScreen(),
+        home: skipOnboarding ? const FinalIntroScreen() : const IntroScreen(),
       ),
     );
   }

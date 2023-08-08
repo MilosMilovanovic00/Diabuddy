@@ -228,3 +228,22 @@ class FetchedUserDataFailed extends UserState {
   @override
   List<Object?> get props => [];
 }
+
+class UserSetupAccountFinished extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UserSetupAccountNotFinished extends UserState {
+  final int screenNumber;
+
+  UserSetupAccountNotFinished(this.screenNumber);
+
+  @override
+  List<Object?> get props => [screenNumber];
+}
+
+class UserHasNoAccount extends UserState {
+  @override
+  List<Object?> get props => [];
+}

@@ -5,6 +5,7 @@ import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/repository/dish_repository.dart';
 import 'package:diabuddy/repository/glucose_repository.dart';
 import 'package:diabuddy/repository/user_repository.dart';
@@ -38,6 +39,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<AddDishToGlucoseReading>(_onAddDishToGlucoseReading);
     on<GetUserProfileData>(_onFetchUserData);
     on<UpdateUserData>(_onUpdatePersonalUserData);
+    on<CheckIfUserExists>(_onCheckIfUserExist);
   }
 
   FutureOr<void> _onUpdateProfile(
@@ -314,6 +316,31 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserProfileUpdateSuccessful());
     } catch (_) {
       emit(UserProfileUpdateFailed());
+    }
+  }
+
+  FutureOr<void> _onCheckIfUserExist(
+    CheckIfUserExists event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var user = await userRepository.fetchUserData();
+      if (user == null) {
+        emit(UserHasNoAccount());
+      } else {
+        if (user.weight == null) emit(UserSetupAccountNotFinished(1));
+        if (user.glucoseTargets == null) emit(UserSetupAccountNotFinished(4));
+      }
+      var therapy = await userRepository.fetchMedication();
+      if (therapy.isEmpty) {
+        emit(UserSetupAccountNotFinished(2));
+      }
+      var isMeasurementSetup =
+          UserSimplePreferences.isStandardMeasurementUnit() ?? false;
+      if (!isMeasurementSetup) emit(UserSetupAccountNotFinished(3));
+      emit(UserSetupAccountFinished());
+    } catch (_) {
+      emit(UserHasNoAccount());
     }
   }
 }
