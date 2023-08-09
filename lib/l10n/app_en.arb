@@ -139,5 +139,26 @@
       }
     },
   "profileUpdate":"Profile Update",
-  "diagrams":"Diagrams"
+  "diagrams":"Diagrams",
+  "doseOfMedicineIsInsulin":"Dose of medicine is {value} units",
+  "@doseOfMedicineIsInsulin":{
+    "description": "Indication for dose",
+    "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"4"
+      }
+    }
+  },
+  "doseOfMedicineArePills":"Dose of medicine is {value} pills",
+    "@doseOfMedicineArePills":{
+      "description": "Indication for dose",
+      "placeholders" :{
+        "value":{
+          "type":"int",
+          "example":"4"
+        }
+      }
+    }
+
 }

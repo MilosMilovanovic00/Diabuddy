@@ -2,16 +2,16 @@ import 'package:equatable/equatable.dart';
 
 class Medication extends Equatable {
   final String? medicationId;
-  final String? medicationName;
-  final int? dailyMedicationIntake;
-  final bool? isInsulin;
+  final String medicationName;
+  final int dailyMedicationIntake;
+  final bool isInsulin;
   final int? averageInsulinUnits;
 
   const Medication({
     this.medicationId,
-    this.medicationName,
-    this.dailyMedicationIntake,
-    this.isInsulin,
+    required this.medicationName,
+    required this.dailyMedicationIntake,
+    required this.isInsulin,
     this.averageInsulinUnits,
   });
 

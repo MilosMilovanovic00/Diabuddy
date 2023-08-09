@@ -40,6 +40,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<GetUserProfileData>(_onFetchUserData);
     on<UpdateUserData>(_onUpdatePersonalUserData);
     on<CheckIfUserExists>(_onCheckIfUserExist);
+    on<GetGlucoseReadingMedication>(_onFetchGlucoseReadingMedication);
+    on<DeleteGlucoseReadingTherapy>(_onDeleteGlucoseReadingTherapy);
+    on<AddTherapyToGlucoseReading>(_onAddTherapyToGlucoseReading);
   }
 
   FutureOr<void> _onUpdateProfile(
@@ -341,6 +344,53 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserSetupAccountFinished());
     } catch (_) {
       emit(UserHasNoAccount());
+    }
+  }
+
+  FutureOr<void> _onFetchGlucoseReadingMedication(
+    GetGlucoseReadingMedication event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var data = await glucoseRepository
+          .fetchTherapyForGlucoseReading(event.glucoseReadingId);
+      emit(FetchedGlucoseReadingMedication(data));
+    } catch (_) {
+      emit(FetchedGlucoseReadingMedicationFailed());
+    }
+  }
+
+  FutureOr<void> _onDeleteGlucoseReadingTherapy(
+    DeleteGlucoseReadingTherapy event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await glucoseRepository.deleteGlucoseReadingTherapy(
+        glucoseReadingId: event.glucoseReadingId,
+        therapyId: event.therapyId,
+      );
+      var data = await glucoseRepository
+          .fetchTherapyForGlucoseReading(event.glucoseReadingId);
+      emit(FetchedGlucoseReadingMedication(data));
+    } catch (_) {
+      emit(FetchedGlucoseReadingMedicationFailed());
+    }
+  }
+
+  FutureOr<void> _onAddTherapyToGlucoseReading(
+    AddTherapyToGlucoseReading event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await glucoseRepository.saveTherapyToGlucoseReading(
+        glucoseReadingId: event.glucoseReadingId,
+        therapy: event.therapy,
+      );
+      await glucoseRepository
+          .fetchTherapyForGlucoseReading(event.glucoseReadingId);
+      emit(SavedGlucoseReadingTherapy());
+    } catch (_) {
+      emit(SavingGlucoseReadingTherapyFailed());
     }
   }
 }

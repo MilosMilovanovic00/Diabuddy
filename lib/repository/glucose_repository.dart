@@ -134,4 +134,43 @@ class GlucoseRepository {
       print(e.toString());
     }
   }
+
+  Future<void> deleteGlucoseReadingTherapy({
+    required String glucoseReadingId,
+    required String therapyId,
+  }) async {
+    try {
+      if (currentUser != null) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser!.uid)
+            .collection('glucose_readings')
+            .doc(glucoseReadingId)
+            .collection('therapy')
+            .doc(therapyId)
+            .delete();
+      }
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> saveTherapyToGlucoseReading({
+    required String glucoseReadingId,
+    required Therapy therapy,
+  }) async {
+    try {
+      if (currentUser != null) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser!.uid)
+            .collection('glucose_readings')
+            .doc(glucoseReadingId)
+            .collection('therapy')
+            .add(therapy.toMap());
+      }
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    }
+  }
 }

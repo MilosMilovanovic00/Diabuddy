@@ -247,3 +247,28 @@ class UserHasNoAccount extends UserState {
   @override
   List<Object?> get props => [];
 }
+
+class FetchedGlucoseReadingMedication extends UserState {
+  final List<Therapy> therapies;
+
+  FetchedGlucoseReadingMedication(this.therapies);
+
+  @override
+  List<Object?> get props => [therapies];
+}
+
+class FetchedGlucoseReadingMedicationFailed extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SavingGlucoseReadingTherapyFailed extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SavedGlucoseReadingTherapy extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+

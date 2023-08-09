@@ -69,7 +69,7 @@ class _MedicationContainerState extends State<MedicationContainer> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.medication.medicationName!,
+                      widget.medication.medicationName,
                       maxLines: 2,
                       textAlign: TextAlign.justify,
                       style: Theme.of(context).textTheme.displaySmall,
@@ -115,7 +115,7 @@ class _MedicationContainerState extends State<MedicationContainer> {
                         ),
                   ),
                   Text(
-                    widget.medication.isInsulin!
+                    widget.medication.isInsulin
                         ? '${AppLocalizations.of(context)!.units}: ${widget.medication.averageInsulinUnits}'
                         : '',
                     style: Theme.of(context).textTheme.displaySmall!.copyWith(
@@ -126,7 +126,7 @@ class _MedicationContainerState extends State<MedicationContainer> {
                     width: 30,
                     height: 30,
                     child: SvgPicture.asset(
-                      widget.medication.isInsulin!
+                      widget.medication.isInsulin
                           ? './assets/svg/syringe_icon.svg'
                           : './assets/svg/pills_icon.svg',
                       colorFilter:

@@ -1,5 +1,7 @@
 import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
+import 'package:diabuddy/bloc/user/user_state.dart';
+import 'package:diabuddy/screens/glucose_monitoring/components/therapy_entry_container.dart';
 import 'package:diabuddy/screens/glucose_monitoring/medication_setup_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
@@ -21,6 +23,13 @@ class EditMedicationScreen extends StatefulWidget {
 }
 
 class _EditMedicationScreenState extends State<EditMedicationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<UserBloc>(context)
+        .add(GetGlucoseReadingMedication(widget.glucoseReadingId));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -72,16 +81,36 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
                 const SizedBox(
                   height: 30,
                 ),
+                BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+                  if (state is FetchedGlucoseReadingMedication) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: state.therapies.length,
+                        itemBuilder: (context, index) {
+                          return TherapyEntryContainer(
+                            therapy: state.therapies[index],
+                            deleteTherapy: () {
+                              deleteTherapy(state.therapies[index].id!);
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
                 const SizedBox(
                   height: 20,
                 ),
-                const Spacer(),
                 AppButton(
                   callback: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MedicationSetupScreen(),
+                        builder: (context) => MedicationSetupScreen(
+                          glucoseReadingId: widget.glucoseReadingId,
+                        ),
                       ),
                     );
                   },
@@ -93,5 +122,12 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
         ),
       ),
     ]);
+  }
+
+  void deleteTherapy(String therapyId) {
+    BlocProvider.of<UserBloc>(context).add(DeleteGlucoseReadingTherapy(
+      widget.glucoseReadingId,
+      therapyId,
+    ));
   }
 }

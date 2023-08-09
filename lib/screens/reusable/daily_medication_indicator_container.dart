@@ -61,7 +61,7 @@ class DailyMedicationIndicatorContainer extends StatelessWidget {
                 width: 30,
                 height: 30,
                 child: SvgPicture.asset(
-                  medication.isInsulin!
+                  medication.isInsulin
                       ? './assets/svg/syringe_icon.svg'
                       : './assets/svg/pills_icon.svg',
                   colorFilter:

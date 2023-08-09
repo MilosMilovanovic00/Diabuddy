@@ -138,5 +138,26 @@
       }
     },
   "profileUpdate":"Izmeni profil",
-  "diagrams":"Dijagrami"
+  "diagrams":"Dijagrami",
+  "doseOfMedicineIsInsulin":"Doza leka je {value} jedinica",
+  "@doseOfMedicineIsInsulin":{
+    "description": "Indication for dose",
+    "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"4"
+      }
+    }
+  },
+  "doseOfMedicineArePills":"Doza leka je {value} pilula",
+    "@doseOfMedicineArePills":{
+      "description": "Indication for dose",
+      "placeholders" :{
+        "value":{
+          "type":"int",
+          "example":"4"
+        }
+      }
+    }
+
 }

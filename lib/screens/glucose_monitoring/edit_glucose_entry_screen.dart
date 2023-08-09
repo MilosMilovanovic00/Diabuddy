@@ -115,15 +115,21 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
     ]);
   }
 
-  Expanded buildBodyOfScreen(BuildContext context,
-      GlucoseReading glucoseReading, List<Dish> dishes, List<Therapy> therapy) {
+  Expanded buildBodyOfScreen(
+    BuildContext context,
+    GlucoseReading glucoseReading,
+    List<Dish> dishes,
+    List<Therapy> therapy,
+  ) {
+    final Color backColor =
+        glucoseReading.glucoseValue.getColorByGlucoseLevel();
     return Expanded(
       child: ListView(
         children: [
           Container(
             height: 70,
             decoration: BoxDecoration(
-              color: goodSugarColor,
+              color: backColor,
               borderRadius: borderRadius,
             ),
             child: Padding(
@@ -137,7 +143,7 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: goodSugarColor,
+                      color: backColor,
                       borderRadius: borderRadius,
                       boxShadow: [simpleBoxShadow],
                     ),

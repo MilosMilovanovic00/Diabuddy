@@ -133,14 +133,15 @@ class _GlucoseEntryScreenState extends State<GlucoseEntryScreen> {
   ) {
     final bool isStandardUnit =
         UserSimplePreferences.isStandardMeasurementUnit();
-
+    final Color backColor =
+        glucoseReading.glucoseValue.getColorByGlucoseLevel();
     return Expanded(
       child: ListView(
         children: [
           Container(
             height: 70,
             decoration: BoxDecoration(
-              color: goodSugarColor,
+              color: backColor,
               borderRadius: borderRadius,
             ),
             child: Padding(

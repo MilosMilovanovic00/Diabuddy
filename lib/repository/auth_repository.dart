@@ -36,7 +36,9 @@ class AuthRepository {
             password: password,
           )
           .then((value) => postDetailsToFirestore(fullName));
-    } on FirebaseFirestore catch (e) {}
+    } on FirebaseFirestore catch (e) {
+      print(e);
+    }
   }
 
   Future<void> signOut() async {
