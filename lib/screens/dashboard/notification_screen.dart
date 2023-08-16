@@ -28,7 +28,7 @@ class NotificationScreen extends StatelessWidget {
         ),
         Scaffold(
           backgroundColor: primaryColor.withOpacity(0.10),
-          bottomNavigationBar: AppBottomNavigationBar(),
+          bottomNavigationBar: const AppBottomNavigationBar(selectedIndex: 4,),
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(

@@ -36,7 +36,9 @@ class AuthRepository {
             password: password,
           )
           .then((value) => postDetailsToFirestore(fullName));
-    } on FirebaseFirestore catch (e) {}
+    } on FirebaseFirestore catch (e) {
+      print(e);
+    }
   }
 
   Future<void> signOut() async {
@@ -54,6 +56,14 @@ class AuthRepository {
           .collection('users')
           .doc(user.uid)
           .set(user.toMap());
+    }
+  }
+
+  Future<void> logOutCurrentUser() async {
+    try {
+      await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
     }
   }
 }

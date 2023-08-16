@@ -134,4 +134,99 @@ class GlucoseRepository {
       print(e.toString());
     }
   }
+
+  Future<void> deleteGlucoseReadingTherapy({
+    required String glucoseReadingId,
+    required String therapyId,
+  }) async {
+    try {
+      if (currentUser != null) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser!.uid)
+            .collection('glucose_readings')
+            .doc(glucoseReadingId)
+            .collection('therapy')
+            .doc(therapyId)
+            .delete();
+      }
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> saveTherapyToGlucoseReading({
+    required String glucoseReadingId,
+    required Therapy therapy,
+  }) async {
+    try {
+      if (currentUser != null) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser!.uid)
+            .collection('glucose_readings')
+            .doc(glucoseReadingId)
+            .collection('therapy')
+            .add(therapy.toMap());
+      }
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<String> addNewGlucoseReading({
+    required GlucoseReading glucoseReading,
+  }) async {
+    try {
+      String glucoseReadingId = '';
+      if (currentUser != null) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser!.uid)
+            .collection('glucose_readings')
+            .add(glucoseReading.toMap())
+            .then((value) => glucoseReadingId = value.id);
+      }
+      return glucoseReadingId;
+    } on FirebaseException catch (e) {
+      print(e.toString());
+      return '';
+    }
+  }
+
+  Future<void> changeGlucoseReadingMealTaken({
+    required String glucoseReadingId,
+    required bool mealTaken,
+  }) async {
+    try {
+      if (currentUser != null) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser!.uid)
+            .collection('glucose_readings')
+            .doc(glucoseReadingId)
+            .update({'mealTaken': mealTaken});
+      }
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> changeGlucoseReadingMedicationTaken({
+    required String glucoseReadingId,
+    required bool medicationTaken,
+  }) async {
+    try {
+      if (currentUser != null) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser!.uid)
+            .collection('glucose_readings')
+            .doc(glucoseReadingId)
+            .update({'medicationTaken': medicationTaken});
+      }
+    } on FirebaseException catch (e) {
+      print(e.toString());
+    }
+  }
 }

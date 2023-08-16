@@ -115,15 +115,21 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
     ]);
   }
 
-  Expanded buildBodyOfScreen(BuildContext context,
-      GlucoseReading glucoseReading, List<Dish> dishes, List<Therapy> therapy) {
+  Expanded buildBodyOfScreen(
+    BuildContext context,
+    GlucoseReading glucoseReading,
+    List<Dish> dishes,
+    List<Therapy> therapy,
+  ) {
+    final Color backColor =
+        glucoseReading.glucoseValue.getColorByGlucoseLevel();
     return Expanded(
       child: ListView(
         children: [
           Container(
             height: 70,
             decoration: BoxDecoration(
-              color: goodSugarColor,
+              color: backColor,
               borderRadius: borderRadius,
             ),
             child: Padding(
@@ -137,7 +143,7 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: goodSugarColor,
+                      color: backColor,
                       borderRadius: borderRadius,
                       boxShadow: [simpleBoxShadow],
                     ),
@@ -293,7 +299,9 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditMedicationScreen(
-                              glucoseReadingId: widget.glucoseReadingId),
+                            glucoseReadingId: widget.glucoseReadingId,
+                            newGlucoseReading: false,
+                          ),
                         ),
                       );
                     },
@@ -362,6 +370,7 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
                       MaterialPageRoute(
                         builder: (context) => EditMealScreen(
                           glucoseReadingId: widget.glucoseReadingId,
+                          newGlucoseReading: false,
                         ),
                       ),
                     );

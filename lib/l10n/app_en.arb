@@ -139,5 +139,41 @@
       }
     },
   "profileUpdate":"Profile Update",
-  "diagrams":"Diagrams"
+  "diagrams":"Diagrams",
+  "doseOfMedicineIsInsulin":"Dose of medicine is {value} units",
+  "@doseOfMedicineIsInsulin":{
+    "description": "Indication for dose",
+    "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"4"
+      }
+    }
+  },
+  "doseOfMedicineArePills":"Dose of medicine is {value} pills",
+    "@doseOfMedicineArePills":{
+      "description": "Indication for dose",
+      "placeholders" :{
+        "value":{
+          "type":"int",
+          "example":"4"
+        }
+      }
+    },
+  "setGlucoseEntryParameters":"Set Glucose Entry Parameters",
+  "recordYourGlucoseReading":"Record your glucose reading",
+  "chooseMealType":"Choose meal type",
+  "activity":"Activity",
+  "mealTaken":"Meal taken",
+  "medicationTaken":"Medication taken",
+  "activityWithValue":"Activity - {value}",
+  "@activityWithValue":{
+    "description": "Indication for activity",
+    "placeholders" :{
+      "value":{
+        "type":"String?",
+        "example":"Running"
+      }
+    }
+  }
 }

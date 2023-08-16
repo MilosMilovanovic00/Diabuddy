@@ -8,4 +8,8 @@ extension StringExtensions on String {
     final passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$');
     return passwordRegex.hasMatch(this);
   }
+
+  bool isDoubleNumber() {
+    RegExp regex = RegExp(r'^\d+(\.\d{1})?$');
+    return regex.hasMatch(this);  }
 }

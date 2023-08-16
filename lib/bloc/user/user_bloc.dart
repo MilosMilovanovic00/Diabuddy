@@ -40,6 +40,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<GetUserProfileData>(_onFetchUserData);
     on<UpdateUserData>(_onUpdatePersonalUserData);
     on<CheckIfUserExists>(_onCheckIfUserExist);
+    on<GetGlucoseReadingMedication>(_onFetchGlucoseReadingMedication);
+    on<DeleteGlucoseReadingTherapy>(_onDeleteGlucoseReadingTherapy);
+    on<AddTherapyToGlucoseReading>(_onAddTherapyToGlucoseReading);
+    on<AddNewGlucoseReading>(_onAddNewGlucoseReading);
   }
 
   FutureOr<void> _onUpdateProfile(
@@ -249,6 +253,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       var dishes = await dishRepository.fetchGlucoseReadingDishes(
         glucoseReadingId: event.glucoseReadingId,
       );
+      if (dishes.isEmpty) {
+        await glucoseRepository.changeGlucoseReadingMealTaken(
+          glucoseReadingId: event.glucoseReadingId,
+          mealTaken: false,
+        );
+      } else if (dishes.length == 1) {
+        await glucoseRepository.changeGlucoseReadingMealTaken(
+          glucoseReadingId: event.glucoseReadingId,
+          mealTaken: true,
+        );
+      }
       emit(FetchedGlucoseReadingDishes(dishes));
     } catch (_) {
       emit(FetchedGlucoseReadingDishesFailed());
@@ -341,6 +356,78 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserSetupAccountFinished());
     } catch (_) {
       emit(UserHasNoAccount());
+    }
+  }
+
+  FutureOr<void> _onFetchGlucoseReadingMedication(
+    GetGlucoseReadingMedication event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var data = await glucoseRepository
+          .fetchTherapyForGlucoseReading(event.glucoseReadingId);
+      emit(FetchedGlucoseReadingMedication(data));
+      if (data.length == 1) {
+        await glucoseRepository.changeGlucoseReadingMedicationTaken(
+          glucoseReadingId: event.glucoseReadingId,
+          medicationTaken: true,
+        );
+      } else if (data.isEmpty) {
+        await glucoseRepository.changeGlucoseReadingMedicationTaken(
+          glucoseReadingId: event.glucoseReadingId,
+          medicationTaken: false,
+        );
+      }
+    } catch (_) {
+      emit(FetchedGlucoseReadingMedicationFailed());
+    }
+  }
+
+  FutureOr<void> _onDeleteGlucoseReadingTherapy(
+    DeleteGlucoseReadingTherapy event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await glucoseRepository.deleteGlucoseReadingTherapy(
+        glucoseReadingId: event.glucoseReadingId,
+        therapyId: event.therapyId,
+      );
+      var data = await glucoseRepository
+          .fetchTherapyForGlucoseReading(event.glucoseReadingId);
+      emit(FetchedGlucoseReadingMedication(data));
+    } catch (_) {
+      emit(FetchedGlucoseReadingMedicationFailed());
+    }
+  }
+
+  FutureOr<void> _onAddTherapyToGlucoseReading(
+    AddTherapyToGlucoseReading event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await glucoseRepository.saveTherapyToGlucoseReading(
+        glucoseReadingId: event.glucoseReadingId,
+        therapy: event.therapy,
+      );
+      emit(SavedGlucoseReadingTherapy());
+    } catch (_) {
+      emit(SavingGlucoseReadingTherapyFailed());
+    }
+  }
+
+  FutureOr<void> _onAddNewGlucoseReading(
+    AddNewGlucoseReading event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      String glucoseReadingId = await glucoseRepository.addNewGlucoseReading(
+          glucoseReading: event.glucoseReading);
+      if (glucoseReadingId == '') {
+        emit(SavingGlucoseReadingFailed());
+      }
+      emit(SavedGlucoseReading(glucoseReadingId));
+    } catch (_) {
+      emit(SavingGlucoseReadingFailed());
     }
   }
 }

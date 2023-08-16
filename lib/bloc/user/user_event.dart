@@ -2,6 +2,8 @@ import 'package:diabuddy/model/enitity/activity.dart';
 import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/model/enitity/enum/meal_type.dart';
+import 'package:diabuddy/model/enitity/glucose_reading.dart';
+import 'package:diabuddy/model/enitity/therapy.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -192,3 +194,52 @@ class CheckIfUserExists extends UserEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetGlucoseReadingMedication extends UserEvent {
+  final String glucoseReadingId;
+
+  GetGlucoseReadingMedication(this.glucoseReadingId);
+
+  @override
+  List<Object?> get props => [glucoseReadingId];
+}
+
+class DeleteGlucoseReadingTherapy extends UserEvent {
+  final String glucoseReadingId;
+  final String therapyId;
+
+  DeleteGlucoseReadingTherapy(this.glucoseReadingId, this.therapyId);
+
+  @override
+  List<Object?> get props => [glucoseReadingId, therapyId];
+}
+
+class AddTherapyToGlucoseReading extends UserEvent {
+  final String glucoseReadingId;
+  final Therapy therapy;
+
+  AddTherapyToGlucoseReading(this.therapy, this.glucoseReadingId);
+
+  @override
+  List<Object?> get props => [glucoseReadingId, therapy];
+}
+
+class AddNewGlucoseReading extends UserEvent {
+  final GlucoseReading glucoseReading;
+
+  AddNewGlucoseReading(this.glucoseReading);
+
+  @override
+  List<Object?> get props => [glucoseReading];
+}
+
+class ChangeMealTakenToGlucoseReading extends UserEvent {
+  final bool mealTaken;
+  final String glucoseReadingId;
+
+  ChangeMealTakenToGlucoseReading(this.glucoseReadingId, this.mealTaken);
+
+  @override
+  List<Object?> get props => [glucoseReadingId, mealTaken];
+}
+

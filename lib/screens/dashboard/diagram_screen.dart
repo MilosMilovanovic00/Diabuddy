@@ -2,7 +2,6 @@ import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/extensions/datetime_extensinons.dart';
-import 'package:diabuddy/extensions/double_extensions.dart';
 import 'package:diabuddy/model/enitity/enum/time_period_type.dart';
 import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/preferences/user_simple_preferences.dart';
@@ -62,7 +61,9 @@ class _DiagramScreenState extends State<DiagramScreen> {
           elevation: 0,
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        bottomNavigationBar: const AppBottomNavigationBar(),
+        bottomNavigationBar: const AppBottomNavigationBar(
+          selectedIndex: 2,
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -109,15 +110,12 @@ class _DiagramScreenState extends State<DiagramScreen> {
                               height: 10,
                             ),
                             Text(
-                              "${calculateAverageGlucoseValue(state.readings)} ${isStandardUnit ? 'mmol/L' : 'mg/dl'}",
+                              "${calculateAverageGlucoseValue(state.readings).toStringAsFixed(2)} ${isStandardUnit ? 'mmol/L' : 'mg/dl'}",
                               style: Theme.of(context)
                                   .textTheme
                                   .displaySmall!
                                   .copyWith(
                                     fontSize: 34,
-                                    color: calculateAverageGlucoseValue(
-                                            state.readings)
-                                        .getColorByGlucoseLevel(),
                                   ),
                             ),
                           ],
@@ -156,9 +154,11 @@ class _DiagramScreenState extends State<DiagramScreen> {
     });
     DateTime start;
     DateTime end;
+    DateTime now = DateTime.now();
+
     switch (timePeriodType) {
       case TimePeriodType.today:
-        start = DateTime.now();
+        start = DateTime(now.year,now.month,now.day);
         end = start.add(const Duration(days: 1));
         break;
       case TimePeriodType.week:

@@ -11,7 +11,7 @@ class AppNumberInputField extends StatefulWidget {
     this.containerBorderRadius,
     this.textInputAction,
     required this.initialValue,
-    required this.validator,
+    this.validator,
   }) : super(key: key);
 
   final String text;
@@ -20,7 +20,7 @@ class AppNumberInputField extends StatefulWidget {
   final TextEditingController controller;
   final BorderRadius? containerBorderRadius;
   final TextInputAction? textInputAction;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
 
   @override
   State<AppNumberInputField> createState() => _AppNumberInputFieldState();

@@ -1,18 +1,22 @@
 import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/model/enitity/therapy.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/small_app_button.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MedicationSetupContainer extends StatefulWidget {
   const MedicationSetupContainer({
     Key? key,
     required this.medication,
+    required this.addMedication,
   }) : super(key: key);
 
   final Medication medication;
+  final Function(Therapy) addMedication;
 
   @override
   State<MedicationSetupContainer> createState() =>
@@ -56,7 +60,7 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      widget.medication.medicationName!,
+                      widget.medication.medicationName,
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             color: selected
                                 ? Colors.white
@@ -67,7 +71,7 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                       width: 30,
                       height: 30,
                       child: SvgPicture.asset(
-                        widget.medication.isInsulin!
+                        widget.medication.isInsulin
                             ? './assets/svg/syringe_icon.svg'
                             : './assets/svg/pills_icon.svg',
                         colorFilter: ColorFilter.mode(
@@ -115,12 +119,16 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                     children: [
                       AppNumberPicker(
                         textColor: primaryColor,
-                        minValue: 0,
-                        maxValue: 40,
+                        minValue: 1,
+                        maxValue: 50,
                         setCurrentValue: setMedicationTherapyAmount,
                       ),
                       Text(
-                        widget.medication.isInsulin! ? 'units' : 'pills',
+                        widget.medication.isInsulin
+                            ? AppLocalizations.of(context)!
+                                .insulin
+                                .toLowerCase()
+                            : AppLocalizations.of(context)!.pills.toLowerCase(),
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   color: primaryColor.withOpacity(0.7),
@@ -133,12 +141,21 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SmallAppButton(
-                      callback: () {},
-                      text: 'Cancel',
+                      callback: () {
+                        setState(() {
+                          selected = !selected;
+                        });
+                      },
+                      text: AppLocalizations.of(context)!.cancel,
                       textColor: primaryColor,
                       backgroundColor: Colors.white,
                     ),
-                    SmallAppButton(callback: () {}, text: 'Save'),
+                    SmallAppButton(
+                      callback: () {
+                        addMedication();
+                      },
+                      text: AppLocalizations.of(context)!.save,
+                    ),
                   ],
                 )
               ],
@@ -153,5 +170,13 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
     setState(() {
       medicationTherapyAmount = value;
     });
+  }
+
+  void addMedication() {
+    Therapy therapy = Therapy(
+        name: widget.medication.medicationName,
+        dose: medicationTherapyAmount,
+        isInsulin: widget.medication.isInsulin);
+    widget.addMedication(therapy);
   }
 }

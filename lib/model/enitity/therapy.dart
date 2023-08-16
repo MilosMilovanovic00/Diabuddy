@@ -1,11 +1,11 @@
 class Therapy {
-  final String id;
+  final String? id;
   final int dose;
   final String name;
   final bool isInsulin;
 
   Therapy({
-    required this.id,
+    this.id,
     required this.name,
     required this.dose,
     required this.isInsulin,

@@ -138,5 +138,41 @@
       }
     },
   "profileUpdate":"Izmeni profil",
-  "diagrams":"Dijagrami"
+  "diagrams":"Dijagrami",
+  "doseOfMedicineIsInsulin":"Doza leka je {value} jedinica",
+  "@doseOfMedicineIsInsulin":{
+    "description": "Indication for dose",
+    "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"4"
+      }
+    }
+  },
+  "doseOfMedicineArePills":"Doza leka je {value} pilula",
+    "@doseOfMedicineArePills":{
+      "description": "Indication for dose",
+      "placeholders" :{
+        "value":{
+          "type":"int",
+          "example":"4"
+        }
+      }
+    },
+  "setGlucoseEntryParameters":"Unesi parametre očitavanje glukoze",
+  "recordYourGlucoseReading":"Snimite оčitavanje glukoze",
+  "chooseMealType":"Izberite tip obroka",
+  "activity":"Aktivnost",
+  "mealTaken":"Uzet obrok",
+  "medicationTaken":"Lek uzet",
+  "activityWithValue":"Aktivnost - {value}",
+  "@activityWithValue":{
+    "description": "Indication for activity",
+    "placeholders" :{
+      "value":{
+        "type":"String?",
+        "example":"Running"
+      }
+    }
+  }
 }
