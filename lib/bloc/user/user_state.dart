@@ -272,3 +272,26 @@ class SavedGlucoseReadingTherapy extends UserState {
   List<Object?> get props => [];
 }
 
+class SavedGlucoseReading extends UserState {
+  final String glucoseReadingId;
+
+  SavedGlucoseReading(this.glucoseReadingId);
+
+  @override
+  List<Object?> get props => [glucoseReadingId];
+}
+
+class SavingGlucoseReadingFailed extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class ChangedMealTakenGlucoseReading extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FailedToChangeMealTakenGlucoseReading extends UserState {
+  @override
+  List<Object?> get props => [];
+}

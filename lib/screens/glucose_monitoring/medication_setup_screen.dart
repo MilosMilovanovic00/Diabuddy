@@ -13,9 +13,11 @@ class MedicationSetupScreen extends StatefulWidget {
   const MedicationSetupScreen({
     Key? key,
     required this.glucoseReadingId,
+    required this.newGlucoseReading,
   }) : super(key: key);
 
   final String glucoseReadingId;
+  final bool newGlucoseReading;
 
   @override
   State<MedicationSetupScreen> createState() => _MedicationSetupScreenState();
@@ -47,7 +49,7 @@ class _MedicationSetupScreenState extends State<MedicationSetupScreen> {
             ),
             child: AppIconButton(
               callback: () {
-                BlocProvider.of<UserBloc>(context)
+                  BlocProvider.of<UserBloc>(context)
                     .add(GetGlucoseReadingMedication(widget.glucoseReadingId));
                 Navigator.pop(context);
               },

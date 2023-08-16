@@ -299,7 +299,9 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditMedicationScreen(
-                              glucoseReadingId: widget.glucoseReadingId),
+                            glucoseReadingId: widget.glucoseReadingId,
+                            newGlucoseReading: false,
+                          ),
                         ),
                       );
                     },
@@ -368,6 +370,7 @@ class _EditGlucoseEntryScreenState extends State<EditGlucoseEntryScreen> {
                       MaterialPageRoute(
                         builder: (context) => EditMealScreen(
                           glucoseReadingId: widget.glucoseReadingId,
+                          newGlucoseReading: false,
                         ),
                       ),
                     );

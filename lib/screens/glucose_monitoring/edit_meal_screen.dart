@@ -4,6 +4,7 @@ import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/enum/meal_type.dart';
 import 'package:diabuddy/screens/glucose_monitoring/add_meal_screen.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/selected_meal_container.dart';
+import 'package:diabuddy/screens/glucose_monitoring/edit_medication_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
@@ -15,9 +16,11 @@ class EditMealScreen extends StatefulWidget {
   const EditMealScreen({
     Key? key,
     required this.glucoseReadingId,
+    required this.newGlucoseReading,
   }) : super(key: key);
 
   final String glucoseReadingId;
+  final bool newGlucoseReading;
 
   @override
   State<EditMealScreen> createState() => _EditMealScreenState();
@@ -51,13 +54,16 @@ class _EditMealScreenState extends State<EditMealScreen> {
               left: 30.0,
               top: 20,
             ),
-            child: AppIconButton(
-              callback: () {
-                BlocProvider.of<UserBloc>(context)
-                    .add(GetGlucoseReadingById(widget.glucoseReadingId));
-                Navigator.pop(context);
-              },
-              icon: Icons.arrow_back_ios_new,
+            child: Visibility(
+              visible: !widget.newGlucoseReading,
+              child: AppIconButton(
+                callback: () {
+                  BlocProvider.of<UserBloc>(context)
+                      .add(GetGlucoseReadingById(widget.glucoseReadingId));
+                  Navigator.pop(context);
+                },
+                icon: Icons.arrow_back_ios_new,
+              ),
             ),
           ),
         ),
@@ -68,6 +74,7 @@ class _EditMealScreenState extends State<EditMealScreen> {
               //TODO pop up
             }
           },
+          buildWhen: (previous, current) => current is FetchedGlucoseReadingDishes,
           builder: (context, state) {
             if (state is! FetchedGlucoseReadingDishes) {
               return Container();
@@ -119,6 +126,28 @@ class _EditMealScreenState extends State<EditMealScreen> {
                         },
                         text: AppLocalizations.of(context)!.addMeal,
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Visibility(
+                        visible: widget.newGlucoseReading,
+                        child: AppButton(
+                          textColor: primaryColor,
+                          backgroundColor: Colors.white,
+                          callback: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditMedicationScreen(
+                                  glucoseReadingId: widget.glucoseReadingId,
+                                  newGlucoseReading: true,
+                                ),
+                              ),
+                            );
+                          },
+                          text: AppLocalizations.of(context)!.save,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -136,4 +165,5 @@ class _EditMealScreenState extends State<EditMealScreen> {
       dishId,
     ));
   }
+
 }

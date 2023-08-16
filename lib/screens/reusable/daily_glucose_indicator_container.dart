@@ -53,37 +53,56 @@ class DailyGlucoseIndicatorContainer extends StatelessWidget {
 
   Expanded buildText(BuildContext context, bool isStandardUnit) {
     return Expanded(
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: AppLocalizations.of(context)!.glucose,
-              style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                    fontSize: 22,
-                  ),
-            ),
-            TextSpan(
-              text:
-                  '\n${AppLocalizations.of(context)!.mealWithCarbonHydrateValue(glucoseReading.glucoseValue)}',
-              style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                    fontSize: 16,
-                  ),
-            ),
-            TextSpan(
-              text: '\n${glucoseReading.entryTime.getFormattedTime()}\n',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.glucose,
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                  fontSize: 24,
+                ),
+          ),
+          Visibility(
+            visible: glucoseReading.mealTaken,
+            child: Text(
+              AppLocalizations.of(context)!.mealTaken,
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
                     fontSize: 16,
                   ),
             ),
-            TextSpan(
-              text:
-                  '${glucoseReading.glucoseValue.convertByStandardUnit()} ${isStandardUnit ? 'mmol/L' : 'mg/dl'}',
+          ),
+          Visibility(
+            visible: glucoseReading.medicationTaken,
+            child: Text(
+              AppLocalizations.of(context)!.medicationTaken,
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
             ),
-          ],
-        ),
+          ),
+          Visibility(
+            visible: glucoseReading.activity != null,
+            child: Text(
+              AppLocalizations.of(context)!
+                  .activityWithValue(glucoseReading.activity?.name),
+              style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                    fontSize: 16,
+                  ),
+            ),
+          ),
+          Text(
+            glucoseReading.entryTime.getFormattedTime(),
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                  fontSize: 18,
+                ),
+          ),
+          Text(
+            '${glucoseReading.glucoseValue.convertByStandardUnit()} ${isStandardUnit ? 'mmol/L' : 'mg/dl'}',
+            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                  fontSize: 21,
+                ),
+          ),
+        ],
       ),
     );
   }

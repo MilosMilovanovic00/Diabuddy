@@ -43,21 +43,28 @@ class GlucoseReading extends Equatable {
       glucoseValue: map['glucoseValue'],
       mealType:
           map['mealType'] != null ? MealType.values[map['mealType']] : null,
-      activity: Activity.fromMap(map['activity']),
+      activity:
+          map['activity'] != null ? Activity.fromMap(map['activity']) : null,
       medicationTaken: map['medicationTaken'],
-      mealTaken: map['mealType'] != null,
+      mealTaken:
+          map['mealTaken'] ?? map['mealType'] != null,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
+    var data = {
       'entryTime': entryTime,
-      'glucoseTiming': glucoseTiming,
+      'glucoseTiming': glucoseTiming.index,
       'glucoseValue': glucoseValue,
-      'mealType': mealType?.index,
-      'activity': activity?.toMap(),
       'medicationTaken': medicationTaken,
-      'mealTaken': mealType != null,
+      'mealTaken': glucoseTiming != GlucoseTiming.fasting,
     };
+    if (activity != null) {
+      data['activity'] = activity!.toMap();
+    }
+    if (mealType != null) {
+      data['mealType'] = mealType!.index;
+    }
+    return data;
   }
 }

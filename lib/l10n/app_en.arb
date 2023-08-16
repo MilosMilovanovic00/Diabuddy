@@ -159,6 +159,21 @@
           "example":"4"
         }
       }
+    },
+  "setGlucoseEntryParameters":"Set Glucose Entry Parameters",
+  "recordYourGlucoseReading":"Record your glucose reading",
+  "chooseMealType":"Choose meal type",
+  "activity":"Activity",
+  "mealTaken":"Meal taken",
+  "medicationTaken":"Medication taken",
+  "activityWithValue":"Activity - {value}",
+  "@activityWithValue":{
+    "description": "Indication for activity",
+    "placeholders" :{
+      "value":{
+        "type":"String?",
+        "example":"Running"
+      }
     }
-
+  }
 }

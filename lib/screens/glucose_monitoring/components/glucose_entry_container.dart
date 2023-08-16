@@ -72,35 +72,44 @@ class GlucoseEntryContainer extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    ColouredIconButton(
-                      backgroundColor: backColor,
-                      icon: const Icon(
-                        Icons.directions_run_rounded,
-                        color: Colors.white,
+                    Visibility(
+                      visible: glucoseReading.activity != null,
+                      child: ColouredIconButton(
+                        backgroundColor: backColor,
+                        icon: const Icon(
+                          Icons.directions_run_rounded,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 5,
                     ),
-                    ColouredIconButton(
-                      backgroundColor: backColor,
-                      icon: const Icon(
-                        Icons.flatware_rounded,
-                        color: Colors.white,
+                    Visibility(
+                      visible: glucoseReading.mealTaken,
+                      child: ColouredIconButton(
+                        backgroundColor: backColor,
+                        icon: const Icon(
+                          Icons.flatware_rounded,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     const SizedBox(
                       width: 5,
                     ),
-                    ColouredIconButton(
-                      backgroundColor: backColor,
-                      icon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset(
-                          './assets/svg/medicine.svg',
-                          colorFilter: const ColorFilter.mode(
-                            Colors.white,
-                            BlendMode.srcIn,
+                    Visibility(
+                      visible: glucoseReading.medicationTaken,
+                      child: ColouredIconButton(
+                        backgroundColor: backColor,
+                        icon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            './assets/svg/medicine.svg',
+                            colorFilter: const ColorFilter.mode(
+                              Colors.white,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ),

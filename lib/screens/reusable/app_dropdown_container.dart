@@ -1,4 +1,5 @@
 import 'package:diabuddy/model/enitity/enum/activity_type.dart';
+import 'package:diabuddy/model/enitity/enum/meal_type.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _AppDropdownContainerState extends State<AppDropdownContainer> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: Text(
-                  getStringForActivityIntensity(item, context),
+                  getText(item),
                   style: Theme.of(context).textTheme.displaySmall!.copyWith(
                         fontSize: 18,
                       ),
@@ -63,5 +64,15 @@ class _AppDropdownContainerState extends State<AppDropdownContainer> {
         widget.setChoice(value!);
       },
     );
+  }
+
+  String getText(dynamic choice) {
+    if (choice is MealType) {
+      return getMealType(choice, context);
+    } else if (choice is ActivityIntensity) {
+      return getStringForActivityIntensity(choice, context);
+    } else {
+      return "";
+    }
   }
 }

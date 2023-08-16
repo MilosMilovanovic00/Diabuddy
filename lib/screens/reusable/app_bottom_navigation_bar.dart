@@ -2,12 +2,17 @@ import 'package:diabuddy/screens/dashboard/dashboard_screen.dart';
 import 'package:diabuddy/screens/dashboard/notification_screen.dart';
 import 'package:diabuddy/screens/dashboard/settings_screen.dart';
 import 'package:diabuddy/screens/glucose_monitoring/logbook_screen.dart';
+import 'package:diabuddy/screens/glucose_monitoring/record_glucose_reading_screen.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
-  const AppBottomNavigationBar({Key? key}) : super(key: key);
+  const AppBottomNavigationBar({
+    Key? key,
+    required this.selectedIndex,
+  }) : super(key: key);
+  final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           tabBorder: Border.all(color: primaryColor, width: 1),
           duration: const Duration(milliseconds: 300),
           gap: 10,
-          selectedIndex: 2,
+          selectedIndex: selectedIndex,
           color: primaryColor,
           activeColor: Colors.white,
           iconSize: 30,
@@ -62,7 +67,15 @@ class AppBottomNavigationBar extends StatelessWidget {
               },
               icon: Icons.settings,
             ),
-            const GButton(
+            GButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RecordGlucoseReadingScreen(),
+                  ),
+                );
+              },
               //TODO treba da ode na stranicu da se doda nov glucose entry
               icon: Icons.add,
             ),

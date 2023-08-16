@@ -58,4 +58,12 @@ class AuthRepository {
           .set(user.toMap());
     }
   }
+
+  Future<void> logOutCurrentUser() async {
+    try {
+      await _firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    }
+  }
 }

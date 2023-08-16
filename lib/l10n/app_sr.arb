@@ -158,6 +158,21 @@
           "example":"4"
         }
       }
+    },
+  "setGlucoseEntryParameters":"Unesi parametre očitavanje glukoze",
+  "recordYourGlucoseReading":"Snimite оčitavanje glukoze",
+  "chooseMealType":"Izberite tip obroka",
+  "activity":"Aktivnost",
+  "mealTaken":"Uzet obrok",
+  "medicationTaken":"Lek uzet",
+  "activityWithValue":"Aktivnost - {value}",
+  "@activityWithValue":{
+    "description": "Indication for activity",
+    "placeholders" :{
+      "value":{
+        "type":"String?",
+        "example":"Running"
+      }
     }
-
+  }
 }

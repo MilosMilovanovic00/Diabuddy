@@ -37,7 +37,7 @@ class SettingsScreen extends StatelessWidget {
           elevation: 0,
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        bottomNavigationBar: const AppBottomNavigationBar(),
+        bottomNavigationBar: const AppBottomNavigationBar(selectedIndex: 1,),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
