@@ -7,6 +7,7 @@ import 'package:diabuddy/screens/onboarding/registration_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             );
           } else if (state is LoginFailed) {
+            showSnackBar(
+              context,
+              AppLocalizations.of(context)!.logOutFailed,
+            );
             passwordController.text = '';
           }
         },
@@ -102,9 +107,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'You must enter email';
+                            return AppLocalizations.of(context)!
+                                .youMustEnterEmail;
                           } else if (!value.isValidEmail()) {
-                            return 'Email pattern is wrong';
+                            return AppLocalizations.of(context)!
+                                .emailIsNotValid;
                           }
                           return null;
                         },
@@ -120,10 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         textInputAction: TextInputAction.done,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'You must enter password';
+                            return AppLocalizations.of(context)!
+                                .youMustEnterPassword;
                           } else if (!value.isValidPassword()) {
-                            return 'Password must contain at least one big, '
-                                'one small letter and one number';
+                            return AppLocalizations.of(context)!
+                                .passwordCriteria;
                           }
                           return null;
                         },

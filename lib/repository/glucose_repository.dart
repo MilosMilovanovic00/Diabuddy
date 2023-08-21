@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diabuddy/model/enitity/activity.dart';
+import 'package:diabuddy/model/activity.dart';
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/model/enitity/enum/meal_type.dart';
 import 'package:diabuddy/model/enitity/glucose_reading.dart';

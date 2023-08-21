@@ -11,5 +11,10 @@ extension StringExtensions on String {
 
   bool isDoubleNumber() {
     RegExp regex = RegExp(r'^\d+(\.\d{1})?$');
-    return regex.hasMatch(this);  }
+    return regex.hasMatch(this);
+  }
+
+  bool isNumber() {
+    return isNumber();
+  }
 }

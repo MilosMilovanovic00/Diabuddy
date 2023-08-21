@@ -11,6 +11,7 @@ class AppBarChart extends StatefulWidget {
     super.key,
     required this.forMonth,
     required this.data,
+    required this.barWidth,
   });
 
   final Color barBackgroundColor = primaryColor.withOpacity(0.3);
@@ -18,6 +19,7 @@ class AppBarChart extends StatefulWidget {
   final Color touchedBarColor = primaryColor;
   final bool forMonth;
   final Map<int, BarChartColumnValues> data;
+  final double barWidth;
 
   @override
   State<StatefulWidget> createState() => AppBarChartState();
@@ -46,7 +48,7 @@ class AppBarChartState extends State<AppBarChart> {
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 return BarTooltipItem(
                   widget.forMonth
-                      ? '${group.x}. day\n'
+                      ? '${AppLocalizations.of(context)!.numberOfDay(group.x)}\n'
                       : '${getDayNameByDayOfWeek(group, context)}\n',
                   const TextStyle(
                     color: Colors.white,
@@ -165,7 +167,7 @@ class AppBarChartState extends State<AppBarChart> {
     double toY, {
     bool isTouched = false,
     Color? barColor,
-    double width = 22,
+    required double width,
   }) {
     barColor ??= widget.barColor;
     return BarChartGroupData(
@@ -193,6 +195,7 @@ class AppBarChartState extends State<AppBarChart> {
             entry.key,
             entry.value.min,
             entry.value.max,
+            width: widget.barWidth,
           ))
       .toList();
 

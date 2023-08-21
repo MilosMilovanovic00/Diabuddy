@@ -2,18 +2,26 @@ import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/extensions/double_extensions.dart';
+import 'package:diabuddy/extensions/string_extenstions.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
 import 'package:diabuddy/preferences/user_simple_preferences.dart';
+import 'package:diabuddy/screens/dashboard/dashboard_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_input_field.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GlucoseTargetOnboardingScreen extends StatefulWidget {
-  const GlucoseTargetOnboardingScreen({Key? key}) : super(key: key);
+  const GlucoseTargetOnboardingScreen({
+    Key? key,
+    this.fromSettings = false,
+  }) : super(key: key);
+
+  final bool fromSettings;
 
   @override
   State<GlucoseTargetOnboardingScreen> createState() =>
@@ -80,9 +88,17 @@ class _GlucoseTargetOnboardingScreenState
       body: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
           if (state is GlucoseTargetsUpdated) {
-            // Navigator.pop(context);
-            print('radi');
-            //mora da skinem sve sa stacka i da stavim na dashboard
+            if (widget.fromSettings) {
+              Navigator.pop(context);
+            } else {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => const DashboardScreen(),
+                  ),
+                  (Route<dynamic> route) => false);
+            }
+          }else if(state is GlucoseTargetsUpdateFailed){
+            showSnackBar(context, AppLocalizations.of(context)!.updatingGlucoseTargetsFailed);
           }
         },
         child: SafeArea(
@@ -169,7 +185,9 @@ class _GlucoseTargetOnboardingScreenState
                   initialValue: chGlucoseController.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "You must fill this field";
+                      return AppLocalizations.of(context)!.youMustFillThisField;
+                    } else if (value.isNumber()) {
+                      return AppLocalizations.of(context)!.mustBeANumber;
                     }
                     return null;
                   },
@@ -187,7 +205,9 @@ class _GlucoseTargetOnboardingScreenState
                   initialValue: amGlucoseController.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "You must fill this field";
+                      return AppLocalizations.of(context)!.youMustFillThisField;
+                    } else if (value.isNumber()) {
+                      return AppLocalizations.of(context)!.mustBeANumber;
                     }
                     return null;
                   },
@@ -200,7 +220,9 @@ class _GlucoseTargetOnboardingScreenState
                   initialValue: bmGlucoseController.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "You must fill this field";
+                      return AppLocalizations.of(context)!.youMustFillThisField;
+                    } else if (value.isNumber()) {
+                      return AppLocalizations.of(context)!.mustBeANumber;
                     }
                     return null;
                   },
@@ -215,7 +237,9 @@ class _GlucoseTargetOnboardingScreenState
                   initialValue: lGlucoseController.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "You must fill this field";
+                      return AppLocalizations.of(context)!.youMustFillThisField;
+                    } else if (value.isNumber()) {
+                      return AppLocalizations.of(context)!.mustBeANumber;
                     }
                     return null;
                   },
@@ -231,7 +255,9 @@ class _GlucoseTargetOnboardingScreenState
                   initialValue: clGlucoseController.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "You must fill this field";
+                      return AppLocalizations.of(context)!.youMustFillThisField;
+                    } else if (value.isNumber()) {
+                      return AppLocalizations.of(context)!.mustBeANumber;
                     }
                     return null;
                   },
@@ -247,6 +273,9 @@ class _GlucoseTargetOnboardingScreenState
   }
 
   Future<void> saveGlucoseTargets() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     GlucoseTargets glucoseTargets = GlucoseTargets(
       afterMeal: double.parse(amGlucoseController.text.trim())
           .transformToStandardUnit(),

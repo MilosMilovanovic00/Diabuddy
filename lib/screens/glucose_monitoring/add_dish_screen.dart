@@ -6,6 +6,7 @@ import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -71,9 +72,11 @@ class _AddDishScreenState extends State<AddDishScreen> {
         backgroundColor: primaryColor.withOpacity(0.10),
         body: BlocListener<UserBloc, UserState>(
           listener: (BuildContext context, state) {
-            if (state is! NewDishSaved || state is! DishUpdated) {
-              //TODO nije se sacuvalo pop up
-            } else {
+            if (state is NewDishSavingFailed) {
+              showSnackBar(context, AppLocalizations.of(context)!.savingNewDishFailed,);
+            } else if (state is DishUpdatedFailed) {
+              showSnackBar(context, AppLocalizations.of(context)!.updatingNewDishFailed);
+            } else if (state is NewDishSaved || state is DishUpdated) {
               BlocProvider.of<UserBloc>(context).add(GetDishes());
               Navigator.pop(context);
             }

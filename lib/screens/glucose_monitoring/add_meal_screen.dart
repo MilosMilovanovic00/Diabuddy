@@ -6,6 +6,7 @@ import 'package:diabuddy/screens/glucose_monitoring/add_dish_screen.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/dish_entry_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -71,13 +72,16 @@ class _AddMealScreenState extends State<AddMealScreen> {
         backgroundColor: primaryColor.withOpacity(0.10),
         body: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            if (state is AddedDishToGlucoseReading) {
+            if (state is SavedGlucoseReadingDish) {
               BlocProvider.of<UserBloc>(context)
                   .add(GetGlucoseReadingDishes(widget.glucoseReadingId));
               Navigator.pop(context);
-            } else {}
-            //FAIlED TO ADD DISH
-            //TODO popup
+            } else {
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.savingGlucoseReadingDishFailed,
+              );
+            }
           },
           builder: (context, state) {
             if (state is! FetchedDishes) {

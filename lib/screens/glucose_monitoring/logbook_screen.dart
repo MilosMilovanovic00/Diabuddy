@@ -50,7 +50,9 @@ class _LogBookScreenState extends State<LogBookScreen> {
           elevation: 0,
         ),
         backgroundColor: primaryColor.withOpacity(0.10),
-        bottomNavigationBar: const AppBottomNavigationBar(selectedIndex: 3,),
+        bottomNavigationBar: const AppBottomNavigationBar(
+          selectedIndex: 3,
+        ),
         body: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
             if (state is! FetchedAllGlucoseReadings) {

@@ -6,6 +6,7 @@ import 'package:diabuddy/screens/onboarding/login_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
             );
           } else if (state is RegistrationFailed) {
-            //TODO implement toast
+            showSnackBar(
+              context,
+              AppLocalizations.of(context)!.registrationFailed,
+            );
             passwordController.text = '';
             repeatPasswordController.text = '';
           }
@@ -110,7 +114,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: nameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'You cannot leave this field blank';
+                              return AppLocalizations.of(context)!
+                                  .youMustFillThisField;
                             }
                             return null;
                           },
@@ -124,9 +129,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: emailController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'You must enter email';
+                              return AppLocalizations.of(context)!
+                                  .youMustEnterEmail;
                             } else if (!value.isValidEmail()) {
-                              return 'Email is not valid';
+                              return AppLocalizations.of(context)!
+                                  .emailIsNotValid;
                             }
                             return null;
                           },
@@ -141,10 +148,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: passwordController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'You must enter password';
+                              return AppLocalizations.of(context)!
+                                  .youMustEnterPassword;
                             } else if (!value.isValidPassword()) {
-                              return 'Password must contain at least one big, '
-                                  'one small letter and one number';
+                              return AppLocalizations.of(context)!
+                                  .passwordCriteria;
                             }
                             return null;
                           },
@@ -160,12 +168,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: repeatPasswordController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'You must enter password';
+                              return AppLocalizations.of(context)!
+                                  .youMustEnterPassword;
                             } else if (!value.isValidPassword()) {
-                              return 'Password must contain at least one big, '
-                                  'one small letter and one number';
+                              return AppLocalizations.of(context)!
+                                  .passwordCriteria;
                             } else if (value != passwordController.text) {
-                              return 'Password aren\'t same';
+                              return AppLocalizations.of(context)!
+                                  .passwordMustMatch;
                             }
                             return null;
                           },

@@ -57,7 +57,7 @@ class GlucoseEntryContainer extends StatelessWidget {
                           text:
                               '${glucoseReading.glucoseValue.convertByStandardUnit()} '),
                       TextSpan(
-                        text: '${isStandardUnit ? 'mmol/L' : 'mg/dl'}\n',
+                        text: '${isStandardUnit ? 'mmol/L' : 'mg/dL'}\n',
                       ),
                       TextSpan(
                         text: glucoseReading.entryTime.getFormattedTime(),

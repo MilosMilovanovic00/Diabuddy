@@ -2,7 +2,7 @@ import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/extensions/double_extensions.dart';
-import 'package:diabuddy/model/enitity/activity.dart';
+import 'package:diabuddy/model/activity.dart';
 import 'package:diabuddy/model/enitity/enum/activity_type.dart';
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/model/enitity/enum/meal_type.dart';
@@ -78,7 +78,10 @@ class _RecordGlucoseReadingScreenState
                 ),
               );
             } else if (state is SavingGlucoseReadingFailed) {
-              //TODO snackBar
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.savingGlucoseReadingTherapyFailed,
+              );
             }
           },
           child: SafeArea(
@@ -334,8 +337,11 @@ class _RecordGlucoseReadingScreenState
 
   void saveGlucoseEntry() {
     if (glucoseValue == 0) {
+      showSnackBar(
+        context,
+        AppLocalizations.of(context)!.enterGlucoseValue,
+      );
       return;
-      //TODO snackbar
     }
     GlucoseReading glucoseReading = GlucoseReading(
       entryTime: DateTime.now(),

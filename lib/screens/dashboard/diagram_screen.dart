@@ -158,7 +158,7 @@ class _DiagramScreenState extends State<DiagramScreen> {
 
     switch (timePeriodType) {
       case TimePeriodType.today:
-        start = DateTime(now.year,now.month,now.day);
+        start = DateTime(now.year, now.month, now.day);
         end = start.add(const Duration(days: 1));
         break;
       case TimePeriodType.week:

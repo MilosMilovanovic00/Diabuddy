@@ -1,5 +1,5 @@
 import 'package:diabuddy/extensions/string_extenstions.dart';
-import 'package:diabuddy/model/enitity/activity.dart';
+import 'package:diabuddy/model/activity.dart';
 import 'package:diabuddy/model/enitity/enum/activity_type.dart';
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/glucose_time_choice_picker.dart';
@@ -117,11 +117,19 @@ void showGlucoseValueAndTimingDialog(
                   String value = glucoseValueController.text.trim();
                   if (value.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('You must fill the field')),
+                      SnackBar(
+                        content: Text(
+                          AppLocalizations.of(context)!.youMustFillThisField,
+                        ),
+                      ),
                     );
                   } else if (!value.isDoubleNumber()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('You must enter number')),
+                      SnackBar(
+                        content: Text(
+                          AppLocalizations.of(context)!.youMustEnterNumber,
+                        ),
+                      ),
                     );
                   } else {
                     setGlucoseValue(double.parse(value));
@@ -177,7 +185,7 @@ void showActivityDialog(
                 controller: activityNameController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'You must enter activity name';
+                    return AppLocalizations.of(context)!.youMustFillThisField;
                   }
                   return null;
                 },
@@ -269,6 +277,16 @@ void showActivityDialog(
             ),
           ],
         ),
+      ),
+    ),
+  );
+}
+
+void showSnackBar(BuildContext context, text) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        text,
       ),
     ),
   );

@@ -1,4 +1,5 @@
-import 'package:diabuddy/model/enitity/app_notification.dart';
+import 'package:diabuddy/extensions/datetime_extensinons.dart';
+import 'package:diabuddy/model/app_notification.dart';
 import 'package:diabuddy/model/enitity/enum/notification_type.dart';
 import 'package:diabuddy/screens/reusable/coloured_icon_button.dart';
 import 'package:diabuddy/theme/colours.dart';
@@ -9,9 +10,13 @@ class NotificationContainer extends StatelessWidget {
   const NotificationContainer({
     Key? key,
     required this.appNotification,
+    required this.deleteNotification,
+    this.medicationName,
   }) : super(key: key);
 
   final AppNotification appNotification;
+  final Function deleteNotification;
+  final String? medicationName;
 
   @override
   Widget build(BuildContext context) {
@@ -31,44 +36,42 @@ class NotificationContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: getNotificationType(context, appNotification.type),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Visibility(
+                    visible: medicationName != null,
+                    child: Text(
+                      '$medicationName',
                       style: Theme.of(context).textTheme.displaySmall,
                     ),
-                    TextSpan(
-                      text: '\n${appNotification.triggerTime}',
-                      style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: getNotificationType(
+                              appNotification.notificationType, context),
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                        TextSpan(
+                          text:
+                              '\n${appNotification.triggerTime.getFormattedTime()}',
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ColouredIconButton(
-                      callback: () {},
-                      backgroundColor: primaryColor,
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    ColouredIconButton(
-                      callback: () {},
-                      backgroundColor: primaryColor,
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+              ColouredIconButton(
+                callback: () {
+                  deleteNotification(appNotification.id);
+                },
+                backgroundColor: primaryColor,
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.white,
                 ),
               ),
             ],

@@ -76,7 +76,6 @@ class AppBottomNavigationBar extends StatelessWidget {
                   ),
                 );
               },
-              //TODO treba da ode na stranicu da se doda nov glucose entry
               icon: Icons.add,
             ),
             GButton(

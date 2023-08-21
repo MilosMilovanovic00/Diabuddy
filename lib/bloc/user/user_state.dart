@@ -3,6 +3,7 @@ import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/medication.dart';
 import 'package:diabuddy/model/enitity/therapy.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
+import 'package:diabuddy/model/grouped_therapy_record.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class UserState extends Equatable {}
@@ -26,15 +27,15 @@ class UserProfileUpdateFailed extends UserState {
   List<Object?> get props => [exception];
 }
 
-class SuccessfulMedicationAddition extends UserState {
+class SavedlMedication extends UserState {
   @override
   List<Object?> get props => [];
 }
 
-class MedicationAdditionFailed extends UserState {
+class SavingMedicationFailed extends UserState {
   final Exception? exception;
 
-  MedicationAdditionFailed({this.exception});
+  SavingMedicationFailed({this.exception});
 
   @override
   List<Object?> get props => [exception];
@@ -176,7 +177,7 @@ class UpdateGlucoseReadingFailed extends UserState {
   List<Object?> get props => [];
 }
 
-class SuccessfullyUpdatedGlucoseReadingActivity extends UserState {
+class UpdatedGlucoseReadingActivity extends UserState {
   @override
   List<Object?> get props => [];
 }
@@ -205,7 +206,7 @@ class DeletingDishFailed extends UserState {
   List<Object?> get props => [];
 }
 
-class AddedDishToGlucoseReading extends UserState {
+class SavedGlucoseReadingDish extends UserState {
   @override
   List<Object?> get props => [];
 }
@@ -292,6 +293,50 @@ class ChangedMealTakenGlucoseReading extends UserState {
 }
 
 class FailedToChangeMealTakenGlucoseReading extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletedMedication extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletingMedicationFailed extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletedMedicationNotifications extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class DeletingMedicationNotificationsFailed extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SavedTherapyRecord extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class SavingTherapyRecordFailed extends UserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FetchedTherapyRecords extends UserState {
+  final List<GroupedTherapyRecord> records;
+
+  FetchedTherapyRecords(this.records);
+
+  @override
+  List<Object?> get props => [records];
+}
+
+class FetchedTherapyRecordsFailed extends UserState {
   @override
   List<Object?> get props => [];
 }

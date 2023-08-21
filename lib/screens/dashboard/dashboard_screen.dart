@@ -10,6 +10,7 @@ import 'package:diabuddy/screens/intro/final_intro_screen.dart';
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
 import 'package:diabuddy/screens/reusable/daily_glucose_indicator_container.dart';
 import 'package:diabuddy/screens/reusable/daily_medication_indicator_container.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     start = DateTime(start.year, start.month, start.day);
     DateTime end = start.add(const Duration(days: 1));
     end = DateTime(end.year, end.month, end.day);
-    BlocProvider.of<UserBloc>(context).add(GetAllMedications());
+    BlocProvider.of<UserBloc>(context).add(GetTodaysTherapyRecords());
     BlocProvider.of<UserBloc>(context)
         .add(GetGlucoseReadingsForPeriod(start, end));
   }
@@ -50,7 +51,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.only(right: 20.0),
               child: IconButton(
                 onPressed: () {
-                  logOut();
+                  // logOut();
+                  // NotificationManager().scheduleNotification(
+                  //     id: 1,
+                  //     title: 'Prva notifikacija',
+                  //     body: 'Hello world',
+                  //     payload: 'id therapije je 4',
+                  //     scheduleNotificationDateTime:
+                  //         DateTime.now().add(const Duration(seconds: 5)));
                 },
                 icon: const Icon(
                   Icons.logout,
@@ -89,7 +97,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               );
             } else if (state is UserLogOutFailed) {
-              //TODO snackBar
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.logOutFailed,
+              );
             }
           },
           child: SafeArea(
@@ -106,30 +117,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   SizedBox(
                     height: 120,
                     child: BlocBuilder<UserBloc, UserState>(
+                      buildWhen: (previous, current) =>
+                          current is FetchedTherapyRecords,
                       builder: (context, state) {
-                        if (state is FetchedMedicationData) {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.medicine.length,
-                            itemBuilder: (context, index) {
-                              return DailyMedicationIndicatorContainer(
-                                medication: state.medicine[index],
-                              );
-                            },
-                          );
-                        } else {
-                          return Container(
-                            decoration: BoxDecoration(
-                              gradient: containerColorGradient,
-                              borderRadius: borderRadius,
-                            ),
-                            child: Center(
-                              child: Text(
-                                "No registered medication intake",
-                                style: Theme.of(context).textTheme.displaySmall,
+                        if (state is FetchedTherapyRecords) {
+                          if (state.records.isNotEmpty) {
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.records.length,
+                              itemBuilder: (context, index) {
+                                return DailyMedicationIndicatorContainer(
+                                  record: state.records[index],
+                                );
+                              },
+                            );
+                          } else {
+                            return Container(
+                              decoration: BoxDecoration(
+                                gradient: containerColorGradient,
+                                borderRadius: borderRadius,
                               ),
-                            ),
-                          );
+                              child: Center(
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .noRegisteredTherapyRecord,
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall,
+                                ),
+                              ),
+                            );
+                          }
+                        } else {
+                          return Container();
                         }
                       },
                     ),
@@ -146,15 +165,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         if (state is! FetchedTodayGlucoseReadingsSuccess) {
                           return Container();
                         } else {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state.readings.length,
-                            itemBuilder: (context, index) {
-                              return DailyGlucoseIndicatorContainer(
-                                glucoseReading: state.readings[index],
-                              );
-                            },
-                          );
+                          if (state.readings.isNotEmpty) {
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: state.readings.length,
+                              itemBuilder: (context, index) {
+                                return DailyGlucoseIndicatorContainer(
+                                  glucoseReading: state.readings[index],
+                                );
+                              },
+                            );
+                          } else {
+                            return Container(
+                              decoration: BoxDecoration(
+                                gradient: containerColorGradient,
+                                borderRadius: borderRadius,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .noGlucoseReadingsToday,
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall,
+                                ),
+                              ),
+                            );
+                          }
                         }
                       },
                     ),

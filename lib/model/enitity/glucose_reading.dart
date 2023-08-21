@@ -1,4 +1,4 @@
-import 'package:diabuddy/model/enitity/activity.dart';
+import 'package:diabuddy/model/activity.dart';
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/model/enitity/enum/meal_type.dart';
 import 'package:equatable/equatable.dart';
@@ -46,8 +46,7 @@ class GlucoseReading extends Equatable {
       activity:
           map['activity'] != null ? Activity.fromMap(map['activity']) : null,
       medicationTaken: map['medicationTaken'],
-      mealTaken:
-          map['mealTaken'] ?? map['mealType'] != null,
+      mealTaken: map['mealTaken'] ?? map['mealType'] != null,
     );
   }
 

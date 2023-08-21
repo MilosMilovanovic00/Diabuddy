@@ -1,9 +1,11 @@
 import 'package:diabuddy/bloc/auth/auth_bloc.dart';
+import 'package:diabuddy/bloc/notification/notification_bloc.dart';
 import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/repository/auth_repository.dart';
 import 'package:diabuddy/repository/dish_repository.dart';
 import 'package:diabuddy/repository/glucose_repository.dart';
+import 'package:diabuddy/repository/notification_repository.dart';
 import 'package:diabuddy/repository/user_repository.dart';
 import 'package:diabuddy/screens/intro/final_intro_screen.dart';
 import 'package:diabuddy/screens/intro/intro_screen.dart';
@@ -11,19 +13,44 @@ import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  late Locale? locale;
+  AuthRepository authRepository = AuthRepository();
+  UserRepository userRepository = UserRepository();
+  GlucoseRepository glucoseRepository = GlucoseRepository();
+  DishRepository dishRepository = DishRepository();
+  NotificationRepository notificationRepository = NotificationRepository();
+
+  late bool skipOnboarding;
+
+  @override
+  void initState() {
+    super.initState();
+    skipOnboarding = UserSimplePreferences.getOnboardingScreenSkip() ?? false;
+    if (UserSimplePreferences.getLanguagePreferences() == null) {
+      locale = const Locale('en');
+    } else if (UserSimplePreferences.getLanguagePreferences()) {
+      locale = const Locale('en');
+    } else {
+      locale = const Locale('sr');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    AuthRepository authRepository = AuthRepository();
-    UserRepository userRepository = UserRepository();
-    GlucoseRepository glucoseRepository = GlucoseRepository();
-    DishRepository dishRepository = DishRepository();
-    final bool skipOnboarding =
-        UserSimplePreferences.getOnboardingScreenSkip() ?? false;
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
@@ -36,22 +63,26 @@ class MyApp extends StatelessWidget {
             dishRepository: dishRepository,
           ),
         ),
+        BlocProvider<NotificationBloc>(
+          create: (context) => NotificationBloc(
+            notificationRepository: notificationRepository,
+          ),
+        ),
       ],
       child: MaterialApp(
         title: 'Diabuddy',
         theme: applicationTheme,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'),
-          // Locale('sr'),
-        ],
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: locale,
         home: skipOnboarding ? const FinalIntroScreen() : const IntroScreen(),
       ),
     );
+  }
+
+  void setLocale(Locale newLocale) {
+    setState(() {
+      locale = newLocale;
+    });
   }
 }
