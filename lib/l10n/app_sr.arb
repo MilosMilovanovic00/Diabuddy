@@ -68,9 +68,9 @@
   "activityDuration":"Trajanje aktivnosti",
   "chooseYourMedicationForThisMeal":"Izaberi lek koji uzimas za ovaj obrok",
   "add":"Dodaj",
-  "today":"Dnevni",
-  "week":"Nedeljni",
-  "month":"Mesečni",
+  "today":"Danas",
+  "week":"Nedelja",
+  "month":"Mesec",
   "averageBloodGlucose":"Prosečni nivoi glukoze",
   "todayGlucoseLevels":"Dnevni nivoi glukoze",
   "weekGlucoseLevels":"Nedeljni nivoi glukoze",
@@ -89,7 +89,7 @@
   "setTimeForYourNotification":"Podesi vreme za podsetnik",
   "notificationType":"Vrsta podsetnika",
   "activityReminder":"Podsetnik za aktivnost",
-  "insulinReminder":"Podsetnik za insulin",
+  "therapyReminder":"Podsetnik za terapiju",
   "glucoseCheckReminder":"Podsetnik za merenje glukoze",
   "averageInsulinIntake":"Prosečan unos insulina",
   "notificationsSelectedForMedication":"Podsetnici za odredjeni lek",
@@ -172,6 +172,64 @@
       "value":{
         "type":"String?",
         "example":"Running"
+      }
+    }
+  },
+  "takeTherapy":"Uzmi terapiju",
+  "exercise":"Treniraj",
+  "record":"Snimi",
+  "youMustEnterEmail":"Morate uneti mejl",
+  "emailIsNotValid":"Mejl nije validan",
+  "youMustEnterPassword":"Morate uneti lozinku",
+  "passwordCriteria":"Lozinka mora da sadrži jedno veliko, jedno malo slovo i jedan broj",
+  "passwordMustMatch":"Lozinke moraju biti iste",
+  "youMustFillThisField":"Morate popuniti ovo polje",
+  "mustBeANumber":"Mora biti broj",
+  "noRegisteredTherapyRecord":"Nema registrovanih rekorda terapije",
+  "noGlucoseReadingsToday":"Nema snimljenih merenja šećera",
+  "youMustEnterFullName":"Morate uneti puno ime",
+  "settings":"Podešavanja",
+  "english":"Engleski",
+  "serbian":"Srpski",
+  "numberOfDay":"{value} dan",
+  "@numberOfDay":{
+    "description": "Indication for day",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
+      }
+    }
+  },
+  "youMustEnterNumber":"Morate uneti broj",
+  "setNotificationsForTherapy":"Postavi notifikacije za terapiju",
+  "deletingNotificationFailed":"Brisanje notifikacije neuspešno",
+  "savingNotificationFailed":"Čuvanje notifikacije neuspešno",
+  "registrationFailed":"Registracija neuspešna",
+  "loginFailed":"Prijava neuspešna",
+  "logOutFailed":"Odjava neuspešna",
+  "savingMedicationFailed":"Čuvanje leka neuspešno",
+  "updatingProfileFailed":"Ažuriranje profila neuspešno",
+  "updatingGlucoseReadingActivityFailed":"Ažuriranje aktivnost uz unos glukoze neuspešno",
+  "savingGlucoseReadingDishFailed":"Čuvanje jela uz unos glukoze neuspešno",
+  "savingNewDishFailed":"Čuvanje novog jela neuspešno",
+  "updatingNewDishFailed":"Ažuriranje novog jela neuspešno",
+  "updatingGlucoseReadingFailed":"Ažuriranje unosa glukoze neuspešno",
+  "deletingDishFailed":"Brisanje jela neuspešno",
+  "savingGlucoseReadingTherapyFailed":"Čuvanje terapije uz unos glukoze neuspešno",
+  "updatingGlucoseTargetsFailed":"Ažuriranje ciljanih vrednosti glukoze neuspešno",
+  "enterGlucoseValue":"Unesite vrednost glukoze",
+  "deletingNotificationFailed":"Brisanje notifikacije neuspešno",
+  "savingNotificationFailed":"Čuvanje notifikacije neuspešno",
+  "deletingMedicationFailed":"Brisanje leka neuspešno",
+  "deletingMedicationNotificationsFailed":"Brisanje notifikacija leka neuspešno",
+  "therapyDoseCount":"{value} uzeto",
+  "@therapyDoseCount":{
+    "description": "Indication for therapy taken",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
       }
     }
   }

@@ -4,6 +4,7 @@ import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/therapy.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/medication_setup_container.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,7 @@ class _MedicationSetupScreenState extends State<MedicationSetupScreen> {
             ),
             child: AppIconButton(
               callback: () {
-                  BlocProvider.of<UserBloc>(context)
+                BlocProvider.of<UserBloc>(context)
                     .add(GetGlucoseReadingMedication(widget.glucoseReadingId));
                 Navigator.pop(context);
               },
@@ -64,8 +65,11 @@ class _MedicationSetupScreenState extends State<MedicationSetupScreen> {
               BlocProvider.of<UserBloc>(context)
                   .add(GetGlucoseReadingMedication(widget.glucoseReadingId));
               Navigator.pop(context);
-            } else {
-              //TODO pop up nije dobro
+            } else if (state is SavingGlucoseReadingTherapyFailed) {
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.savingGlucoseReadingTherapyFailed,
+              );
             }
           },
           child: SafeArea(

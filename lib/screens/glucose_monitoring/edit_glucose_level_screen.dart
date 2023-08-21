@@ -9,6 +9,7 @@ import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,8 +85,11 @@ class _EditGlucoseLevelScreenState extends State<EditGlucoseLevelScreen> {
               BlocProvider.of<UserBloc>(context)
                   .add(GetGlucoseReadingById(widget.glucoseReadingId));
               Navigator.pop(context);
-            } else {
-              //TODO pop up nije dobro
+            } else if (state is UpdateGlucoseReadingFailed) {
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.updatingGlucoseReadingFailed,
+              );
             }
           },
           child: SafeArea(

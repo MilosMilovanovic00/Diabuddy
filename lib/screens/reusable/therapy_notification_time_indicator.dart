@@ -1,4 +1,4 @@
-import 'package:diabuddy/model/enitity/app_notification.dart';
+import 'package:diabuddy/model/app_notification.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class TherapyNotificationTimeIndicator extends StatelessWidget {
 
   final Color backgroundColor;
   final AppNotification appNotification;
-  final Function(AppNotification) removeNotification;
+  final Function removeNotification;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class TherapyNotificationTimeIndicator extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  removeNotification(appNotification);
+                  removeNotification(appNotification.id);
                   Navigator.pop(context);
                 },
                 child: const Icon(

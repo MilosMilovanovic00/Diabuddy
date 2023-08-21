@@ -44,6 +44,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<DeleteGlucoseReadingTherapy>(_onDeleteGlucoseReadingTherapy);
     on<AddTherapyToGlucoseReading>(_onAddTherapyToGlucoseReading);
     on<AddNewGlucoseReading>(_onAddNewGlucoseReading);
+    on<DeleteMedicationNotifications>(_onDeleteMedicationNotifications);
+    on<GetTodaysTherapyRecords>(_onFetchTherapyRecords);
+    on<SaveTherapyRecord>(_onSaveTherapyRecords);
   }
 
   FutureOr<void> _onUpdateProfile(
@@ -73,9 +76,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         averageInsulinUnits: event.insulinDose,
       );
       await userRepository.addMedication(medication: medication);
-      emit(SuccessfulMedicationAddition());
+      emit(SavedlMedication());
     } catch (_) {
-      emit(MedicationAdditionFailed());
+      emit(SavingMedicationFailed());
     }
   }
 
@@ -97,10 +100,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     try {
       await userRepository.deleteMedication(event.medicationId);
-      List<Medication> medicine = await userRepository.fetchMedication();
-      emit(FetchedMedicationData(medicine));
+      await userRepository.deleteMedicationNotifications(event.medicationId);
+      emit(DeletedMedication());
     } catch (_) {
-      emit(FetchedMedicationDataFailed());
+      emit(DeletingMedicationFailed());
     }
   }
 
@@ -239,7 +242,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         glucoseReadingId: event.glucoseReadingId,
         activity: event.activity,
       );
-      emit(SuccessfullyUpdatedGlucoseReadingActivity());
+      emit(UpdatedGlucoseReadingActivity());
     } catch (_) {
       emit(UpdateGlucoseReadingActivityFailed());
     }
@@ -297,7 +300,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         glucoseReadingId: event.glucoseReadingId,
         dish: event.dish,
       );
-      emit(AddedDishToGlucoseReading());
+      emit(SavedGlucoseReadingDish());
     } catch (_) {
       emit(AddingDishToGlucoseReadingFailed());
     }
@@ -428,6 +431,42 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(SavedGlucoseReading(glucoseReadingId));
     } catch (_) {
       emit(SavingGlucoseReadingFailed());
+    }
+  }
+
+  FutureOr<void> _onDeleteMedicationNotifications(
+    DeleteMedicationNotifications event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      await userRepository.deleteMedicationNotifications(event.therapyId);
+      emit(DeletedMedicationNotifications());
+    } catch (_) {
+      emit(DeletingMedicationNotificationsFailed());
+    }
+  }
+
+  FutureOr<void> _onFetchTherapyRecords(
+    GetTodaysTherapyRecords event,
+    Emitter<UserState> emit,
+  ) async {
+    try {
+      var records = await userRepository.fetchTherapyRecords();
+      emit(FetchedTherapyRecords(records));
+    } catch (_) {
+      emit(FetchedTherapyRecordsFailed());
+    }
+  }
+
+  FutureOr<void> _onSaveTherapyRecords(
+    SaveTherapyRecord event,
+    Emitter<UserState> emit,
+  )async {
+    try {
+      await userRepository.saveTherapyRecords(record: event.record);
+      emit(SavedTherapyRecord());
+    } catch (_) {
+      emit(SavingTherapyRecordFailed());
     }
   }
 }

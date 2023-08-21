@@ -6,6 +6,7 @@ import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +70,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             if (state is UserProfileUpdateSuccessful) {
               Navigator.pop(context);
             } else {
-              //TODO pop up error tj ono malo dole
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.updatingProfileFailed,
+              );
             }
           },
           builder: (BuildContext context, state) {
@@ -105,7 +109,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             controller: nameController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'You must full name';
+                                return AppLocalizations.of(context)!
+                                    .youMustEnterFullName;
                               }
                               return null;
                             },

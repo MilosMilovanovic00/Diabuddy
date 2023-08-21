@@ -1,7 +1,7 @@
 import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
-import 'package:diabuddy/model/enitity/activity.dart';
+import 'package:diabuddy/model/activity.dart';
 import 'package:diabuddy/model/enitity/enum/activity_type.dart';
 import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
@@ -9,6 +9,7 @@ import 'package:diabuddy/screens/reusable/app_dropdown_container.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -84,13 +85,16 @@ class _ActivityScreenState extends State<ActivityScreen> {
         backgroundColor: primaryColor.withOpacity(0.10),
         body: BlocListener<UserBloc, UserState>(
           listener: (BuildContext context, state) {
-            if (state is SuccessfullyUpdatedGlucoseReadingActivity) {
+            if (state is UpdatedGlucoseReadingActivity) {
               BlocProvider.of<UserBloc>(context)
                   .add(GetGlucoseReadingById(widget.glucoseReadingId));
               Navigator.pop(context);
             } else if (state is UpdateGlucoseReadingActivityFailed) {
-              print('jooj');
-              //TODO pop up
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!
+                    .updatingGlucoseReadingActivityFailed,
+              );
             }
           },
           child: SafeArea(
@@ -121,7 +125,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
                       controller: activityNameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'You must enter activity name';
+                          return AppLocalizations.of(context)!
+                              .youMustFillThisField;
                         }
                         return null;
                       },

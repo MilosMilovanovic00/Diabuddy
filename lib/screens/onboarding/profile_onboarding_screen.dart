@@ -6,6 +6,7 @@ import 'package:diabuddy/screens/onboarding/units_onboarding_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -70,7 +71,10 @@ class _ProfileOnboardingScreenState extends State<ProfileOnboardingScreen> {
               ),
             );
           } else if (state is UserProfileUpdateFailed) {
-            //TODO postavi toast
+            showSnackBar(
+              context,
+              AppLocalizations.of(context)!.updatingProfileFailed,
+            );
           }
         },
         child: SafeArea(

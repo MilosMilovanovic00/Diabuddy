@@ -1,12 +1,18 @@
+import 'package:diabuddy/bloc/notification/notification_bloc.dart';
+import 'package:diabuddy/bloc/notification/notification_event.dart';
+import 'package:diabuddy/bloc/notification/notification_state.dart';
+import 'package:diabuddy/model/app_notification.dart';
 import 'package:diabuddy/model/enitity/enum/notification_type.dart';
 import 'package:diabuddy/screens/onboarding/components/simple_app_container.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_dropdown_container.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddNotificationScreen extends StatefulWidget {
@@ -54,104 +60,129 @@ class _AddNotificationScreenState extends State<AddNotificationScreen> {
           ),
           child: AppIconButton(
             callback: () {
+              BlocProvider.of<NotificationBloc>(context)
+                  .add(GetNotifications());
               Navigator.pop(context);
             },
             icon: Icons.arrow_back_ios_new,
           ),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 30.0,
-            vertical: 20,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                AppLocalizations.of(context)!.notificationScreenTitle,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(fontSize: 28),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              SimpleAppContainer(
-                fontSize: 18,
-                text: AppLocalizations.of(context)!.setTimeForYourNotification,
-                widget: Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      AppNumberPicker(
-                        widgetWidth: 50,
-                        widgetHeight: 40,
-                        axis: Axis.vertical,
-                        minValue: 0,
-                        currentValue: hour,
-                        maxValue: 23,
-                        setCurrentValue: setHour,
-                      ),
-                      AppNumberPicker(
-                        widgetWidth: 50,
-                        widgetHeight: 40,
-                        axis: Axis.vertical,
-                        currentValue: minute,
-                        minValue: 0,
-                        maxValue: 59,
-                        setCurrentValue: setMinute,
-                      ),
-                    ],
-                  ),
+      body: BlocListener<NotificationBloc, NotificationState>(
+        listener: (BuildContext context, state) {
+          if (state is SavedNotification) {
+            BlocProvider.of<NotificationBloc>(context).add(GetNotifications());
+            Navigator.pop(context);
+          } else {
+            showSnackBar(
+              context,
+              AppLocalizations.of(context)!.savingNotificationFailed,
+            );
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 30.0,
+              vertical: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: containerColorGradient,
-                  borderRadius: borderRadius,
+                Text(
+                  AppLocalizations.of(context)!.addNotification,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 28),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.notificationType,
-                        style: Theme.of(context).textTheme.displaySmall,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: AppDropdownContainer(
-                          setChoice: setChoice,
-                          choices: getAllNotificationTypes(),
-                          choice: null,
+                const SizedBox(
+                  height: 40,
+                ),
+                SimpleAppContainer(
+                  fontSize: 18,
+                  text:
+                      AppLocalizations.of(context)!.setTimeForYourNotification,
+                  widget: Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        AppNumberPicker(
+                          widgetWidth: 50,
+                          widgetHeight: 40,
+                          axis: Axis.vertical,
+                          minValue: 0,
+                          currentValue: hour,
+                          maxValue: 23,
+                          setCurrentValue: setHour,
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.all(0),
+                          child: Text(
+                            ":",
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        ),
+                        AppNumberPicker(
+                          widgetWidth: 50,
+                          widgetHeight: 40,
+                          axis: Axis.vertical,
+                          currentValue: minute,
+                          minValue: 0,
+                          maxValue: 59,
+                          setCurrentValue: setMinute,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Spacer(),
-              AppButton(
-                callback: () {},
-                text: AppLocalizations.of(context)!.save,
-              ),
-            ],
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: containerColorGradient,
+                    borderRadius: borderRadius,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.notificationType,
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: AppDropdownContainer(
+                            setChoice: setChoice,
+                            choices: getAllNotificationTypes(),
+                            choice: notificationChoice,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Spacer(),
+                AppButton(
+                  callback: () {
+                    saveNotification();
+                  },
+                  text: AppLocalizations.of(context)!.save,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -159,14 +190,33 @@ class _AddNotificationScreenState extends State<AddNotificationScreen> {
   }
 
   void setHour(int value) {
-    setState(() {});
+    setState(() {
+      hour = value;
+    });
   }
 
   void setMinute(int value) {
-    setState(() {});
+    setState(() {
+      minute = value;
+    });
   }
 
   void setChoice(dynamic type) {
-    setState(() {});
+    setState(() {
+      notificationChoice = type;
+    });
+  }
+
+  void saveNotification() {
+    //TODO notifikacija
+    //TODO sacuvati notifikaciju da se okida
+    DateTime now = DateTime.now();
+    DateTime triggerTime = DateTime(now.year, now.month, now.day, hour, minute);
+    AppNotification appNotification = AppNotification(
+      triggerTime: triggerTime,
+      notificationType: notificationChoice,
+    );
+    BlocProvider.of<NotificationBloc>(context)
+        .add(SaveNotification(appNotification));
   }
 }

@@ -9,7 +9,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class UnitsOnboardingScreen extends StatefulWidget {
   const UnitsOnboardingScreen({
     Key? key,
+    this.fromSettings = false,
   }) : super(key: key);
+
+  final bool fromSettings;
 
   @override
   State<UnitsOnboardingScreen> createState() => _UnitsOnboardingScreenState();
@@ -75,20 +78,23 @@ class _UnitsOnboardingScreenState extends State<UnitsOnboardingScreen> {
               AppChoiceContainerController(
                 isFirstChoice: isStandardUnit,
                 firstChoiceText: 'mmol/L',
-                secondChoiceText: 'mg/dl',
+                secondChoiceText: 'mg/dL',
                 setChoice: setStandardUnit,
               ),
               const Spacer(),
               AppButton(
                 callback: () {
                   UserSimplePreferences.setMeasurementUnit(isStandardUnit);
-                  //TODO ovo mora da se izmeni da ide pop up ili sledeca
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TherapyOnboardingScreen(),
-                    ),
-                  );
+                  if (widget.fromSettings) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TherapyOnboardingScreen(),
+                      ),
+                    );
+                  }
                 },
                 text: AppLocalizations.of(context)!.save,
               ),

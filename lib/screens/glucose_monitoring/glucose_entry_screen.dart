@@ -160,7 +160,7 @@ class _GlucoseEntryScreenState extends State<GlucoseEntryScreen> {
                   ),
                   Text(
                     '${glucoseReading.glucoseValue.convertByStandardUnit()} '
-                    '${isStandardUnit ? 'mmol/L' : 'mg/dl'}',
+                    '${isStandardUnit ? 'mmol/L' : 'mg/dL'}',
                     style: Theme.of(context).textTheme.displaySmall,
                   )
                 ],

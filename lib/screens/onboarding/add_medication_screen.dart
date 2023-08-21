@@ -8,6 +8,7 @@ import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/app_number_picker.dart';
 import 'package:diabuddy/screens/reusable/app_text_field_input.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -67,16 +68,18 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       ),
       body: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
-          if (state is SuccessfulMedicationAddition) {
+          if (state is SavedlMedication) {
             Navigator.pop(
               context,
               MaterialPageRoute(
                 builder: (context) => const TherapyOnboardingScreen(),
               ),
             );
-          } else if (state is MedicationAdditionFailed) {
-            print('nesto nije dobro');
-            //TODO something went wrong
+          } else if (state is SavingMedicationFailed) {
+            showSnackBar(
+              context,
+              AppLocalizations.of(context)!.savingMedicationFailed,
+            );
           }
         },
         child: SafeArea(
@@ -134,7 +137,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                           controller: medicationNameController,
                           validator: (value) {
                             if (value == null || value == '') {
-                              return 'You cannot leave this field blank';
+                              return AppLocalizations.of(context)!
+                                  .youMustFillThisField;
                             }
                             return null;
                           },

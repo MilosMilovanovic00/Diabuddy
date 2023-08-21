@@ -1,5 +1,6 @@
 import 'package:diabuddy/model/enitity/enum/activity_type.dart';
 import 'package:diabuddy/model/enitity/enum/meal_type.dart';
+import 'package:diabuddy/model/enitity/enum/notification_type.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,8 @@ class _AppDropdownContainerState extends State<AppDropdownContainer> {
       return getMealType(choice, context);
     } else if (choice is ActivityIntensity) {
       return getStringForActivityIntensity(choice, context);
+    } else if (choice is NotificationType) {
+      return getNotificationType(choice, context);
     } else {
       return "";
     }

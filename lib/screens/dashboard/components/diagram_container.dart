@@ -82,6 +82,7 @@ class DiagramContainer extends StatelessWidget {
               ? AppBarChart(
                   forMonth: forMonth,
                   data: makeDataForBarChart(),
+                  barWidth: forMonth ? 15 : 22,
                 )
               : AppLineChart(
                   horizontalInterval: 4,
@@ -113,12 +114,13 @@ class DiagramContainer extends StatelessWidget {
     int duration = forMonth
         ? start.difference(start.getEndOfMonth()).inDays.abs()
         : DateTime.daysPerWeek;
-    return calculateDataForBarChart(duration, start);
+    return calculateDataForBarChart(duration, start, forMonth);
   }
 
   Map<int, BarChartColumnValues> calculateDataForBarChart(
     int numberOfDaysInMonth,
     DateTime start,
+    bool forMonth,
   ) {
     Map<int, BarChartColumnValues> data = <int, BarChartColumnValues>{};
     for (int i = 0; i < numberOfDaysInMonth; i++) {
@@ -138,7 +140,11 @@ class DiagramContainer extends StatelessWidget {
         double min = list[0].glucoseValue;
         double max = list[list.length - 1].glucoseValue;
         BarChartColumnValues bar = BarChartColumnValues(max: max, min: min);
-        data[date.weekday - 1] = bar;
+        if (forMonth) {
+          data[date.day - 1] = bar;
+        } else {
+          data[date.weekday - 1] = bar;
+        }
       }
     }
     return data;

@@ -90,7 +90,7 @@
   "setTimeForYourNotification":"Set time for your notification",
   "notificationType":"Notification type",
   "activityReminder":"Activity reminder",
-  "insulinReminder":"Insulin reminder",
+  "therapyReminder":"Therapy reminder",
   "glucoseCheckReminder":"Glucose check reminder",
   "averageInsulinIntake":"Average insulin intake",
   "notificationsSelectedForMedication":"Notifications for selected medication",
@@ -173,6 +173,64 @@
       "value":{
         "type":"String?",
         "example":"Running"
+      }
+    }
+  },
+  "takeTherapy":"Take therapy",
+  "exercise":"Exercise",
+  "record":"Record",
+  "youMustEnterEmail":"You must enter email",
+  "emailIsNotValid":"Email is not valid",
+  "youMustEnterPassword":"You must enter password",
+  "passwordCriteria":"Password must contain at least one big, one small letter and one number",
+  "passwordMustMatch":"Password must match",
+  "youMustFillThisField":"You must fill this field",
+  "mustBeANumber":"Must be a number",
+  "noRegisteredTherapyRecord":"No registered therapy record",
+  "noGlucoseReadingsToday":"No glucose readings today",
+  "youMustEnterFullName":"You must enter full name",
+  "settings":"Settings",
+  "english":"English",
+  "serbian":"Serbian",
+  "numberOfDay":"{value} day",
+  "@numberOfDay":{
+    "description": "Indication for day",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
+      }
+    }
+  },
+  "youMustEnterNumber":"You must enter number",
+  "setNotificationsForTherapy":"Set notifications for therapy",
+  "deletingNotificationFailed":"Deleting notification failed",
+  "savingNotificationFailed":"Saving notification failed",
+  "registrationFailed":"Registration failed",
+  "loginFailed":"Login failed",
+  "logOutFailed":"Log out failed",
+  "savingMedicationFailed":"Saving medication failed",
+  "updatingProfileFailed":"Updating profile failed",
+  "updatingGlucoseReadingActivityFailed":"Updating glucose reading activity failed",
+  "savingGlucoseReadingDishFailed":"Saving glucose reading dish failed",
+  "savingNewDishFailed":"Saving new dish failed",
+  "updatingNewDishFailed":"Updating new dish failed",
+  "updatingGlucoseReadingFailed":"Updating glucose reading failed",
+  "deletingDishFailed":"Deleting dish failed",
+  "savingGlucoseReadingTherapyFailed":"Saving glucose reading therapy failed",
+  "updatingGlucoseTargetsFailed":"Updating glucose targets failed",
+  "enterGlucoseValue":"Enter glucose value",
+  "deletingNotificationFailed":"Deleting notification failed",
+  "savingNotificationFailed":"Saving notification failed",
+  "deletingMedicationFailed":"Deleting medication failed",
+  "deletingMedicationNotificationsFailed":"Deleting medication notifications failed",
+  "therapyDoseCount":"{value} taken",
+  "@therapyDoseCount":{
+    "description": "Indication for therapy taken",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
       }
     }
   }

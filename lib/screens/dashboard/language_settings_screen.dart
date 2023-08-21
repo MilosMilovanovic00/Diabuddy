@@ -1,3 +1,4 @@
+import 'package:diabuddy/app/my_app.dart';
 import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/screens/onboarding/components/app_choice_container_controller.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
@@ -21,7 +22,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
   @override
   void initState() {
     super.initState();
-    isEnglish = UserSimplePreferences.isStandardMeasurementUnit() ?? true;
+    isEnglish = UserSimplePreferences.getLanguagePreferences() ?? true;
   }
 
   @override
@@ -63,7 +64,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
                   height: 20,
                 ),
                 Text(
-                  'Language',
+                  AppLocalizations.of(context)!.language,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(
@@ -74,13 +75,16 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
                 ),
                 AppChoiceContainerController(
                   isFirstChoice: isEnglish,
-                  firstChoiceText: 'English',
-                  secondChoiceText: 'Serbian',
+                  firstChoiceText: AppLocalizations.of(context)!.english,
+                  secondChoiceText: AppLocalizations.of(context)!.serbian,
                   setChoice: setEnglishPreferences,
                 ),
                 const Spacer(),
                 AppButton(
-                  callback: () {},
+                  callback: () {
+                    changeLanguage();
+                    Navigator.pop(context);
+                  },
                   text: AppLocalizations.of(context)!.save,
                 ),
               ],
@@ -95,5 +99,10 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
     setState(() {
       isEnglish = value;
     });
+    UserSimplePreferences.setLanguagePreferences(value);
+  }
+
+  void changeLanguage() {
+    MyApp.setLocale(context, Locale(isEnglish ? 'en' : 'sr'));
   }
 }

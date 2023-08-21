@@ -1,10 +1,11 @@
-import 'package:diabuddy/model/enitity/activity.dart';
+import 'package:diabuddy/model/activity.dart';
 import 'package:diabuddy/model/enitity/dish.dart';
 import 'package:diabuddy/model/enitity/enum/glucose_type.dart';
 import 'package:diabuddy/model/enitity/enum/meal_type.dart';
 import 'package:diabuddy/model/enitity/glucose_reading.dart';
 import 'package:diabuddy/model/enitity/therapy.dart';
 import 'package:diabuddy/model/enitity/user_model.dart';
+import 'package:diabuddy/model/therapy_record.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class UserEvent extends Equatable {}
@@ -243,3 +244,26 @@ class ChangeMealTakenToGlucoseReading extends UserEvent {
   List<Object?> get props => [glucoseReadingId, mealTaken];
 }
 
+class DeleteMedicationNotifications extends UserEvent {
+  final String therapyId;
+
+  DeleteMedicationNotifications(this.therapyId);
+
+  @override
+  List<Object?> get props => [therapyId];
+}
+
+class SaveTherapyRecord extends UserEvent {
+  final TherapyRecord record;
+
+  SaveTherapyRecord(this.record);
+
+  @override
+  List<Object?> get props => [record];
+}
+
+class GetTodaysTherapyRecords extends UserEvent {
+  @override
+  List<Object?> get props => [];
+
+}

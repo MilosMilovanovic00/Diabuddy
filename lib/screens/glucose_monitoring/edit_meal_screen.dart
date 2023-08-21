@@ -7,6 +7,7 @@ import 'package:diabuddy/screens/glucose_monitoring/components/selected_meal_con
 import 'package:diabuddy/screens/glucose_monitoring/edit_medication_screen.dart';
 import 'package:diabuddy/screens/reusable/app_button.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
+import 'package:diabuddy/screens/reusable/dialog.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,10 +72,14 @@ class _EditMealScreenState extends State<EditMealScreen> {
         body: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
             if (state is DeletingDishFailed) {
-              //TODO pop up
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.deletingDishFailed,
+              );
             }
           },
-          buildWhen: (previous, current) => current is FetchedGlucoseReadingDishes,
+          buildWhen: (previous, current) =>
+              current is FetchedGlucoseReadingDishes,
           builder: (context, state) {
             if (state is! FetchedGlucoseReadingDishes) {
               return Container();
@@ -165,5 +170,4 @@ class _EditMealScreenState extends State<EditMealScreen> {
       dishId,
     ));
   }
-
 }

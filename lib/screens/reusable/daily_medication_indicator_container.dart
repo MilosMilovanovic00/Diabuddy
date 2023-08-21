@@ -1,16 +1,17 @@
-import 'package:diabuddy/model/enitity/medication.dart';
+import 'package:diabuddy/model/grouped_therapy_record.dart';
 import 'package:diabuddy/theme/colours.dart';
 import 'package:diabuddy/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DailyMedicationIndicatorContainer extends StatelessWidget {
   const DailyMedicationIndicatorContainer({
     Key? key,
-    required this.medication,
+    required this.record,
   }) : super(key: key);
 
-  final Medication medication;
+  final GroupedTherapyRecord record;
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +36,15 @@ class DailyMedicationIndicatorContainer extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: medication.medicationName,
+                      text: '${record.therapyName}\n',
                       style: Theme.of(context)
                           .textTheme
                           .displaySmall!
                           .copyWith(fontSize: 22),
                     ),
                     TextSpan(
-                      text: '\n${medication.dailyMedicationIntake} taken',
+                      text: AppLocalizations.of(context)!
+                          .therapyDoseCount(record.count),
                       style: Theme.of(context)
                           .textTheme
                           .displaySmall!
@@ -61,7 +63,7 @@ class DailyMedicationIndicatorContainer extends StatelessWidget {
                 width: 30,
                 height: 30,
                 child: SvgPicture.asset(
-                  medication.isInsulin
+                  record.isInsulin
                       ? './assets/svg/syringe_icon.svg'
                       : './assets/svg/pills_icon.svg',
                   colorFilter:
