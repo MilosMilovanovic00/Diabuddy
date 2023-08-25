@@ -461,7 +461,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   FutureOr<void> _onSaveTherapyRecords(
     SaveTherapyRecord event,
     Emitter<UserState> emit,
-  )async {
+  ) async {
     try {
       await userRepository.saveTherapyRecords(record: event.record);
       emit(SavedTherapyRecord());

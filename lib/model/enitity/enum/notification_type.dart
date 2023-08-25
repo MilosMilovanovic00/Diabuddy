@@ -20,3 +20,24 @@ List<NotificationType> getAllNotificationTypes() {
     NotificationType.glucose,
   ]);
 }
+
+String getNotificationTitle(NotificationType type) {
+  switch (type) {
+    case NotificationType.activity:
+      return "Activity reminder";
+    case NotificationType.therapy:
+      return "Therapy reminder";
+    case NotificationType.glucose:
+      return "Measure glucose reminder";
+  }
+}
+String getNotificationBody(NotificationType type) {
+  switch (type) {
+    case NotificationType.activity:
+      return "Move, thrive, conquer, repeat.";
+    case NotificationType.therapy:
+      return "Embrace healing, find strength.";
+    case NotificationType.glucose:
+      return "Monitor, stay healthy.";
+  }
+}

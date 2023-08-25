@@ -2,6 +2,7 @@ import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/therapy.dart';
+import 'package:diabuddy/model/therapy_record.dart';
 import 'package:diabuddy/screens/glucose_monitoring/components/medication_setup_container.dart';
 import 'package:diabuddy/screens/reusable/app_icon_button.dart';
 import 'package:diabuddy/screens/reusable/dialog.dart';
@@ -121,6 +122,13 @@ class _MedicationSetupScreenState extends State<MedicationSetupScreen> {
   }
 
   void addMedication(Therapy therapy) {
+    if (widget.newGlucoseReading) {
+      TherapyRecord record = TherapyRecord(
+          therapyName: therapy.name,
+          isInsulin: therapy.isInsulin,
+          time: DateTime.now(), );
+      BlocProvider.of<UserBloc>(context).add(SaveTherapyRecord(record));
+    }
     AddTherapyToGlucoseReading event =
         AddTherapyToGlucoseReading(therapy, widget.glucoseReadingId);
     BlocProvider.of<UserBloc>(context).add(event);

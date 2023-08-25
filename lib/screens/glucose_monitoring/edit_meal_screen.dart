@@ -145,7 +145,7 @@ class _EditMealScreenState extends State<EditMealScreen> {
                               MaterialPageRoute(
                                 builder: (context) => EditMedicationScreen(
                                   glucoseReadingId: widget.glucoseReadingId,
-                                  newGlucoseReading: true,
+                                  newGlucoseReading: widget.newGlucoseReading,
                                 ),
                               ),
                             );

@@ -25,6 +25,7 @@ class EditMedicationScreen extends StatefulWidget {
   State<EditMedicationScreen> createState() => _EditMedicationScreenState();
 }
 
+
 class _EditMedicationScreenState extends State<EditMedicationScreen> {
   @override
   void initState() {
@@ -118,7 +119,7 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
                       MaterialPageRoute(
                         builder: (context) => MedicationSetupScreen(
                           glucoseReadingId: widget.glucoseReadingId,
-                          newGlucoseReading: false,
+                          newGlucoseReading: widget.newGlucoseReading,
                         ),
                       ),
                     );
