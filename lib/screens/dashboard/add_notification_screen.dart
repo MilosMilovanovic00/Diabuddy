@@ -73,7 +73,7 @@ class _AddNotificationScreenState extends State<AddNotificationScreen> {
           if (state is SavedNotification) {
             BlocProvider.of<NotificationBloc>(context).add(GetNotifications());
             Navigator.pop(context);
-          } else {
+          } else if (state is SavingNotificationFailed) {
             showSnackBar(
               context,
               AppLocalizations.of(context)!.savingNotificationFailed,
@@ -208,8 +208,6 @@ class _AddNotificationScreenState extends State<AddNotificationScreen> {
   }
 
   void saveNotification() {
-    //TODO notifikacija
-    //TODO sacuvati notifikaciju da se okida
     DateTime now = DateTime.now();
     DateTime triggerTime = DateTime(now.year, now.month, now.day, hour, minute);
     AppNotification appNotification = AppNotification(

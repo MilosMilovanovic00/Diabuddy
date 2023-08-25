@@ -10,6 +10,6 @@ class GroupedTherapyRecord {
   });
 
   void incrementCount() {
-    count+=1;
+    count += 1;
   }
 }

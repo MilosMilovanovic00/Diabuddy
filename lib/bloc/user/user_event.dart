@@ -265,5 +265,4 @@ class SaveTherapyRecord extends UserEvent {
 class GetTodaysTherapyRecords extends UserEvent {
   @override
   List<Object?> get props => [];
-
 }

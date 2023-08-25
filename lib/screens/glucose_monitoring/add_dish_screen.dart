@@ -73,9 +73,13 @@ class _AddDishScreenState extends State<AddDishScreen> {
         body: BlocListener<UserBloc, UserState>(
           listener: (BuildContext context, state) {
             if (state is NewDishSavingFailed) {
-              showSnackBar(context, AppLocalizations.of(context)!.savingNewDishFailed,);
+              showSnackBar(
+                context,
+                AppLocalizations.of(context)!.savingNewDishFailed,
+              );
             } else if (state is DishUpdatedFailed) {
-              showSnackBar(context, AppLocalizations.of(context)!.updatingNewDishFailed);
+              showSnackBar(
+                  context, AppLocalizations.of(context)!.updatingNewDishFailed);
             } else if (state is NewDishSaved || state is DishUpdated) {
               BlocProvider.of<UserBloc>(context).add(GetDishes());
               Navigator.pop(context);

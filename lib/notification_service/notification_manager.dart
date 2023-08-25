@@ -1,5 +1,3 @@
-import 'package:diabuddy/model/receive_notification.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -17,14 +15,7 @@ class NotificationManager {
       requestBadgePermission: true,
       requestSoundPermission: true,
       onDidReceiveLocalNotification:
-          (int id, String? title, String? body, String? payload) async {
-        ReceiveNotification receiveNotification = ReceiveNotification(
-          id: id,
-          title: title ?? 'Title',
-          body: body ?? 'Body',
-          payload: payload ?? 'Payload',
-        );
-      },
+          (int id, String? title, String? body, String? payload) async {},
     );
 
     var initializationSettings = InitializationSettings(
@@ -37,14 +28,6 @@ class NotificationManager {
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) async {},
     );
-
-    setOnNotificationClick(Function onNotificationClick) async {
-      await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-          onDidReceiveNotificationResponse: (notificationResponse) {
-        debugPrint(notificationResponse.toString());
-        onNotificationClick(notificationResponse);
-      });
-    }
   }
 
   Future<void> showNotification(
@@ -72,7 +55,7 @@ class NotificationManager {
   }
 
   Future<void> scheduleDailyNotification({
-    int id = 0,
+    required int id,
     String? title,
     String? body,
     String? payload,
@@ -111,5 +94,9 @@ class NotificationManager {
       ),
       iOS: DarwinNotificationDetails(),
     );
+  }
+
+  deleteNotification(id) {
+    return flutterLocalNotificationsPlugin.cancel(id);
   }
 }

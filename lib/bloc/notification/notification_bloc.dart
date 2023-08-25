@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:diabuddy/bloc/notification/notification_event.dart';
 import 'package:diabuddy/bloc/notification/notification_state.dart';
+import 'package:diabuddy/model/enitity/enum/notification_type.dart';
+import 'package:diabuddy/notification_service/notification_manager.dart';
 import 'package:diabuddy/repository/notification_repository.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
@@ -22,6 +24,13 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     Emitter<NotificationState> emit,
   ) async {
     try {
+      NotificationManager().scheduleDailyNotification(
+        id: event.notification.id.hashCode,
+        scheduleNotificationDateTime: event.notification.triggerTime,
+        body: getNotificationBody(event.notification.notificationType),
+        title: getNotificationTitle(event.notification.notificationType),
+        payload: event.notification.therapyId,
+      );
       await notificationRepository.addNotification(
         notification: event.notification,
       );
@@ -36,6 +45,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     Emitter<NotificationState> emit,
   ) async {
     try {
+      NotificationManager().deleteNotification(event.notificationId.hashCode);
       await notificationRepository.deleteNotification(
         notificationId: event.notificationId,
       );

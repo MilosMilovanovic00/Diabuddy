@@ -118,7 +118,7 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
                       MaterialPageRoute(
                         builder: (context) => MedicationSetupScreen(
                           glucoseReadingId: widget.glucoseReadingId,
-                          newGlucoseReading: false,
+                          newGlucoseReading: widget.newGlucoseReading,
                         ),
                       ),
                     );

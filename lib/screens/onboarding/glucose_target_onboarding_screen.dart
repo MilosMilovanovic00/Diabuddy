@@ -97,8 +97,9 @@ class _GlucoseTargetOnboardingScreenState
                   ),
                   (Route<dynamic> route) => false);
             }
-          }else if(state is GlucoseTargetsUpdateFailed){
-            showSnackBar(context, AppLocalizations.of(context)!.updatingGlucoseTargetsFailed);
+          } else if (state is GlucoseTargetsUpdateFailed) {
+            showSnackBar(context,
+                AppLocalizations.of(context)!.updatingGlucoseTargetsFailed);
           }
         },
         child: SafeArea(
