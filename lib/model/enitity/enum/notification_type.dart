@@ -31,6 +31,7 @@ String getNotificationTitle(NotificationType type) {
       return "Measure glucose reminder";
   }
 }
+
 String getNotificationBody(NotificationType type) {
   switch (type) {
     case NotificationType.activity:

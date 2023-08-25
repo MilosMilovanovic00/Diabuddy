@@ -124,9 +124,10 @@ class _MedicationSetupScreenState extends State<MedicationSetupScreen> {
   void addMedication(Therapy therapy) {
     if (widget.newGlucoseReading) {
       TherapyRecord record = TherapyRecord(
-          therapyName: therapy.name,
-          isInsulin: therapy.isInsulin,
-          time: DateTime.now(), );
+        therapyName: therapy.name,
+        isInsulin: therapy.isInsulin,
+        time: DateTime.now(),
+      );
       BlocProvider.of<UserBloc>(context).add(SaveTherapyRecord(record));
     }
     AddTherapyToGlucoseReading event =

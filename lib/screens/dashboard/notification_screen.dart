@@ -42,7 +42,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               if (state is DeletedNotification) {
                 BlocProvider.of<NotificationBloc>(context)
                     .add(GetNotifications());
-              } else if(state is DeletingNotificationFailed){
+              } else if (state is DeletingNotificationFailed) {
                 showSnackBar(
                   context,
                   AppLocalizations.of(context)!.deletingNotificationFailed,

@@ -25,7 +25,6 @@ class EditMedicationScreen extends StatefulWidget {
   State<EditMedicationScreen> createState() => _EditMedicationScreenState();
 }
 
-
 class _EditMedicationScreenState extends State<EditMedicationScreen> {
   @override
   void initState() {

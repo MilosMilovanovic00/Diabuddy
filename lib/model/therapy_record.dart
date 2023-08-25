@@ -3,7 +3,7 @@ class TherapyRecord {
   final bool isInsulin;
   final DateTime time;
 
-  TherapyRecord( {
+  TherapyRecord({
     required this.therapyName,
     required this.isInsulin,
     required this.time,
