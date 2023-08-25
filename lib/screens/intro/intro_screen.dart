@@ -1,3 +1,4 @@
+import 'package:diabuddy/preferences/user_simple_preferences.dart';
 import 'package:diabuddy/screens/intro/final_intro_screen.dart';
 import 'package:diabuddy/screens/intro/first_intro_page.dart';
 import 'package:diabuddy/screens/intro/fourth_intro_page.dart';
@@ -18,9 +19,15 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  final PageController pageController = PageController(initialPage: 0);
+  late PageController pageController;
 
   bool isLastPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: 0);
+  }
 
   @override
   void dispose() {
@@ -55,6 +62,12 @@ class _IntroScreenState extends State<IntroScreen> {
                       isLastPage = true;
                     })
                   }
+                else
+                  {
+                    setState(() {
+                      isLastPage = false;
+                    })
+                  }
               },
               children: const [
                 FirstIntroPage(),
@@ -75,10 +88,13 @@ class _IntroScreenState extends State<IntroScreen> {
                     text:
                         AppLocalizations.of(context)!.fourthIntroPageButtonText,
                     callback: () {
+                      UserSimplePreferences.setOnboardingScreenSkip(true);
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FinalIntroScreen()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FinalIntroScreen(),
+                        ),
+                      );
                     },
                     padding: const EdgeInsets.symmetric(
                       horizontal: 30,

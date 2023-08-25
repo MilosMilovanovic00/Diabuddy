@@ -24,5 +24,214 @@
   "createAccount":"Create account",
   "fullName":"Full Name",
   "alreadyHaveAnAccount":"Already have an account?",
-  "repeatPassword":"Repeat password"
+  "repeatPassword":"Repeat password",
+  "profileOnboardingTitle":"Tell Us About Yourself",
+  "profileOnboardingBodyText":"We'd love to get to know you better! Please provide us with a few details about yourself.",
+  "save":"Save",
+  "weight":"Weight",
+  "dateOfBirth":"Date of birth",
+  "unitsOnboardingTitle":"Tailor Your Measurement Units",
+  "unitsOnboardingBodyText":"Customize your measurement units to align with your personal preferences and tracking methods",
+  "glucoseTargetOnboardingTitle":"Achieve Your Glucose Targets",
+  "glucoseTargetOnboardingBodyText":"Set and track your glucose goals throughout the day to stay on top of your diabetes management.",
+  "criticalHigh":"Critical High",
+  "afterMeal":"After meal",
+  "beforeMeal":"Before meal",
+  "low":"Low",
+  "criticalLow":"Critical low",
+  "therapyOnboardingTitle":"Let's Begin Your Therapy Setup",
+  "therapyOnboardingBodyText":"Start your diabetes therapy journey with the tools and support you need.",
+  "addMedication":"Add a medication",
+  "chooseMedicationType":"Choose medication type",
+  "insulin":"Insulin",
+  "pills":"Pills",
+  "medicationName":"Medication name",
+  "dailyMedicationIntake":"Daily medication intake",
+  "units":"Units",
+  "longLastingInsulin":"Long lasting insulin",
+  "fastLastingInsulin":"Fast lasting insulin",
+  "dailyIntake":"Daily Intake",
+  "edit":"Edit",
+  "fasting":"Fasting",
+  "breakfast":"Breakfast",
+  "lunch":"Lunch",
+  "dinner":"Dinner",
+  "snack":"Snack",
+  "dishName":"Dish name",
+  "activityName":"Activity name",
+  "addYourDish":"Add your dish",
+  "addYourActivity":"Add your activity",
+  "intense":"Intense",
+  "light":"Light",
+  "moderate":"Moderate",
+  "activityIntensity":"Activity intensity",
+  "activityDuration":"Activity duration",
+  "chooseYourMedicationForThisMeal":"Choose your medication for this meal",
+  "add":"Add",
+  "today":"Today",
+  "week":"Week",
+  "month":"Month",
+  "averageBloodGlucose":"Average blood glucose",
+  "glucoseLevels":"Glucose Levels",
+  "todayGlucoseLevels":"Today Glucose Levels",
+  "weekGlucoseLevels":"Week Glucose Levels",
+  "monthGlucoseLevels":"Month Glucose Levels",
+  "glucoseDiagram":"Glucose Diagram",
+  "monday":"Monday",
+  "tuesday":"Tuesday",
+  "wednesday":"Wednesday",
+  "thursday":"Thursday",
+  "friday":"Friday",
+  "saturday":"Saturday",
+  "sunday":"Sunday",
+  "notificationScreenTitle":"Stay On Track with Notifications",
+  "notificationScreenSubtitle":"Set up notifications that fit your schedule and preferences to help you stay focused on your health",
+  "addNotification":"Add a notification",
+  "setTimeForYourNotification":"Set time for your notification",
+  "notificationType":"Notification type",
+  "activityReminder":"Activity reminder",
+  "therapyReminder":"Therapy reminder",
+  "glucoseCheckReminder":"Glucose check reminder",
+  "averageInsulinIntake":"Average insulin intake",
+  "notificationsSelectedForMedication":"Notifications for selected medication",
+  "cancel":"Cancel",
+  "logbook":"Logbook",
+  "addNewDish":"Add a new dish",
+  "mealCarbohydrateValuePer100g":"Meal carbohydrate value per 100g",
+  "youMustEnterDishName":"You must enter dish name",
+  "addYourMeal":"Add your meal",
+  "searchYourDish":"Search your dish",
+  "editYourDish":"Edit your dish",
+  "glucoseReadingDetails":"Glucose Reading Details",
+  "glucoseLevel":"Glucose level",
+  "medication":"Medication",
+  "meal":"Meal",
+  "editGlucoseReadingDetails":"Edit Glucose Reading Details",
+  "editGlucoseLevel":"Edit glucose level",
+  "editYourActivity":"Edit your activity",
+  "editYourMeal":"Edit your meal",
+  "addMeal":"Add a meal",
+  "grams":"grams",
+  "editYourMedication":"Edit your medication",
+  "language":"Language",
+  "profileSettings":"Profile settings",
+  "glucose":"Glucose",
+  "mealWithCarbonHydrateValue": "Meal {value} UH",
+  "@mealWithCarbonHydrateValue": {
+    "description": "Indicator for carbohydrate amount in meal",
+    "placeholders": {
+      "value": {
+        "type": "double",
+        "example": "4.3"
+      }
+    }
+  },
+  "measurements":"Measurements",
+  "targetGlucoseRange":"Target glucose range",
+  "hiWithName": "Hi {name}",
+  "@hiWithName": {
+      "description": "Custom title for each user with name",
+      "placeholders": {
+        "name": {
+          "type": "String",
+          "example": "Milos"
+        }
+      }
+    },
+  "profileUpdate":"Profile Update",
+  "diagrams":"Diagrams",
+  "doseOfMedicineIsInsulin":"Dose of medicine is {value} units",
+  "@doseOfMedicineIsInsulin":{
+    "description": "Indication for dose",
+    "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"4"
+      }
+    }
+  },
+  "doseOfMedicineArePills":"Dose of medicine is {value} pills",
+    "@doseOfMedicineArePills":{
+      "description": "Indication for dose",
+      "placeholders" :{
+        "value":{
+          "type":"int",
+          "example":"4"
+        }
+      }
+    },
+  "setGlucoseEntryParameters":"Set Glucose Entry Parameters",
+  "recordYourGlucoseReading":"Record your glucose reading",
+  "chooseMealType":"Choose meal type",
+  "activity":"Activity",
+  "mealTaken":"Meal taken",
+  "medicationTaken":"Medication taken",
+  "activityWithValue":"Activity - {value}",
+  "@activityWithValue":{
+    "description": "Indication for activity",
+    "placeholders" :{
+      "value":{
+        "type":"String?",
+        "example":"Running"
+      }
+    }
+  },
+  "takeTherapy":"Take therapy",
+  "exercise":"Exercise",
+  "record":"Record",
+  "youMustEnterEmail":"You must enter email",
+  "emailIsNotValid":"Email is not valid",
+  "youMustEnterPassword":"You must enter password",
+  "passwordCriteria":"Password must contain at least one big, one small letter and one number",
+  "passwordMustMatch":"Password must match",
+  "youMustFillThisField":"You must fill this field",
+  "mustBeANumber":"Must be a number",
+  "noRegisteredTherapyRecord":"No registered therapy record",
+  "noGlucoseReadingsToday":"No glucose readings today",
+  "youMustEnterFullName":"You must enter full name",
+  "settings":"Settings",
+  "english":"English",
+  "serbian":"Serbian",
+  "numberOfDay":"{value} day",
+  "@numberOfDay":{
+    "description": "Indication for day",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
+      }
+    }
+  },
+  "youMustEnterNumber":"You must enter number",
+  "setNotificationsForTherapy":"Set notifications for therapy",
+  "deletingNotificationFailed":"Deleting notification failed",
+  "savingNotificationFailed":"Saving notification failed",
+  "registrationFailed":"Registration failed",
+  "loginFailed":"Login failed",
+  "logOutFailed":"Log out failed",
+  "savingMedicationFailed":"Saving medication failed",
+  "updatingProfileFailed":"Updating profile failed",
+  "updatingGlucoseReadingActivityFailed":"Updating glucose reading activity failed",
+  "savingGlucoseReadingDishFailed":"Saving glucose reading dish failed",
+  "savingNewDishFailed":"Saving new dish failed",
+  "updatingNewDishFailed":"Updating new dish failed",
+  "updatingGlucoseReadingFailed":"Updating glucose reading failed",
+  "deletingDishFailed":"Deleting dish failed",
+  "savingGlucoseReadingTherapyFailed":"Saving glucose reading therapy failed",
+  "updatingGlucoseTargetsFailed":"Updating glucose targets failed",
+  "enterGlucoseValue":"Enter glucose value",
+  "deletingNotificationFailed":"Deleting notification failed",
+  "savingNotificationFailed":"Saving notification failed",
+  "deletingMedicationFailed":"Deleting medication failed",
+  "deletingMedicationNotificationsFailed":"Deleting medication notifications failed",
+  "therapyDoseCount":"{value} taken",
+  "@therapyDoseCount":{
+    "description": "Indication for therapy taken",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
+      }
+    }
+  }
 }

@@ -8,18 +8,24 @@ class AppTextFieldInput extends StatelessWidget {
     required this.hintText,
     required this.controller,
     required this.validator,
+    required this.textInputType,
     this.isPasswordField,
+    this.textInputAction,
   }) : super(key: key);
 
   final String hintText;
   final TextEditingController controller;
+  final TextInputType textInputType;
+  final TextInputAction? textInputAction;
   final bool? isPasswordField;
-  final String Function(String?) validator;
+  final String? Function(String?) validator;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      textInputAction: textInputAction ?? TextInputAction.next,
+      keyboardType: textInputType,
       validator: validator,
       obscureText: isPasswordField ?? false,
       controller: controller,

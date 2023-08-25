@@ -24,5 +24,213 @@
   "createAccount":"Kreiraj nalog",
   "fullName":"Puno ime",
   "alreadyHaveAnAccount":"Već imaš nalog?",
-  "repeatPassword":"Ponovi lozinku"
+  "repeatPassword":"Ponovi lozinku",
+  "profileOnboardingTitle":"Reci nam nešto o sebi",
+  "profileOnboardingBodyText":"Voleli bismo da te bolje upoznamo! Zamolili bismo te da nam ostaviš nekoliko podataka o sebi.",
+  "save":"Sačuvaj",
+  "weight":"Masa",
+  "dateOfBirth":"Datum rođenja",
+  "unitsOnboardingTitle":"Podesi svoju mernu jedinicu",
+  "unitsOnboardingBodyText":"Podesi svoju mernu jedinicu tako da odgovara tvojoj preferenci i metodi merenja",
+  "glucoseTargetOnboardingScreenTitle":"Postigni željeni nivo glukoze",
+  "glucoseTargetOnboardingScreenBodyText":"Postavi željeni nivo glukoze tokom dana i prati ga kako bi uspešno pratio svoj dijabetes.",
+  "criticalHigh":"Kritično visoko",
+  "afterMeal":"Posle obroka",
+  "beforeMeal":"Pre obroka",
+  "low":"Nisko",
+  "criticalLow":"Kritično nisko",
+  "therapyOnboardingTitle":"Hajde da unesemo tvoju terapiju",
+  "therapyOnboardingBodyText":"Započni terapiju svog dijabetesa sa alatima i podrškom koji su ti potrebni.",
+  "addMedication":"Dodaj lek",
+  "chooseMedicationType":"Izaberi vrstu leka",
+  "insulin":"Insulin",
+  "pills":"Tablete",
+  "medicationName":"Ime leka",
+  "dailyMedicationIntake":"Broj dnevnih doza leka",
+  "units":"Jedinica",
+  "longLastingInsulin":"Dugodelujuci insulin",
+  "fastLastingInsulin":"Brzodelujuci insulin",
+  "dailyIntake":"Dnevne doze",
+  "edit": "Izmeni",
+  "fasting":"Našte",
+  "breakfast":"Doručak",
+  "lunch":"Ručak",
+  "dinner":"Večera",
+  "snack":"Užina",
+  "dishName":"Ime jela",
+  "activityName":"Ime aktivnosti",
+  "addYourDish":"Add your dish",
+  "addYourActivity":"Dodaj aktivnost",
+  "intense":"Intezivno",
+  "light":"Lagano",
+  "moderate":"Umereno",
+  "activityIntensity":"Intenzitet aktivnosti",
+  "activityDuration":"Trajanje aktivnosti",
+  "chooseYourMedicationForThisMeal":"Izaberi lek koji uzimas za ovaj obrok",
+  "add":"Dodaj",
+  "today":"Danas",
+  "week":"Nedelja",
+  "month":"Mesec",
+  "averageBloodGlucose":"Prosečni nivoi glukoze",
+  "todayGlucoseLevels":"Dnevni nivoi glukoze",
+  "weekGlucoseLevels":"Nedeljni nivoi glukoze",
+  "monthGlucoseLevels":"Mesečno nivoi glukoze",
+  "glucoseDiagram":"Dijagram glukoze",
+  "monday":"Ponedeljak",
+  "tuesday":"Utorak",
+  "wednesday":"Sreda",
+  "thursday":"Četvrtak",
+  "friday":"Petak",
+  "saturday":"Subota",
+  "sunday":"Nedelja",
+  "notificationScreenTitle":"Ostani u toku uz pomoć podsetnika",
+  "notificationScreenSubtitle":"Podesi podsetnike u željenim trenucima kako bi lakše ostao u toku sa svojim zdravljem.",
+  "addNotification":"Dodaj podsetnik",
+  "setTimeForYourNotification":"Podesi vreme za podsetnik",
+  "notificationType":"Vrsta podsetnika",
+  "activityReminder":"Podsetnik za aktivnost",
+  "therapyReminder":"Podsetnik za terapiju",
+  "glucoseCheckReminder":"Podsetnik za merenje glukoze",
+  "averageInsulinIntake":"Prosečan unos insulina",
+  "notificationsSelectedForMedication":"Podsetnici za odredjeni lek",
+  "cancel":"Otkaži",
+  "logbook":"Evidencija",
+  "addNewDish":"Dodaj novo jelo",
+  "mealCarbohydrateValuePer100g":"Broj ugljenih hidrata u 100g jela",
+  "youMustEnterDishName":"Morate uneti ime jela",
+  "addYourMeal":"Dodaj obrok",
+  "searchYourDish":"Pretraži jelo",
+  "editYourDish":"Izmeni jelo",
+  "glucoseReadingDetails":"Detalji merenja glukoze",
+  "glucoseLevel":"Nivo glukoze",
+  "medication":"Terapija",
+  "meal":"Jelo",
+  "editGlucoseReadingDetails":"Izmeni detalje merenja glukoze",
+  "editGlucoseLevel":"Izmeni nivo secera",
+  "editYourActivity":"Izmeni aktivnost",
+  "editYourMeal":"Izmeni obrok",
+  "addMeal":"Dodaj jelo",
+  "grams":"grama",
+  "editYourMedication":"Izmeni terapiju",
+  "language":"Jezik",
+  "profileSettings":"Podešavanja naloga",
+  "glucose":"Glukoza",
+  "mealWithCarbonHydrateValue": "Jelo {value} UH",
+  "@mealWithCarbonHydrateValue": {
+    "description": "Indicator for carbohydrate amount in meal",
+    "placeholders": {
+      "value": {
+        "type": "double",
+        "example": "4.3"
+      }
+    }
+  },
+  "measurements":"Merna jedinica",
+  "targetGlucoseRange":"Ciljani opseg glukoze",
+  "hiWithName": "Ćao {name}",
+  "@hiWithName": {
+      "description": "Custom title for each user with name",
+      "placeholders": {
+        "name": {
+          "type": "String",
+          "example": "Milos"
+        }
+      }
+    },
+  "profileUpdate":"Izmeni profil",
+  "diagrams":"Dijagrami",
+  "doseOfMedicineIsInsulin":"Doza leka je {value} jedinica",
+  "@doseOfMedicineIsInsulin":{
+    "description": "Indication for dose",
+    "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"4"
+      }
+    }
+  },
+  "doseOfMedicineArePills":"Doza leka je {value} pilula",
+    "@doseOfMedicineArePills":{
+      "description": "Indication for dose",
+      "placeholders" :{
+        "value":{
+          "type":"int",
+          "example":"4"
+        }
+      }
+    },
+  "setGlucoseEntryParameters":"Unesi parametre očitavanje glukoze",
+  "recordYourGlucoseReading":"Snimite оčitavanje glukoze",
+  "chooseMealType":"Izberite tip obroka",
+  "activity":"Aktivnost",
+  "mealTaken":"Uzet obrok",
+  "medicationTaken":"Lek uzet",
+  "activityWithValue":"Aktivnost - {value}",
+  "@activityWithValue":{
+    "description": "Indication for activity",
+    "placeholders" :{
+      "value":{
+        "type":"String?",
+        "example":"Running"
+      }
+    }
+  },
+  "takeTherapy":"Uzmi terapiju",
+  "exercise":"Treniraj",
+  "record":"Snimi",
+  "youMustEnterEmail":"Morate uneti mejl",
+  "emailIsNotValid":"Mejl nije validan",
+  "youMustEnterPassword":"Morate uneti lozinku",
+  "passwordCriteria":"Lozinka mora da sadrži jedno veliko, jedno malo slovo i jedan broj",
+  "passwordMustMatch":"Lozinke moraju biti iste",
+  "youMustFillThisField":"Morate popuniti ovo polje",
+  "mustBeANumber":"Mora biti broj",
+  "noRegisteredTherapyRecord":"Nema registrovanih rekorda terapije",
+  "noGlucoseReadingsToday":"Nema snimljenih merenja šećera",
+  "youMustEnterFullName":"Morate uneti puno ime",
+  "settings":"Podešavanja",
+  "english":"Engleski",
+  "serbian":"Srpski",
+  "numberOfDay":"{value} dan",
+  "@numberOfDay":{
+    "description": "Indication for day",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
+      }
+    }
+  },
+  "youMustEnterNumber":"Morate uneti broj",
+  "setNotificationsForTherapy":"Postavi notifikacije za terapiju",
+  "deletingNotificationFailed":"Brisanje notifikacije neuspešno",
+  "savingNotificationFailed":"Čuvanje notifikacije neuspešno",
+  "registrationFailed":"Registracija neuspešna",
+  "loginFailed":"Prijava neuspešna",
+  "logOutFailed":"Odjava neuspešna",
+  "savingMedicationFailed":"Čuvanje leka neuspešno",
+  "updatingProfileFailed":"Ažuriranje profila neuspešno",
+  "updatingGlucoseReadingActivityFailed":"Ažuriranje aktivnost uz unos glukoze neuspešno",
+  "savingGlucoseReadingDishFailed":"Čuvanje jela uz unos glukoze neuspešno",
+  "savingNewDishFailed":"Čuvanje novog jela neuspešno",
+  "updatingNewDishFailed":"Ažuriranje novog jela neuspešno",
+  "updatingGlucoseReadingFailed":"Ažuriranje unosa glukoze neuspešno",
+  "deletingDishFailed":"Brisanje jela neuspešno",
+  "savingGlucoseReadingTherapyFailed":"Čuvanje terapije uz unos glukoze neuspešno",
+  "updatingGlucoseTargetsFailed":"Ažuriranje ciljanih vrednosti glukoze neuspešno",
+  "enterGlucoseValue":"Unesite vrednost glukoze",
+  "deletingNotificationFailed":"Brisanje notifikacije neuspešno",
+  "savingNotificationFailed":"Čuvanje notifikacije neuspešno",
+  "deletingMedicationFailed":"Brisanje leka neuspešno",
+  "deletingMedicationNotificationsFailed":"Brisanje notifikacija leka neuspešno",
+  "therapyDoseCount":"{value} uzeto",
+  "@therapyDoseCount":{
+    "description": "Indication for therapy taken",
+      "placeholders" :{
+      "value":{
+        "type":"int",
+        "example":"3"
+      }
+    }
+  }
 }

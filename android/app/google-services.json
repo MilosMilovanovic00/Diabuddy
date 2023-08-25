@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "927098619285",
+    "project_id": "diabuddy-dde9a",
+    "storage_bucket": "diabuddy-dde9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927098619285:android:8015a30da98609d1f0e29c",
+        "android_client_info": {
+          "package_name": "com.example.diabuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927098619285-jve78b79kq0uttc391oie9k3ll3ggtfp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdZBrZg9nMvBoq3sO8jRRyBO4Y3TVJhw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927098619285-jve78b79kq0uttc391oie9k3ll3ggtfp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
