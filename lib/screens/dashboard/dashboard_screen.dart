@@ -5,7 +5,6 @@ import 'package:diabuddy/bloc/user/user_bloc.dart';
 import 'package:diabuddy/bloc/user/user_event.dart';
 import 'package:diabuddy/bloc/user/user_state.dart';
 import 'package:diabuddy/model/enitity/enum/time_period_type.dart';
-import 'package:diabuddy/notification_service/notification_manager.dart';
 import 'package:diabuddy/screens/dashboard/components/diagram_container.dart';
 import 'package:diabuddy/screens/intro/final_intro_screen.dart';
 import 'package:diabuddy/screens/reusable/app_bottom_navigation_bar.dart';
@@ -52,14 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.only(right: 20.0),
               child: IconButton(
                 onPressed: () {
-                  // logOut();
-                  NotificationManager().scheduleNotification(
-                      id: 1,
-                      title: 'Prva notifikacija',
-                      body: 'Hello world',
-                      payload: 'id therapije je 4',
-                      scheduleNotificationDateTime:
-                          DateTime.now().add(const Duration(seconds: 5)));
+                  logOut();
                 },
                 icon: const Icon(
                   Icons.logout,
