@@ -126,7 +126,7 @@ class _MedicationSetupContainerState extends State<MedicationSetupContainer> {
                       Text(
                         widget.medication.isInsulin
                             ? AppLocalizations.of(context)!
-                                .insulin
+                                .units
                                 .toLowerCase()
                             : AppLocalizations.of(context)!.pills.toLowerCase(),
                         style:

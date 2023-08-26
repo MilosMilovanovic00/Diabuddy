@@ -69,7 +69,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           listener: (context, state) {
             if (state is UserProfileUpdateSuccessful) {
               Navigator.pop(context);
-            } else {
+            } else if(state is UserProfileUpdateFailed){
               showSnackBar(
                 context,
                 AppLocalizations.of(context)!.updatingProfileFailed,
