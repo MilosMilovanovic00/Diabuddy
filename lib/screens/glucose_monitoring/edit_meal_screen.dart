@@ -97,7 +97,6 @@ class _EditMealScreenState extends State<EditMealScreen> {
                         height: 20,
                       ),
                       Text(
-                        // 'Edit your meal',
                         AppLocalizations.of(context)!.editYourMeal,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),

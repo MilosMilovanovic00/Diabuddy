@@ -76,7 +76,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
               BlocProvider.of<UserBloc>(context)
                   .add(GetGlucoseReadingDishes(widget.glucoseReadingId));
               Navigator.pop(context);
-            } else {
+            } else if(state is AddingDishToGlucoseReadingFailed) {
               showSnackBar(
                 context,
                 AppLocalizations.of(context)!.savingGlucoseReadingDishFailed,
