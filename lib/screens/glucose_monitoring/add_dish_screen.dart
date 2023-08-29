@@ -63,6 +63,7 @@ class _AddDishScreenState extends State<AddDishScreen> {
             ),
             child: AppIconButton(
               callback: () {
+                BlocProvider.of<UserBloc>(context).add(GetDishes());
                 Navigator.pop(context);
               },
               icon: Icons.arrow_back_ios_new,
