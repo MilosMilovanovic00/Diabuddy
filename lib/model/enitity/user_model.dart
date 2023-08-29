@@ -21,7 +21,6 @@ class UserModel extends Equatable {
   List<Object?> get props =>
       [uid, fullName, email, dateOfBirth, weight, glucoseTargets];
 
-  // ovo nam treba da konvertujemo sa firebase u aplikaciju
   factory UserModel.fromMap(map, String uid) {
     return UserModel(
       uid: uid,
@@ -33,7 +32,6 @@ class UserModel extends Equatable {
     );
   }
 
-  // ovo name treba da posaljemo podatke kao mapa
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
@@ -71,7 +69,6 @@ class GlucoseTargets {
     );
   }
 
-  // ovo name treba da posaljemo podatke kao mapa
   Map<String, dynamic> toMap() {
     return {
       'criticalLow': criticalLow,
