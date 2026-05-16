@@ -38,3 +38,8 @@ A mobile application for managing life with diabetes, built with Flutter. Diabud
 - Dart SDK (included with Flutter)
 - A Firebase project configured for Android and/or iOS
 - Android Studio / Xcode (for running on emulator or device)
+
+---
+
+## ▶️ Watch Demo
+https://github.com/user-attachments/assets/c9f6e5db-25bc-4a4b-afd1-3eb5bc451e59
