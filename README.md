@@ -1,6 +1,6 @@
 # 🩺 Diabuddy
 
-A mobile application for managing life with diabetes, built with Flutter. Diabuddy helps users track their health data, monitor trends, and stay on top of their diabetes management — all from their phone.
+A mobile application for managing life with diabetes, built with Flutter. Diabuddy helps users track their health data, monitor trends, and stay on top of their diabetes management, all from their phone.
 
 ---
 
